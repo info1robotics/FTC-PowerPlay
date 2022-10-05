@@ -33,9 +33,9 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
     // UNITS ARE METERS
     double tagsize = 0.166;
 
-    int ID_TAG_OF_INTEREST = 18; // Tag ID 18 from the 36h11 family
+    public static int zone = 0;
 
-    AprilTagDetection tagOfInterest = null;
+    public static AprilTagDetection tagOfInterest = null;
 
     @Override
     public void runOpMode()
@@ -76,12 +76,29 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 
                 for(AprilTagDetection tag : currentDetections)
                 {
-                    if(tag.id == ID_TAG_OF_INTEREST)
-                    {
-                        tagOfInterest = tag;
-                        tagFound = true;
-                        break;
+                    switch(tag.id){
+                        case 18:
+                            tagOfInterest = tag;
+                            tagFound = true;
+                            zone = 1;
+                            break;
+                        case 19:
+                            tagOfInterest = tag;
+                            tagFound = true;
+                            zone = 2;
+                            break;
+                        case 20:
+                            tagOfInterest = tag;
+                            tagFound = true;
+                            zone = 3;
+                            break;
                     }
+//                    if(tag.id == ID_TAG_OF_INTEREST)
+//                    {
+//                        tagOfInterest = tag;
+//                        tagFound = true;
+//                        break;
+//                    }
                 }
 
                 if(tagFound)
@@ -171,7 +188,6 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
                 // do something else
             }
         }
-
 
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
         while (opModeIsActive()) {sleep(20);}

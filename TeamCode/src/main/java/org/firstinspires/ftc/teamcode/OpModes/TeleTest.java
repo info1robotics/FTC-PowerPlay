@@ -11,7 +11,7 @@ public class TeleTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Mecanum mecanum = new Mecanum(this);
+        Mecanum mecanum = new Mecanum(this.hardwareMap);
         GamepadEx g1 = new GamepadEx(gamepad1);
 
         waitForStart();
@@ -21,7 +21,6 @@ public class TeleTest extends LinearOpMode {
 
             g1.update();
             mecanum.vectorMove(
-                    g1.
                     -gamepad1.left_stick_x,
                     gamepad1.left_stick_y,
                     gamepad1.left_trigger - gamepad1.right_trigger,
