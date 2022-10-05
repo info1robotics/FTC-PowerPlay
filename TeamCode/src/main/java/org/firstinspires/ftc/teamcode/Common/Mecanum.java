@@ -1,24 +1,24 @@
 package org.firstinspires.ftc.teamcode.Common;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 public class Mecanum {
-
 	private DcMotor fl, fr, bl, br;
 
-	public Mecanum(OpMode opMode)
+	public Mecanum(HardwareMap hardwareMap)
 	{
-		fl = opMode.hardwareMap.get(DcMotor.class, "motorFL");
-		fr = opMode.hardwareMap.get(DcMotor.class, "motorFR");
-		bl = opMode.hardwareMap.get(DcMotor.class, "motorBL");
-		br = opMode.hardwareMap.get(DcMotor.class, "motorBR");
+		fl = hardwareMap.get(DcMotor.class, "motorFL");
+		fr = hardwareMap.get(DcMotor.class, "motorFR");
+		bl = hardwareMap.get(DcMotor.class, "motorBL");
+		br = hardwareMap.get(DcMotor.class, "motorBR");
 
-		fr.setDirection(DcMotorSimple.Direction.REVERSE);
+
 		br.setDirection(DcMotorSimple.Direction.REVERSE);
+		bl.setDirection(DcMotorSimple.Direction.REVERSE);
+		fl.setDirection(DcMotorSimple.Direction.REVERSE);
 	}
 
 	public void vectorMove(double x, double y, double t, double power)
