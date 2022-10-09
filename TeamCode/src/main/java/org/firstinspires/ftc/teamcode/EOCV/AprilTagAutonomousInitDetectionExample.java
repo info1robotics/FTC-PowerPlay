@@ -87,7 +87,7 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
                             tagFound = true;
                             zone = 2;
                             break;
-                        case 20:
+                        case 17:
                             tagOfInterest = tag;
                             tagFound = true;
                             zone = 3;
