@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes
 
+import com.outoftheboxrobotics.photoncore.PhotonCore
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import org.firstinspires.ftc.teamcode.Common.StateOpMode
 import org.firstinspires.ftc.teamcode.EOCV.AprilTagDetection
@@ -9,11 +10,14 @@ class AutonomousOpMode_Base : StateOpMode() {
     @Throws(InterruptedException::class)
     override fun runOpMode() {
 
+        PhotonCore.enable()
         val aprilTag = AprilTagDetection(this)
 
         // Initialization Loop (Replaces WaitForStart();
+        
          while (!isStarted && !isStopRequested) {
              aprilTag.detectZone()
          }
+
     }
 }
