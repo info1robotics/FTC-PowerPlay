@@ -43,7 +43,7 @@ public class Mecanum {
 		// Not checking would cause us to always drive at full speed
 		if (Math.abs(values[0]) > 1 || Math.abs(values[2]) > 1 ||
 				Math.abs(values[1]) > 1 || Math.abs(values[3]) > 1) {
-			double max = 0;
+			double max;
 			max = Math.max(Math.abs(values[0]), Math.abs(values[2]));
 			max = Math.max(Math.abs(values[1]), max);
 			max = Math.max(Math.abs(values[3]), max);

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes
+package org.firstinspires.ftc.teamcode.Common
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.Common.Mecanum
