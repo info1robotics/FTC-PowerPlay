@@ -42,9 +42,9 @@ open class AprilTagDetection(var opMode: LinearOpMode) {
             currentDetections.forEach {tag ->
                 tagInView = tag.id
                 when (tag.id) {
-                    17 -> zone = 1
-                    18 -> zone = 2
-                    19 -> zone = 3
+                    69 -> zone = 1
+                    140 -> zone = 2
+                    420 -> zone = 3
                 }
             }
         }
