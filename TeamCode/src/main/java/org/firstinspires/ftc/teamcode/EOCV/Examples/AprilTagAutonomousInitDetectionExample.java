@@ -1,15 +1,16 @@
-package org.firstinspires.ftc.teamcode.EOCV;
+package org.firstinspires.ftc.teamcode.EOCV.Examples;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.EOCV.AprilTagDetectionPipeline;
+import org.firstinspires.ftc.teamcode.EOCV.f36h11.AprilTagDetectionPipeline_36h11;
+import org.firstinspires.ftc.teamcode.EOCV.f41h12.AprilTagDetectionPipeline_41h12;
+
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,14 @@ import java.util.ArrayList;
 public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
 {
     OpenCvCamera camera;
-    AprilTagDetectionPipeline aprilTagDetectionPipeline;
+
+
+
+    AprilTagDetectionPipeline_41h12 aprilTagDetectionPipeline;
+
+    // CHANGE THE PIPELINE NAME TO THE DESIRED TAG FAMILY (41h12 / 36h11)
+
+
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -42,7 +50,16 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
     {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+
+
+
+
+        aprilTagDetectionPipeline = new AprilTagDetectionPipeline_41h12(tagsize, fx, fy, cx, cy);
+
+        // CHANGE THE PIPELINE NAME TO THE DESIRED TAG FAMILY (41h12 / 36h11)
+
+
+
 
         camera.setPipeline(aprilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()

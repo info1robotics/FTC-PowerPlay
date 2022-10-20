@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.EOCV
+package org.firstinspires.ftc.teamcode.EOCV.f36h11
 
 import android.os.SystemClock
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.openftc.easyopencv.OpenCvCamera.AsyncCameraOpenListener
 import org.openftc.easyopencv.OpenCvCameraRotation
 
-open class AprilTagDetection(var opMode: LinearOpMode) {
+open class AprilTagDetection_36h11(var opMode: LinearOpMode) {
     private val fx = 578.272
     private val fy = 578.272
     private val cx = 402.145
@@ -18,12 +18,12 @@ open class AprilTagDetection(var opMode: LinearOpMode) {
     private var tagInView = 0
     private var parkZone = ""
     val camera: OpenCvCamera
-    private val aprilTagDetectionPipeline: AprilTagDetectionPipeline
+    private val aprilTagDetectionPipeline: AprilTagDetectionPipeline_36h11
 
     init {
         val cameraMonitorViewId = opMode.hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.packageName)
         camera = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName::class.java, "Webcam 1"), cameraMonitorViewId)
-        aprilTagDetectionPipeline = AprilTagDetectionPipeline(tagSize, fx, fy, cx, cy)
+        aprilTagDetectionPipeline = AprilTagDetectionPipeline_36h11(tagSize, fx, fy, cx, cy)
         camera.setPipeline(aprilTagDetectionPipeline)
         camera.openCameraDeviceAsync(object : AsyncCameraOpenListener {
             override fun onOpened() {
@@ -42,9 +42,9 @@ open class AprilTagDetection(var opMode: LinearOpMode) {
             currentDetections.forEach {tag ->
                 tagInView = tag.id
                 when (tag.id) {
-                    17 -> zone = 1
-                    18 -> zone = 2
-                    19 -> zone = 3
+                    69 -> zone = 1
+                    140 -> zone = 2
+                    420 -> zone = 3
                 }
             }
         }

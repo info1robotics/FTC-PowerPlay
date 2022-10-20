@@ -19,7 +19,7 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode.EOCV;
+package org.firstinspires.ftc.teamcode.EOCV.f41h12;
 
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.CvType;
@@ -37,7 +37,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 
-public class AprilTagDetectionPipeline extends OpenCvPipeline
+public class AprilTagDetectionPipeline_41h12 extends OpenCvPipeline
 {
     private long nativeApriltagPtr;
     private Mat grey = new Mat();
@@ -67,7 +67,7 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline
     private boolean needToSetDecimation;
     private final Object decimationSync = new Object();
 
-    public AprilTagDetectionPipeline(double tagsize, double fx, double fy, double cx, double cy)
+    public AprilTagDetectionPipeline_41h12(double tagsize, double fx, double fy, double cx, double cy)
     {
         this.tagsize = tagsize;
         this.tagsizeX = tagsize;
@@ -80,7 +80,7 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline
         constructMatrix();
 
         // Allocate a native context object. See the corresponding deletion in the finalizer
-        nativeApriltagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
+        nativeApriltagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_standard41h12.string, 3, 3);
     }
 
     @Override
