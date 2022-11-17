@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class ppexample extends CommandOpMode {
 
     // define our constants
+
     static final double TRACKWIDTH = 13.7;
     static final double WHEEL_DIAMETER = 4.0;    // inches
     static double TICKS_TO_INCHES;
@@ -44,16 +45,19 @@ public class ppexample extends CommandOpMode {
         fR.setInverted(false);
 
         // create our drive object
+
         m_robotDrive = new MecanumDrive(fL, fR, bL, bR);
 
-        leftEncoder = new MotorEx(hardwareMap, "leftEncoder");
-        rightEncoder = new MotorEx(hardwareMap, "rightEncoder");
-        centerEncoder = new MotorEx(hardwareMap, "centerEncoder");
+        leftEncoder = new MotorEx(hardwareMap, "OdometryLeft");
+        rightEncoder = new MotorEx(hardwareMap, "OdometryRight");
+        centerEncoder = new MotorEx(hardwareMap, "OdometryBack");
 
         // calculate multiplier
+
         TICKS_TO_INCHES = WHEEL_DIAMETER * Math.PI / leftEncoder.getCPR();
 
         // create our odometry object and subsystem
+
         m_robotOdometry = new HolonomicOdometry(
                 () -> leftEncoder.getCurrentPosition() * TICKS_TO_INCHES,
                 () -> rightEncoder.getCurrentPosition() * TICKS_TO_INCHES,
@@ -63,6 +67,7 @@ public class ppexample extends CommandOpMode {
         m_odometry = new OdometrySubsystem(m_robotOdometry);
 
         // create our pure pursuit command
+
         ppCommand = new PurePursuitCommand(
                 m_robotDrive, m_odometry,
                 new StartWaypoint(0, 0),
@@ -74,6 +79,7 @@ public class ppexample extends CommandOpMode {
         );
 
         // schedule the command
+        
         schedule(ppCommand);
     }
 

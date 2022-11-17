@@ -18,7 +18,7 @@ public class Mecanum {
 
 		br.setDirection(DcMotorSimple.Direction.REVERSE);
 		bl.setDirection(DcMotorSimple.Direction.REVERSE);
-		fl.setDirection(DcMotorSimple.Direction.REVERSE);
+		fl.setDirection(DcMotorSimple.Direction.FORWARD);
 		fr.setDirection(DcMotorSimple.Direction.FORWARD);
 	}
 
