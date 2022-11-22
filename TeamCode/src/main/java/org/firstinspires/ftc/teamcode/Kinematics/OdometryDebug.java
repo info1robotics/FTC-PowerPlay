@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.Kinematics;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 //@Disabled
 @TeleOp(name = "Odometry Pod Debug")
@@ -29,6 +31,10 @@ public class OdometryDebug extends LinearOpMode {
         odoRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         odoCenter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        odoRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        OdometrySystem odo = new OdometrySystem(hardwareMap);
+
         waitForStart();
 
         while(opModeIsActive()){
@@ -49,6 +55,13 @@ public class OdometryDebug extends LinearOpMode {
 
             telemetry.addData("Center Odometry Pod Raw Value ",odoCenter.getCurrentPosition());
             telemetry.addData("Center Odometry Pod Distance Traveled (cm)",CENTER_ODOMETRY_DISTANCE_TRAVELED);
+
+            telemetry.addLine("");
+
+            telemetry.addData("Back ", odo.getCurrentBackHeading());
+            telemetry.addData("Lateral ", odo.getCurrentLateralHeading());
+            telemetry.addData("Estimated ", odo.getCurrentComputedHeading());
+
 
             telemetry.update();
         }
