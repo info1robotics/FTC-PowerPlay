@@ -15,11 +15,10 @@ public class Mecanum {
 		bl = hardwareMap.get(DcMotor.class, "DrivetrainBL");
 		br = hardwareMap.get(DcMotor.class, "DrivetrainBR");
 
-
 		br.setDirection(DcMotorSimple.Direction.REVERSE);
-		bl.setDirection(DcMotorSimple.Direction.REVERSE);
+		bl.setDirection(DcMotorSimple.Direction.FORWARD);
 		fl.setDirection(DcMotorSimple.Direction.FORWARD);
-		fr.setDirection(DcMotorSimple.Direction.FORWARD);
+		fr.setDirection(DcMotorSimple.Direction.REVERSE);
 	}
 
 	public void vectorMove(double x, double y, double t, double power)

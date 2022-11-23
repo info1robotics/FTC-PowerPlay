@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Common.GamepadEx;
+import org.firstinspires.ftc.teamcode.Common.Mecanum;
+
 //@Disabled
 @TeleOp(name = "Odometry Pod Debug")
 public class OdometryDebug extends LinearOpMode {
@@ -23,6 +26,9 @@ public class OdometryDebug extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        Mecanum mecanum = new Mecanum(hardwareMap);
+        GamepadEx g1 = new GamepadEx(gamepad1);
+
         odoLeft = hardwareMap.get(DcMotor.class, "OdometryLeft");
         odoRight = hardwareMap.get(DcMotor.class, "OdometryRight");
         odoCenter = hardwareMap.get(DcMotor.class, "OdometryBack");
@@ -38,6 +44,13 @@ public class OdometryDebug extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()){
+
+            g1.update();
+            mecanum.vectorMove(
+                    -gamepad1.left_stick_x,
+                    gamepad1.left_stick_y,
+                    (gamepad1.left_trigger - gamepad1.right_trigger),
+                    gamepad1.right_bumper ? 0.5 : 1.0);
 
             LEFT_ODOMETRY_DISTANCE_TRAVELED = (odoLeft.getCurrentPosition() / TICKS_PER_REVOLUTION) * WHEEL_CIRCUMFERENCE;
             RIGHT_ODOMETRY_DISTANCE_TRAVELED = (odoRight.getCurrentPosition() / TICKS_PER_REVOLUTION) * WHEEL_CIRCUMFERENCE;
@@ -58,10 +71,7 @@ public class OdometryDebug extends LinearOpMode {
 
             telemetry.addLine("");
 
-            telemetry.addData("Back ", odo.getCurrentBackHeading());
-            telemetry.addData("Lateral ", odo.getCurrentLateralHeading());
-            telemetry.addData("Estimated ", odo.getCurrentComputedHeading());
-
+            telemetry.addData("Estimated ", odo.getCurrentHeading());
 
             telemetry.update();
         }

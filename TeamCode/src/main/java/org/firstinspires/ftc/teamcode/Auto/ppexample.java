@@ -40,9 +40,9 @@ public class ppexample extends CommandOpMode {
         bR = new Motor(hardwareMap, "DrivetrainBR");
 
         bR.setInverted(true);
-        bL.setInverted(true);
-        fL.setInverted(true);
-        fR.setInverted(false);
+        bL.setInverted(false);
+        fL.setInverted(false);
+        fR.setInverted(true);
 
         // create our drive object
 
