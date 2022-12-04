@@ -1,8 +1,4 @@
-package org.firstinspires.ftc.teamcode.tasks
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import org.firstinspires.ftc.teamcode.tasks.Task
-import org.firstinspires.ftc.teamcode.tasks.TaskState
+package org.firstinspires.ftc.teamcode.Tasks
 
 class SyncTasks(private vararg val childTasks: Task) : Task() {
     var currentTask = 0

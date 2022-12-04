@@ -1,7 +1,4 @@
-package org.firstinspires.ftc.teamcode.tasks
-
-import org.firstinspires.ftc.teamcode.tasks.Task
-import org.firstinspires.ftc.teamcode.tasks.TaskState
+package org.firstinspires.ftc.teamcode.Tasks
 
 class SleepTask(private val ms: Int) : Task() {
     private var timeAtRun: Long = -1

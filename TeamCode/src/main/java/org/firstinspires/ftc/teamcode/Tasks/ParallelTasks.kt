@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.tasks
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+package org.firstinspires.ftc.teamcode.Tasks
 
 class ParallelTasks(vararg tasks: Task) : Task() {
     var childTasks = tasks

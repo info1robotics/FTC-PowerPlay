@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.Common
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import org.firstinspires.ftc.teamcode.Common.Mecanum
-import org.firstinspires.ftc.teamcode.tasks.InlineTask
-import org.firstinspires.ftc.teamcode.tasks.SyncTasks
-import org.firstinspires.ftc.teamcode.tasks.Task
-import org.firstinspires.ftc.teamcode.tasks.TaskState
+import org.firstinspires.ftc.teamcode.Tasks.InlineTask
+import org.firstinspires.ftc.teamcode.Tasks.Task
+import org.firstinspires.ftc.teamcode.Tasks.TaskState
 import kotlin.Throws
 
 abstract class StateOpMode : LinearOpMode() {
