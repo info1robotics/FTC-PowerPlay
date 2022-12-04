@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Kinematics;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,7 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Common.GamepadEx;
 import org.firstinspires.ftc.teamcode.Common.Mecanum;
 
-//@Disabled
+@Disabled
 @TeleOp(name = "Odometry Pod Debug")
 public class OdometryDebug extends LinearOpMode {
 

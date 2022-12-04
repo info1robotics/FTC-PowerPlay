@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.OpModes
 
 import com.outoftheboxrobotics.photoncore.PhotonCore
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import org.firstinspires.ftc.teamcode.Common.StateOpMode
 import org.firstinspires.ftc.teamcode.EOCV.f41h12.AprilTagDetection_41h12
 
+@Disabled
 @Autonomous(name = "AutonomousOpMode w/ AprilTag Detection")
 class AutonomousOpMode_Base : StateOpMode() {
     @Throws(InterruptedException::class)

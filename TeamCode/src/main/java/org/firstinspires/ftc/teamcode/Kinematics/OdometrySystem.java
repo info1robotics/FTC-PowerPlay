@@ -70,10 +70,6 @@ public class OdometrySystem {
         return lateral_alpha;
     }
 
-//    public double getCurrentBackHeading(){
-//        double back_alpha = Math.toDegrees((translatedDistanceCenter() / CENTER_WHEEL_LENGTH) * PERPENDICULAR_ANGULAR_OFFSET);
-//        return back_alpha;
-//    }
 
 }
 

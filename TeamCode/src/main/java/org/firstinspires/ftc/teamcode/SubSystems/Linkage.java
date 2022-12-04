@@ -1,21 +1,19 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Linkage {
     public DcMotor linkageLeft;
     public DcMotor linkageRight;
-    private static final int GROUND_LEVEL = 0;
-    private static final int JUNCTION_LEVEL = 0;
-    private static final int LOW_LEVEL = 0;
-    private static final int MID_LEVEL = 280;
-    private static final int HIGH_LEVEL = 0;
+    public static final int GROUND_LEVEL = 0;
+    public static final int JUNCTION_LEVEL = 0;
+    public static final int LOW_LEVEL = 0;
+    public static final int MID_LEVEL = 280;
+    public static final int HIGH_LEVEL = 0;
 
     public Linkage(LinearOpMode opMode){
         linkageLeft = opMode.hardwareMap.get(DcMotor.class, "linkageLeft");
@@ -43,7 +41,7 @@ public class Linkage {
         linkageLeft.setTargetPosition(LEVEL);
     }
 
-    public void LINKAGE_DEBUG(){
+    public void DEBUG(){
         telemetry.addData("Left Linkage Tick Count ", linkageLeft.getCurrentPosition());
         telemetry.addData("Right Linkage Tick Count ", linkageRight.getCurrentPosition());
     }
@@ -53,8 +51,9 @@ public class Linkage {
         linkageLeft.setPower(pw);
     }
 
-    public void GO_TO_LEVEL(int level){
-        SET_TARGET_POSITION(MID_LEVEL);
-
+    public void GO_TO_LEVEL(int LEVEL, double SPEED){
+        SET_TARGET_POSITION(LEVEL);
+        SET_MOTORS_RUNMODE();
+        SET_MOTOR_POWER(SPEED);
     }
 }

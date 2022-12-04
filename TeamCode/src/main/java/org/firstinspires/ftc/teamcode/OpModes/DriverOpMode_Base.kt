@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModes
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.Common.Mecanum
 import org.firstinspires.ftc.teamcode.Common.GamepadEx
 
-//@Disabled
+@Disabled
 @TeleOp
 class DriverOpMode_Base : LinearOpMode() {
     @Throws(InterruptedException::class)
