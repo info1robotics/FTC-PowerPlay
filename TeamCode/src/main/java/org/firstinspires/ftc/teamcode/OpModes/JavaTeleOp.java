@@ -18,16 +18,16 @@ public class JavaTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         Linkage linkage = new Linkage(this);
-        Claw claw = new Claw(this);
+//        Claw claw = new Claw(this);
         GamepadEx controller1 = new GamepadEx(gamepad1);
 
         waitForStart();
 
         while(opModeIsActive()){
 
-            if(controller1.getButtonDown("a")) claw.TOGGLE();
-            if(controller1.getButtonDown("dpad_right")) linkage.GO_TO_LEVEL(MID_LEVEL, 0.25);
-            if(controller1.getButtonDown("dpad_down")) linkage.GO_TO_LEVEL(GROUND_LEVEL, 0.25);
+//            if(controller1.getButtonDown("a")) claw.TOGGLE();
+            if(gamepad1.dpad_up) linkage.GO_TO_LEVEL(MID_LEVEL, 0.4);
+            if(gamepad1.dpad_down) linkage.GO_TO_LEVEL(GROUND_LEVEL, 0.4);
 
             telemetry.update();
         }

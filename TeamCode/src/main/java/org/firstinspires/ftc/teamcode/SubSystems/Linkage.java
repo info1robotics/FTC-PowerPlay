@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class Linkage {
     public DcMotor linkageLeft;
     public DcMotor linkageRight;
-    public static final int GROUND_LEVEL = 0;
+    public static final int GROUND_LEVEL = 50;
     public static final int JUNCTION_LEVEL = 0;
     public static final int LOW_LEVEL = 0;
     public static final int MID_LEVEL = 280;
@@ -55,5 +55,6 @@ public class Linkage {
         SET_TARGET_POSITION(LEVEL);
         SET_MOTORS_RUNMODE();
         SET_MOTOR_POWER(SPEED);
+        while(linkageRight.isBusy()){}
     }
 }
