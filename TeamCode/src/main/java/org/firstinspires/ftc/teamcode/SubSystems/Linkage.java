@@ -7,13 +7,23 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class Linkage {
+
     public DcMotor linkageLeft;
     public DcMotor linkageRight;
-    public static final int GROUND_LEVEL = 50;
-    public static final int JUNCTION_LEVEL = 0;
-    public static final int LOW_LEVEL = 0;
-    public static final int MID_LEVEL = 280;
-    public static final int HIGH_LEVEL = 0;
+
+    public static int CURRENT_LEVEL = 0;
+
+    public static final int GROUND_LEVEL =      10;
+    public static final int JUNCTION_LEVEL =    20;
+    public static final int LOW_LEVEL =         50;
+    public static final int MID_LEVEL =         200;
+    public static final int HIGH_LEVEL =        250;
+
+    public static final int LINKAGE_THRESHOLD = 10;
+    public static final int SAFETY_THRESHOLD = 100;
+
+    private static final int LINKAGE_MIN = 10;
+    private static final int LINKAGE_MAX = 500;
 
     public Linkage(LinearOpMode opMode){
         linkageLeft = opMode.hardwareMap.get(DcMotor.class, "linkageLeft");
@@ -52,9 +62,10 @@ public class Linkage {
     }
 
     public void GO_TO_LEVEL(int LEVEL, double SPEED){
+        if(LEVEL > LINKAGE_MAX) LEVEL = LINKAGE_MAX;
+        if(LEVEL < LINKAGE_MIN) LEVEL = LINKAGE_MIN;
         SET_TARGET_POSITION(LEVEL);
         SET_MOTORS_RUNMODE();
         SET_MOTOR_POWER(SPEED);
-        while(linkageRight.isBusy()){}
     }
 }

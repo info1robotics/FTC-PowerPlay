@@ -18,11 +18,13 @@ public class Claw {
     public static final double SERVO_ARMED = 0.0;
     public static final double SERVO_READY = 1.0;
 
+    // Simple toggle command for the claw mechanism (might be replaced in the near future)
     public void TOGGLE(){
         if(clawSingle.getPosition()==SERVO_ARMED) clawSingle.setPosition(SERVO_READY);
         else clawSingle.setPosition(SERVO_ARMED);
     }
 
+    // Activate the servo on initialization
     public Claw(LinearOpMode opMode) {
         clawSingle = opMode.hardwareMap.get(Servo.class, "clawSingle");
         clawSingle.setPosition(SERVO_ARMED);

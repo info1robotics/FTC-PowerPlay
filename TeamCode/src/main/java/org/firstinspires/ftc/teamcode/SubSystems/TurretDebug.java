@@ -6,20 +6,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.checkerframework.checker.units.qual.C;
-
-@Disabled
+//@Disabled
 @TeleOp
-public class ClawDebug extends LinearOpMode {
+public class TurretDebug extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Claw claw = new Claw(this);
+        Turret turret = new Turret(this);
         waitForStart();
         while(opModeIsActive()){
-            if(gamepad1.a) claw.TOGGLE();
 
-            // Get feedback from the servo internal sensor for potential debugging.
-            telemetry.addData("Claw Servo Current Position ", claw.clawSingle.getPosition());
+            // Get feedback from the turret motor's encoder for debugging.
+            telemetry.addData("Turret Tick Count ", turret.turretMotor.getCurrentPosition());
             telemetry.update();
         }
     }
