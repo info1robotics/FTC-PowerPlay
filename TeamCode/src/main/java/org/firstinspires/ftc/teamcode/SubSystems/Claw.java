@@ -26,7 +26,7 @@ public class Claw {
 
     // Activate the servo on initialization
     public Claw(LinearOpMode opMode) {
-        clawSingle = opMode.hardwareMap.get(Servo.class, "clawSingle");
+        clawSingle = opMode.hardwareMap.get(Servo.class, "Claw");
         clawSingle.setPosition(SERVO_ARMED);
     }
 }

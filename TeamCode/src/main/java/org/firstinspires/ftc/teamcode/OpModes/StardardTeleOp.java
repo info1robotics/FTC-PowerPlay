@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.CURRENT_LEVEL;
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.GROUND_LEVEL;
+import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.LINKAGE_MAX;
+import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.LINKAGE_MIN;
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.LINKAGE_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.LOW_LEVEL;
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.MID_LEVEL;
@@ -65,9 +67,12 @@ public class StardardTeleOp extends LinearOpMode {
             if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad1.left_trigger!=0) CURRENT_ANGLE -= ANGLE_THRESHOLD;
             if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad1.right_trigger!=0) CURRENT_ANGLE += ANGLE_THRESHOLD;
 
+            if(CURRENT_LEVEL > LINKAGE_MAX) CURRENT_LEVEL = LINKAGE_MAX;
+            if(CURRENT_LEVEL < LINKAGE_MIN) CURRENT_LEVEL = LINKAGE_MIN;
+
             // Apply settings to motors.
-            linkage.GO_TO_LEVEL(CURRENT_LEVEL, 0.4);
-            turret.GO_TO_ANGLE(CURRENT_ANGLE, 0.4);
+            linkage.GO_TO_LEVEL(CURRENT_LEVEL, 0.25);
+            turret.GO_TO_ANGLE(CURRENT_ANGLE, 0.25);
             telemetry.update();
         }
     }

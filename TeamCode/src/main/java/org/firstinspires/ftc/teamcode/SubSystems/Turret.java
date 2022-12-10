@@ -15,7 +15,7 @@ public class Turret {
     public static final double MIN_ANGLE = -360;
 
     public Turret(LinearOpMode opMode){
-        turretMotor = opMode.hardwareMap.get(DcMotor.class, "turretMotor");
+        turretMotor = opMode.hardwareMap.get(DcMotor.class, "Turret");
         turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }

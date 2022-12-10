@@ -8,26 +8,28 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class Linkage {
 
+    //de fiecare data cand e jos reset la encodere to do
+
     public DcMotor linkageLeft;
     public DcMotor linkageRight;
 
     public static int CURRENT_LEVEL = 0;
 
-    public static final int GROUND_LEVEL =      10;
-    public static final int JUNCTION_LEVEL =    20;
-    public static final int LOW_LEVEL =         50;
-    public static final int MID_LEVEL =         200;
-    public static final int HIGH_LEVEL =        250;
+    public static final int GROUND_LEVEL =      50;
+    public static final int JUNCTION_LEVEL =    100;
+    public static final int LOW_LEVEL =         150;
+    public static final int MID_LEVEL =         250;
+    public static final int HIGH_LEVEL =        350;
 
-    public static final int LINKAGE_THRESHOLD = 10;
+    public static final int LINKAGE_THRESHOLD = 1;
     public static final int SAFETY_THRESHOLD = 100;
 
-    private static final int LINKAGE_MIN = 10;
-    private static final int LINKAGE_MAX = 500;
+    public static final int LINKAGE_MIN = 0;
+    public static final int LINKAGE_MAX = 360;
 
     public Linkage(LinearOpMode opMode){
-        linkageLeft = opMode.hardwareMap.get(DcMotor.class, "linkageLeft");
-        linkageRight = opMode.hardwareMap.get(DcMotor.class, "linkageRight");
+        linkageLeft = opMode.hardwareMap.get(DcMotor.class, "LinkageLeft");
+        linkageRight = opMode.hardwareMap.get(DcMotor.class, "LinkageRight");
 
         linkageLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         linkageRight.setDirection(DcMotorSimple.Direction.REVERSE);
