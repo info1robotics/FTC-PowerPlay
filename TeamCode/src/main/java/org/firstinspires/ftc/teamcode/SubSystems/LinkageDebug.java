@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@Disabled
+//@Disabled
 @TeleOp
 public class LinkageDebug extends LinearOpMode {
     @Override
@@ -14,8 +14,10 @@ public class LinkageDebug extends LinearOpMode {
         Linkage linkage = new Linkage(this);
         waitForStart();
         while(opModeIsActive()){
-            linkage.linkageRight.setPower(gamepad1.left_stick_x);
-            linkage.linkageLeft.setPower(gamepad1.left_stick_x);
+
+            // Get feedback from both linkage motors for debugging.
+            telemetry.addData("Linkage LEFT Tick Count ", linkage.linkageLeft.getCurrentPosition());
+            telemetry.addData("Linkage RIGHT Tick Count ", linkage.linkageRight.getCurrentPosition());
             telemetry.update();
         }
     }
