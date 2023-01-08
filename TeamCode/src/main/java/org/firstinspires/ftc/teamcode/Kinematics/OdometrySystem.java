@@ -28,9 +28,9 @@ public class OdometrySystem {
     static final double PERPENDICULAR_ANGULAR_OFFSET = ((5 * 90) / ( 112.23 + 123.37 + 124.90 + 111.19 + 115.67 ));
 
     public OdometrySystem(HardwareMap hardwareMap) {
-        odoLeft = hardwareMap.get(DcMotor.class, "OdometryLeft");
-        odoRight = hardwareMap.get(DcMotor.class, "OdometryRight");
-        odoCenter = hardwareMap.get(DcMotor.class, "OdometryBack");
+        odoLeft = hardwareMap.get(DcMotor.class, "DrivetrainFLeft_OdometryLeft");
+        odoRight = hardwareMap.get(DcMotor.class, "DrivetrainFRight_OdometryRight");
+        odoCenter = hardwareMap.get(DcMotor.class, "DrivetrainBRight_OdometryFront");
 
         odoLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         odoRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

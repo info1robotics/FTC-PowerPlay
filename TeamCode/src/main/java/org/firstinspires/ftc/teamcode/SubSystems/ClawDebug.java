@@ -19,7 +19,6 @@ public class ClawDebug extends LinearOpMode {
             if(gamepad1.a) claw.TOGGLE();
 
             // Get feedback from the servo internal sensor for potential debugging.
-            telemetry.addData("Claw Servo Current Position ", claw.clawSingle.getPosition());
             telemetry.update();
         }
     }
