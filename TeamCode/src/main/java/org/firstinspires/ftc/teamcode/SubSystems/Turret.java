@@ -7,9 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Turret {
     public DcMotor turretMotor;
-
-    public Servo brake;
-
+    public Servo BrakeServo1, BrakeServo2;
     private static final double GEAR_RATIO = 2.0;
     private static final double TICKS_PER_REVOLUTION = 537.7;
     private static final double ERROR = 2;
@@ -22,8 +20,8 @@ public class Turret {
     public static final double MIN_ANGLE = -540;
 
     public Turret(LinearOpMode opMode){
-        brake = opMode.hardwareMap.get(Servo.class, "brake");
-
+        BrakeServo1 = opMode.hardwareMap.get(Servo.class, "BrakeServo1");
+        BrakeServo2 = opMode.hardwareMap.get(Servo.class, "BrakeServo2");
         turretMotor = opMode.hardwareMap.get(DcMotor.class, "Turret");
         turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -52,9 +50,11 @@ public class Turret {
     }
 
     public void ACTIVATE_BRAKE(){
-        brake.setPosition(0.0);
+        BrakeServo1.setPosition(0.5);
+        BrakeServo2.setPosition(0.1);
     }
     public void RETRACT_BRAKE() {
-        brake.setPosition(1.0);
+        BrakeServo1.setPosition(0.8);
+        BrakeServo2.setPosition(0.0);
     }
 }
