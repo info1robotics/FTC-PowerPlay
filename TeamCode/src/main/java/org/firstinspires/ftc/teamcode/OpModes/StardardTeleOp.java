@@ -35,8 +35,8 @@ public class  StardardTeleOp extends LinearOpMode {
         // Fire up the motors.
         CURRENT_LEVEL = 0;
         CURRENT_ANGLE = 0;
-        linkage.GO_TO_LEVEL(CURRENT_LEVEL, 0.25);
-        turret.GO_TO_ANGLE(CURRENT_ANGLE, 0.5);
+        linkage.GO_TO_LEVEL(CURRENT_LEVEL, 1.0);
+        turret.GO_TO_ANGLE(CURRENT_ANGLE, 1.0);
         boolean STATE_CHANGED = false;
 
         waitForStart();
@@ -64,10 +64,11 @@ public class  StardardTeleOp extends LinearOpMode {
             if(gamepad2.right_bumper) CURRENT_LEVEL += LINKAGE_THRESHOLD;
 
             // Reset turret angle to 0 when the X (Xbox) / Square (PS4) button is pressed for safe linkage operation.
+            if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.circle) CURRENT_ANGLE = 0;
 
             // Manually tune the turret angle. The turret will not spin if it is currently at risk of damaging the linkage.
-            if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.left_trigger!=0) CURRENT_ANGLE -= ANGLE_THRESHOLD;
-            if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.right_trigger!=0) CURRENT_ANGLE += ANGLE_THRESHOLD;
+            if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.left_trigger!=0) CURRENT_ANGLE += ANGLE_THRESHOLD;
+            if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.right_trigger!=0) CURRENT_ANGLE -= ANGLE_THRESHOLD;
 
             telemetry.addData("Linkage: ", linkage.linkageLeft.getCurrentPosition());
 

@@ -21,21 +21,21 @@ public class Claw {
     // Simple toggle command for the claw mechanism (might be replaced in the near future)
     public void TOGGLE(){
         if(STATE == "OPEN"){
-            clawRight.setPosition(0.5);
-            clawLeft.setPosition(0.5);
+            clawRight.setPosition(0.0);
+            clawLeft.setPosition(0.57);
             STATE = "CLOSED";
         }
         else{
-            clawRight.setPosition(1.0);
-            clawLeft.setPosition(0.0);
+            clawRight.setPosition(0.5);
+            clawLeft.setPosition(0.25);
             STATE = "OPEN";
         }
     }
 
     public void SET_STATE(String state){
         if(state=="OPEN") {
-            clawRight.setPosition(0.5);
-            clawLeft.setPosition(0.5);
+            clawRight.setPosition(0.0);
+            clawLeft.setPosition(0.57);
         } else{
             clawRight.setPosition(1.0);
             clawLeft.setPosition(0.0);

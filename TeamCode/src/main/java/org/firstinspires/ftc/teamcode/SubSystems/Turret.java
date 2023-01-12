@@ -3,9 +3,13 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Turret {
     public DcMotor turretMotor;
+
+    public Servo brake;
+
     private static final double GEAR_RATIO = 2.0;
     private static final double TICKS_PER_REVOLUTION = 537.7;
     private static final double ERROR = 2;
@@ -18,8 +22,11 @@ public class Turret {
     public static final double MIN_ANGLE = -540;
 
     public Turret(LinearOpMode opMode){
+        brake = opMode.hardwareMap.get(Servo.class, "brake");
+
         turretMotor = opMode.hardwareMap.get(DcMotor.class, "Turret");
         turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
@@ -42,5 +49,12 @@ public class Turret {
         SET_TARGET_POSITION(TICK_COUNT);
         SET_MOTORS_RUNMODE();
         SET_MOTOR_POWER(SPEED);
+    }
+
+    public void ACTIVATE_BRAKE(){
+        brake.setPosition(0.0);
+    }
+    public void RETRACT_BRAKE() {
+        brake.setPosition(1.0);
     }
 }

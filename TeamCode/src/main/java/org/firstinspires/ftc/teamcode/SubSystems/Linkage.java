@@ -15,17 +15,17 @@ public class Linkage {
 
     public static int CURRENT_LEVEL = 0;
 
-    public static final int GROUND_LEVEL =      50;
-    public static final int JUNCTION_LEVEL =    100;
-    public static final int LOW_LEVEL =         150;
-    public static final int MID_LEVEL =         250;
-    public static final int HIGH_LEVEL =        350;
+    public static final int GROUND_LEVEL     =    50;
+    public static final int JUNCTION_LEVEL   =    100;
+    public static final int LOW_LEVEL        =    150;
+    public static final int MID_LEVEL        =    250;
+    public static final int HIGH_LEVEL       =    350;
 
-    public static final int LINKAGE_THRESHOLD = 1;
+    public static final int LINKAGE_THRESHOLD = 4;
     public static final int SAFETY_THRESHOLD = 100;
 
     public static final int LINKAGE_MIN = 0;
-    public static final int LINKAGE_MAX = 360;
+    public static final int LINKAGE_MAX = 1200;
 
     public Linkage(LinearOpMode opMode){
         linkageLeft = opMode.hardwareMap.get(DcMotor.class, "LinkageLeft");
