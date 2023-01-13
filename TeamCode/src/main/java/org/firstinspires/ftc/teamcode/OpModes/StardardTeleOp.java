@@ -38,6 +38,8 @@ public class  StardardTeleOp extends LinearOpMode {
         linkage.GO_TO_LEVEL(CURRENT_LEVEL, 1.0);
         turret.GO_TO_ANGLE(CURRENT_ANGLE, 1.0);
         boolean STATE_CHANGED = false;
+        boolean BRAKE_CHANGED = false;
+        turret.RETRACT_BRAKE();
 
         waitForStart();
         while(opModeIsActive()){
@@ -49,9 +51,12 @@ public class  StardardTeleOp extends LinearOpMode {
                     gamepad1.right_bumper ? 0.5 : 1.0
             );
 
-//           Toggle claw power when button A (Xbox) / X (PS4) is pressed.
+            //Toggle claw power when button A (Xbox) / X (PS4) is pressed.
             if(gamepad2.a && !STATE_CHANGED) {claw.TOGGLE(); STATE_CHANGED = true;}
             else if(!gamepad2.a) STATE_CHANGED = false;
+
+            if(gamepad2.square && !BRAKE_CHANGED) {turret.BRAKE_TOGGLE(); BRAKE_CHANGED = true;}
+            else if(!gamepad2.square) BRAKE_CHANGED = false;
 
             // Set desired linkage height using fixed counts on the left d-pad.
             if(gamepad2.dpad_up) CURRENT_LEVEL = HIGH_LEVEL;

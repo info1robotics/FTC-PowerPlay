@@ -11,6 +11,7 @@ public class Turret {
     private static final double GEAR_RATIO = 2.0;
     private static final double TICKS_PER_REVOLUTION = 537.7;
     private static final double ERROR = 2;
+    public static String BRAKE_STATE;
     public static final double ANGLE_THRESHOLD = 1;
     public static double CURRENT_ANGLE = 0;
     public static int CURRENT_TICK = 0;
@@ -20,12 +21,13 @@ public class Turret {
     public static final double MIN_ANGLE = -540;
 
     public Turret(LinearOpMode opMode){
-        BrakeServo1 = opMode.hardwareMap.get(Servo.class, "BrakeServo1");
+//        BrakeServo1 = opMode.hardwareMap.get(Servo.class, "BrakeServo1");
         BrakeServo2 = opMode.hardwareMap.get(Servo.class, "BrakeServo2");
         turretMotor = opMode.hardwareMap.get(DcMotor.class, "Turret");
         turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BRAKE_STATE = "DISENGAGED";
     }
 
     public void RESET_ENCODER() {turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);}
@@ -41,20 +43,30 @@ public class Turret {
         SET_MOTOR_POWER(SPEED);
     }
 
-    public void GO_TO_TICK(int TICK_COUNT, double SPEED){
+//    public void GO_TO_TICK(int TICK_COUNT, double SPEED){
 //        if(TICK_COUNT > MAX_TICK) TICK_COUNT = MAX_TICK;
 //        if(TICK_COUNT < MIN_TICK) TICK_COUNT = MIN_TICK;
-        SET_TARGET_POSITION(TICK_COUNT);
-        SET_MOTORS_RUNMODE();
-        SET_MOTOR_POWER(SPEED);
+//        SET_TARGET_POSITION(TICK_COUNT);
+//        SET_MOTORS_RUNMODE();
+//        SET_MOTOR_POWER(SPEED);
+//    }
+public void BRAKE_TOGGLE(){
+    if(BRAKE_STATE == "ENGAGED"){
+        BrakeServo2.setPosition(0.6);
+        BRAKE_STATE = "DISENGAGED";
     }
+    else{
+        BrakeServo2.setPosition(0.25);
+        BRAKE_STATE = "ENGAGED";
+    }
+}
 
     public void ACTIVATE_BRAKE(){
-        BrakeServo1.setPosition(0.5);
-        BrakeServo2.setPosition(0.1);
+//        BrakeServo1.setPosition(0.5);
+        BrakeServo2.setPosition(0.25);
     }
     public void RETRACT_BRAKE() {
-        BrakeServo1.setPosition(0.8);
-        BrakeServo2.setPosition(0.0);
+//        BrakeServo1.setPosition(0.8);
+        BrakeServo2.setPosition(0.6);
     }
 }

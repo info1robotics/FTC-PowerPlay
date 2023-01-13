@@ -25,7 +25,7 @@ public class Linkage {
     public static final int SAFETY_THRESHOLD = 100;
 
     public static final int LINKAGE_MIN = 0;
-    public static final int LINKAGE_MAX = 1200;
+    public static final int LINKAGE_MAX = 650;
 
     public Linkage(LinearOpMode opMode){
         linkageLeft = opMode.hardwareMap.get(DcMotor.class, "LinkageLeft");
@@ -36,6 +36,9 @@ public class Linkage {
 
         linkageLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linkageRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        linkageLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linkageRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void RESET_ENCODERS(){
