@@ -12,7 +12,7 @@ public class Turret {
     private static final double TICKS_PER_REVOLUTION = 537.7;
     private static final double ERROR = 2;
     public static String BRAKE_STATE;
-    public static final double ANGLE_THRESHOLD = 1;
+    public static final double ANGLE_THRESHOLD = 1.0;
     public static double CURRENT_ANGLE = 0;
     public static int CURRENT_TICK = 0;
     public static final double MAX_ANGLE = 540;

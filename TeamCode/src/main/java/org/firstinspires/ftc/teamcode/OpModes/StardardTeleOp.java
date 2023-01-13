@@ -45,10 +45,11 @@ public class  StardardTeleOp extends LinearOpMode {
         while(opModeIsActive()){
             // Omnidirectional drivetrain control.
             drivetrain.vectorMove(
-                    -gamepad1.left_stick_x,
-                    gamepad1.left_stick_y,
-                    gamepad1.left_trigger - gamepad1.right_trigger,
-                    gamepad1.right_bumper ? 0.5 : 1.0
+                    gamepad1.left_stick_x,
+                    -gamepad1.left_stick_y,
+//                    gamepad1.left_trigger - gamepad1.right_trigger,
+                    gamepad1.right_stick_x,
+                    gamepad1.right_bumper ? 0.3 : 0.5
             );
 
             //Toggle claw power when button A (Xbox) / X (PS4) is pressed.
@@ -72,8 +73,10 @@ public class  StardardTeleOp extends LinearOpMode {
             if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.circle) CURRENT_ANGLE = 0;
 
             // Manually tune the turret angle. The turret will not spin if it is currently at risk of damaging the linkage.
-            if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.left_trigger!=0) CURRENT_ANGLE += ANGLE_THRESHOLD;
-            if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.right_trigger!=0) CURRENT_ANGLE -= ANGLE_THRESHOLD;
+            if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.left_trigger!=0) CURRENT_ANGLE += (ANGLE_THRESHOLD * gamepad2.left_trigger);
+            if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.right_trigger!=0) CURRENT_ANGLE -= (ANGLE_THRESHOLD * gamepad2.right_trigger);
+            if(CURRENT_LEVEL <= SAFETY_THRESHOLD && gamepad2.left_trigger!=0) CURRENT_ANGLE += (ANGLE_THRESHOLD * gamepad2.left_trigger) / 2.5;
+            if(CURRENT_LEVEL <= SAFETY_THRESHOLD && gamepad2.right_trigger!=0) CURRENT_ANGLE -= (ANGLE_THRESHOLD * gamepad2.right_trigger) / 2.5;
 
             telemetry.addData("Linkage: ", linkage.linkageLeft.getCurrentPosition());
 
