@@ -11,7 +11,6 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.HIGH_LEVEL;
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.SAFETY_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.ANGLE_THRESHOLD;
-import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_TICK;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -35,11 +34,11 @@ public class  StardardTeleOp extends LinearOpMode {
         // Fire up the motors.
         CURRENT_LEVEL = 0;
         CURRENT_ANGLE = 0;
-        linkage.GO_TO_LEVEL(CURRENT_LEVEL, 1.0);
-        turret.GO_TO_ANGLE(CURRENT_ANGLE, 1.0);
+        linkage.goToLevel(CURRENT_LEVEL, 1.0);
+        turret.goToAngle(CURRENT_ANGLE, 1.0);
         boolean STATE_CHANGED = false;
         boolean BRAKE_CHANGED = false;
-        turret.RETRACT_BRAKE();
+        turret.disengageBrake();
 
         waitForStart();
         while(opModeIsActive()){
@@ -53,10 +52,10 @@ public class  StardardTeleOp extends LinearOpMode {
             );
 
             //Toggle claw power when button A (Xbox) / X (PS4) is pressed.
-            if(gamepad2.a && !STATE_CHANGED) {claw.TOGGLE(); STATE_CHANGED = true;}
+            if(gamepad2.a && !STATE_CHANGED) {claw.toggle(); STATE_CHANGED = true;}
             else if(!gamepad2.a) STATE_CHANGED = false;
 
-            if(gamepad2.square && !BRAKE_CHANGED) {turret.BRAKE_TOGGLE(); BRAKE_CHANGED = true;}
+            if(gamepad2.square && !BRAKE_CHANGED) {turret.toggleBrake(); BRAKE_CHANGED = true;}
             else if(!gamepad2.square) BRAKE_CHANGED = false;
 
             // Set desired linkage height using fixed counts on the left d-pad.
@@ -84,8 +83,8 @@ public class  StardardTeleOp extends LinearOpMode {
             if(CURRENT_LEVEL < LINKAGE_MIN) CURRENT_LEVEL = LINKAGE_MIN;
 
             // Apply settings to motors.
-            linkage.GO_TO_LEVEL(CURRENT_LEVEL, 1.0);
-            turret.GO_TO_ANGLE(CURRENT_ANGLE, 1.0);
+            linkage.goToLevel(CURRENT_LEVEL, 1.0);
+            turret.goToAngle(CURRENT_ANGLE, 1.0);
             telemetry.addData("ticks",turret.turretMotor.getCurrentPosition());
             telemetry.update();
         }

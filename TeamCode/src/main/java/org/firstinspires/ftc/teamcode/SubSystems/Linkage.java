@@ -7,24 +7,20 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class Linkage {
+    public static final int GROUND_LEVEL = 50;
+    public static final int JUNCTION_LEVEL = 100;
+    public static final int LOW_LEVEL = 150;
+    public static final int MID_LEVEL = 250;
+    public static final int HIGH_LEVEL = 350;
+    public static final int LINKAGE_THRESHOLD = 3;
+    public static final int SAFETY_THRESHOLD = 50;
+    public static final int LINKAGE_MIN = 0;
+    public static final int LINKAGE_MAX = 650;
+    public static int CURRENT_LEVEL = 0;
     public DcMotor linkageLeft;
     public DcMotor linkageRight;
 
-    public static int CURRENT_LEVEL = 0;
-
-    public static final int GROUND_LEVEL     =    50;
-    public static final int JUNCTION_LEVEL   =    100;
-    public static final int LOW_LEVEL        =    150;
-    public static final int MID_LEVEL        =    250;
-    public static final int HIGH_LEVEL       =    350;
-
-    public static final int LINKAGE_THRESHOLD   = 3;
-    public static final int SAFETY_THRESHOLD    = 50;
-
-    public static final int LINKAGE_MIN         = 0;
-    public static final int LINKAGE_MAX         = 650;
-
-    public Linkage(LinearOpMode opMode){
+    public Linkage(LinearOpMode opMode) {
         linkageLeft = opMode.hardwareMap.get(DcMotor.class, "LinkageLeft");
         linkageRight = opMode.hardwareMap.get(DcMotor.class, "LinkageRight");
 
@@ -38,36 +34,36 @@ public class Linkage {
         linkageRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void RESET_ENCODERS(){
+    public void resetEncoders() {
         linkageLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linkageLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void SET_MOTORS_RUNMODE(){
+    public void runToPosition() {
         linkageLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linkageRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void SET_TARGET_POSITION(int LEVEL){
+    public void setTargetPosition(int LEVEL) {
         linkageRight.setTargetPosition(LEVEL);
         linkageLeft.setTargetPosition(LEVEL);
     }
 
-    public void DEBUG(){
+    public void debug() {
         telemetry.addData("Left Linkage Tick Count ", linkageLeft.getCurrentPosition());
         telemetry.addData("Right Linkage Tick Count ", linkageRight.getCurrentPosition());
     }
 
-    public void SET_MOTOR_POWER(double pw){
+    public void setPower(double pw) {
         linkageRight.setPower(pw);
         linkageLeft.setPower(pw);
     }
 
-    public void GO_TO_LEVEL(int LEVEL, double SPEED){
-        if(LEVEL > LINKAGE_MAX) LEVEL = LINKAGE_MAX;
-        if(LEVEL < LINKAGE_MIN) LEVEL = LINKAGE_MIN;
-        SET_TARGET_POSITION(LEVEL);
-        SET_MOTORS_RUNMODE();
-        SET_MOTOR_POWER(SPEED);
+    public void goToLevel(int LEVEL, double SPEED) {
+        if (LEVEL > LINKAGE_MAX) LEVEL = LINKAGE_MAX;
+        if (LEVEL < LINKAGE_MIN) LEVEL = LINKAGE_MIN;
+        setTargetPosition(LEVEL);
+        runToPosition();
+        setPower(SPEED);
     }
 }
