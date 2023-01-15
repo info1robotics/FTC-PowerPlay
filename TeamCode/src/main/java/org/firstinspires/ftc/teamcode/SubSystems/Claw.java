@@ -24,21 +24,21 @@ public class Claw {
     public void toggle() {
         state = !state;
         if (!state) {
-            clawRight.setPosition(0.0);
-            clawLeft.setPosition(0.57);
+            clawRight.setPosition(0.1);
+            clawLeft.setPosition(0.6);
         } else {
-            clawRight.setPosition(0.5);
-            clawLeft.setPosition(0.25);
+            clawRight.setPosition(0.45);
+            clawLeft.setPosition(0.3);
         }
     }
 
     public void setState(boolean state) {
         if (state) {
-            clawRight.setPosition(0.0);
-            clawLeft.setPosition(0.57);
+            clawRight.setPosition(0.1);
+            clawLeft.setPosition(0.6);
         } else {
-            clawRight.setPosition(1.0);
-            clawLeft.setPosition(0.0);
+            clawRight.setPosition(0.45);
+            clawLeft.setPosition(0.3);
         }
     }
 }
