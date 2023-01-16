@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
-@TeleOp(name = "StandardTeleOp")
-public class  StardardTeleOp extends LinearOpMode {
+@TeleOp(name = "StandardTeleOpIubi")
+public class  StardardTeleOpIubi extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -47,8 +47,8 @@ public class  StardardTeleOp extends LinearOpMode {
             drivetrain.vectorMove(
                     gamepad1.left_stick_x,
                     -gamepad1.left_stick_y,
-//                    gamepad1.left_trigger - gamepad1.right_trigger,
-                    gamepad1.right_stick_x,
+                    gamepad1.left_trigger - gamepad1.right_trigger,
+//                    gamepad1.right_stick_x,
                     gamepad1.right_bumper ? 0.3 : 0.5
             );
 

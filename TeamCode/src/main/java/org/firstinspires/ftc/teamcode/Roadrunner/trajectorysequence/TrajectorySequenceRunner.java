@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Roadrunner.trajectorysequence;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import androidx.annotation.Nullable;
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -191,6 +193,7 @@ public class TrajectorySequenceRunner {
         packet.put("xError", getLastPoseError().getX());
         packet.put("yError", getLastPoseError().getY());
         packet.put("headingError (deg)", Math.toDegrees(getLastPoseError().getHeading()));
+//        packet.put("center", hardwareMap.dcMotor.get("DrivetrainBRight_OdometryFront").getCurrentPosition());
 
         draw(fieldOverlay, currentTrajectorySequence, currentSegment, targetPose, poseEstimate);
 
