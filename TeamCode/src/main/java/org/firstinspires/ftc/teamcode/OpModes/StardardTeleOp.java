@@ -51,7 +51,7 @@ public class  StardardTeleOp extends LinearOpMode {
                     -gamepad1.left_stick_y,
 //                    gamepad1.left_trigger - gamepad1.right_trigger,
                     gamepad1.right_stick_x,
-                    gamepad1.right_bumper ? 0.3 : 0.5
+                    gamepad1.right_bumper ? 0.5 : 0.8
             );
             //Toggle claw power when button A (Xbox) / X (PS4) is pressed.
             if(gamepad2.a && !STATE_CHANGED) {claw.toggle(); STATE_CHANGED = true;}
