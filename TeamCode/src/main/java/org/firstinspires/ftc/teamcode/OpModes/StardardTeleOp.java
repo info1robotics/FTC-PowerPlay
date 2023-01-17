@@ -22,6 +22,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
 @TeleOp(name = "StandardTeleOp")
 public class  StardardTeleOp extends LinearOpMode {
+    public boolean automated = false;
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -43,6 +44,7 @@ public class  StardardTeleOp extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
+            automated = false;
             // Omnidirectional drivetrain control.
             drivetrain.vectorMove(
                     gamepad1.left_stick_x,
@@ -51,7 +53,6 @@ public class  StardardTeleOp extends LinearOpMode {
                     gamepad1.right_stick_x,
                     gamepad1.right_bumper ? 0.3 : 0.5
             );
-
             //Toggle claw power when button A (Xbox) / X (PS4) is pressed.
             if(gamepad2.a && !STATE_CHANGED) {claw.toggle(); STATE_CHANGED = true;}
             else if(!gamepad2.a) STATE_CHANGED = false;
@@ -84,8 +85,29 @@ public class  StardardTeleOp extends LinearOpMode {
             if(CURRENT_LEVEL < LINKAGE_MIN) CURRENT_LEVEL = LINKAGE_MIN;
 
             // Apply settings to motors.
+
+            if(turret.turretMotor.getCurrentPosition() <= turret.turretMotor.getTargetPosition() - 3 || turret.turretMotor.getCurrentPosition() >= turret.turretMotor.getTargetPosition() + 3) turret.disengageBrake();
+            else turret.engageBrake();
+
+            if(gamepad2.right_stick_button) {
+                CURRENT_ANGLE = 90;
+                automated = true;
+            }
+            if(gamepad2.left_stick_button) {
+                CURRENT_ANGLE = -90;
+                automated = true;
+            }
+
+            if (automated) {
+                turret.goToAngle(CURRENT_ANGLE, .5);
+            } else {
+                turret.goToAngle(CURRENT_ANGLE, 1.0);
+            }
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
-            turret.goToAngle(CURRENT_ANGLE, 1.0);
+
+
+            // viteza la chestii automate mai mica la turela si linkegi
+
             telemetry.addData("ticks",turret.turretMotor.getCurrentPosition());
             telemetry.update();
         }

@@ -35,6 +35,7 @@ public class BackAndForth extends LinearOpMode {
     public static double DISTANCE = 70;
     @Override
     public void runOpMode() throws InterruptedException {
+        Turret turret = new Turret(this);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory trajectoryForward = drive.trajectoryBuilder(new Pose2d())
@@ -44,10 +45,13 @@ public class BackAndForth extends LinearOpMode {
         Trajectory trajectoryBackward = drive.trajectoryBuilder(trajectoryForward.end())
                 .back(DISTANCE)
                 .build();
-
+        turret.engageBrake();
+        turret.goToAngle(0,1.0);
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
+            turret.engageBrake();
+            turret.goToAngle(0,1.0);
             drive.followTrajectory(trajectoryForward);
             drive.followTrajectory(trajectoryBackward);
         }
