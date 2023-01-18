@@ -18,9 +18,9 @@ public class SplineTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Turret turret = new Turret(this);
-        waitForStart();
-        turret.goToAngle(0, 1.0);
         turret.engageBrake();
+        turret.goToAngle(0,1.0);
+        waitForStart();
         if (isStopRequested()) return;
 
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())
