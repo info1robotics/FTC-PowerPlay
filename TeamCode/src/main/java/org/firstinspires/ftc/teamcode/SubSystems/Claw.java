@@ -24,6 +24,7 @@ public class Claw {
     public void toggle() {
         state = !state;
         if (!state) {
+            //closed
             clawRight.setPosition(0.1);
             clawLeft.setPosition(0.6);
         } else {
