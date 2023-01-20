@@ -10,7 +10,7 @@ public class Linkage {
     public static final int GROUND_LEVEL = 0;
     public static final int JUNCTION_LEVEL = 100;
     public static final int LOW_LEVEL = 250;
-    public static final int MID_LEVEL = 350;
+    public static final int MID_LEVEL = 400;
     public static final int HIGH_LEVEL = 525;
     public static final int LINKAGE_THRESHOLD = 3;
     public static final int SAFETY_THRESHOLD = 50;

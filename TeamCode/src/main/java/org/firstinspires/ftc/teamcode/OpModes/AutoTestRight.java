@@ -1,17 +1,19 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
-import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.*;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.inline;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.pause;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.sync;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.trajectory;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //@Disabled
-@Autonomous(name = "Preload MID + Park | Left")
+@Autonomous(name = "Preload MID + Park | Right")
 @Config
-public class AutoTest extends AutoOpMode {
+public class AutoTestRight extends AutoOpMode {
     public Trajectory start_to_align_mid, start_to_mid, go_back, strafe_left, strafe_right, left_front, right_front;
     public static double start_to_mid_x = -35;
     public static double start_to_mid_y = -23.5; // -1 cand e bateria sub 13.3
@@ -24,7 +26,7 @@ public class AutoTest extends AutoOpMode {
                 .build();
 
         go_back = drive.trajectoryBuilder(start_to_mid.end(), true)
-                .lineToLinearHeading(new Pose2d(-35, -36, Math.toRadians(start_to_high_heading)))
+                .lineToLinearHeading(new Pose2d(-35, -37, Math.toRadians(start_to_high_heading)))
                 .build();
 
         strafe_left = drive.trajectoryBuilder(go_back.end())
@@ -68,7 +70,7 @@ public class AutoTest extends AutoOpMode {
 
                 inline(() -> {
                     turret.engageBrake();
-                    turret.goToAngle(-90, 0.75);
+                    turret.goToAngle(90, 0.75);
                 }),
 
                 pause(2000),

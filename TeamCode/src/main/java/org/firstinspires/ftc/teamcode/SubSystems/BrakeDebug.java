@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.ANGLE_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
+@Disabled
 @TeleOp(name = "BrakeDebug")
 public class BrakeDebug extends LinearOpMode {
     @Override

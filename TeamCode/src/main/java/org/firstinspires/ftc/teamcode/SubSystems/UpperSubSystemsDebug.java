@@ -6,12 +6,13 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.SAFETY_THRESHOLD
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.ANGLE_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Common.GamepadEx;
-
+@Disabled
 @TeleOp(name = "UpperSubSystemsDebug")
 public class UpperSubSystemsDebug extends LinearOpMode {
     @Override
