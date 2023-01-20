@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
-@TeleOp(name = "StandardTeleOpIubi")
+@TeleOp(name = "TeleOp Gabi")
 public class  StardardTeleOpIubi extends LinearOpMode {
     public boolean automated = false;
     @Override

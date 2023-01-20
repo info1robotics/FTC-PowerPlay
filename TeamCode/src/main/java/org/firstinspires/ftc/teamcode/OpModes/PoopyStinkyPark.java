@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
-@Autonomous
+@Autonomous(name="Park Only | Both Sides")
 public class PoopyStinkyPark extends LinearOpMode {
     Turret turret;
     AprilTagDetection_41h12 atag;
