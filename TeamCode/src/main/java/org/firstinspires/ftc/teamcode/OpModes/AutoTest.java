@@ -68,7 +68,7 @@ public class AutoTest extends AutoOpMode {
 
                 inline(() -> {
                     turret.engageBrake();
-                    turret.goToAngle(-90, 0.75);
+//                    turret.goToAngle(-75, 0.75);
                 }),
 
                 pause(2000),
@@ -92,7 +92,7 @@ public class AutoTest extends AutoOpMode {
                 pause(2000),
 
                 inline(() -> {
-                    turret.goToAngle(0, 0.75);
+//                    turret.goToAngle(0, 0.75);
                 }),
 
                 pause(1000),

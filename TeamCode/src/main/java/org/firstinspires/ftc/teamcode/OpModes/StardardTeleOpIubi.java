@@ -37,7 +37,7 @@ public class  StardardTeleOpIubi extends LinearOpMode {
         CURRENT_ANGLE = 0;
         // positions: 0 250 350 525
         linkage.goToLevel(CURRENT_LEVEL, 1.0);
-        turret.goToAngle(CURRENT_ANGLE, 1.0);
+//        turret.goToAngle(CURRENT_ANGLE, 1.0);
         boolean STATE_CHANGED = false;
         boolean BRAKE_CHANGED = false;
         turret.disengageBrake();
@@ -97,14 +97,14 @@ public class  StardardTeleOpIubi extends LinearOpMode {
                 automated = true;
             }
 
-            if (automated) {
-                turret.goToAngle(CURRENT_ANGLE, .5);
-            } else {
-                turret.goToAngle(CURRENT_ANGLE, 1.0);
-            }
+//            if (automated) {
+//                turret.goToAngle(CURRENT_ANGLE, .5);
+//            } else {
+//                turret.goToAngle(CURRENT_ANGLE, 1.0);
+//            }
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
 
-            telemetry.addData("ticks",turret.turretMotor.getCurrentPosition());
+//            telemetry.addData("ticks",turret.turretMotor.getCurrentPosition());
             telemetry.update();
         }
     }

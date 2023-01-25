@@ -26,7 +26,7 @@ public class UpperSubSystemsDebug extends LinearOpMode {
         CURRENT_LEVEL = 0;
         CURRENT_ANGLE = 0;
         linkage.goToLevel(CURRENT_LEVEL, 1.0);
-        turret.goToAngle(CURRENT_ANGLE, 1.0);
+//        turret.goToAngle(CURRENT_ANGLE, 1.0);
         boolean BRAKE_CHANGED = false;
 
         turret.disengageBrake();
@@ -42,24 +42,24 @@ public class UpperSubSystemsDebug extends LinearOpMode {
             if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.left_trigger!=0) CURRENT_ANGLE += ANGLE_THRESHOLD;
             if(CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.right_trigger!=0) CURRENT_ANGLE -= ANGLE_THRESHOLD;
 
-            if (gamepadEx.getButtonUp("dpad_up")) {
-                turret.setPower(.5);
-                turret.turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            } else if (gamepadEx.getButtonDown("dpad_up")) {
-                turret.setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-                turret.setTargetPosition(turret.turretMotor.getCurrentPosition());
-            }
-
-            if (gamepadEx.getButtonUp("dpad_down")) {
-                turret.setPower(-.5);
-                turret.turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            } else if (gamepadEx.getButtonDown("dpad_down")) {
-                turret.setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-                turret.setTargetPosition(turret.turretMotor.getCurrentPosition());
-            }
-
-            if(!gamepad2.dpad_up)   linkage.goToLevel(CURRENT_LEVEL, 0.8);
-            turret.goToAngle(CURRENT_ANGLE, 0.8);
+//            if (gamepadEx.getButtonUp("dpad_up")) {
+//                turret.setPower(.5);
+//                turret.turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            } else if (gamepadEx.getButtonDown("dpad_up")) {
+//                turret.setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                turret.setTargetPosition(turret.turretMotor.getCurrentPosition());
+//            }
+//
+//            if (gamepadEx.getButtonUp("dpad_down")) {
+//                turret.setPower(-.5);
+//                turret.turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            } else if (gamepadEx.getButtonDown("dpad_down")) {
+//                turret.setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                turret.setTargetPosition(turret.turretMotor.getCurrentPosition());
+//            }
+//
+//            if(!gamepad2.dpad_up)   linkage.goToLevel(CURRENT_LEVEL, 0.8);
+//            turret.goToAngle(CURRENT_ANGLE, 0.8);
             telemetry.update();
         }
     }

@@ -18,7 +18,7 @@ open class AprilTagDetection_41h12(var opMode: LinearOpMode) {
     public var zone = 0
     private var tagInView = 0
     private var parkZone = ""
-    val camera: OpenCvCamera
+    public val camera: OpenCvCamera
     private val aprilTagDetectionPipeline: AprilTagDetectionPipeline_41h12
 
     init {

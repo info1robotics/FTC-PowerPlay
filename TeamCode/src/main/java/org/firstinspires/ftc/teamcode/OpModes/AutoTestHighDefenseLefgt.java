@@ -10,23 +10,25 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-//@Disabled
-@Autonomous(name = "Preload MID + Park | Right")
+//@Autonomous(name = "KILLBOT LEFT")
+@Autonomous(name = "AUTONOMIE LEGIT LEFT")
 @Config
-public class AutoTestRight extends AutoOpMode {
-    public Trajectory start_to_align_mid, start_to_mid, go_back, strafe_left, strafe_right, left_front, right_front;
-    public static double start_to_mid_x = -37;
-    public static double start_to_mid_y = -23.5; // -1 cand e bateria sub 13.3
+public class AutoTestHighDefenseLefgt extends AutoOpMode {
+    public Trajectory start_to_align_mid, start_to_accidental_high, go_back, strafe_left, strafe_right, left_front, right_front, lil_forward, lil_backward;
+    public static double start_to_mid_x = -35;
+    public static double start_to_mid_y = 7; // -1 cand e bateria sub 13.3
     public static double start_to_high_heading = 90;
 
     @Override
     public void onInit() {
-        start_to_mid = drive.trajectoryBuilder(startPose)
+
+
+        start_to_accidental_high = drive.trajectoryBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(start_to_mid_x, start_to_mid_y, Math.toRadians(start_to_high_heading)))
                 .build();
 
-        go_back = drive.trajectoryBuilder(start_to_mid.end(), true)
-                .lineToLinearHeading(new Pose2d(-33, -37, Math.toRadians(start_to_high_heading)))
+        go_back = drive.trajectoryBuilder(start_to_accidental_high.end(), true)
+                .lineToLinearHeading(new Pose2d(-34, -37, Math.toRadians(start_to_high_heading)))
                 .build();
 
         strafe_left = drive.trajectoryBuilder(go_back.end())
@@ -35,6 +37,10 @@ public class AutoTestRight extends AutoOpMode {
 
         left_front = drive.trajectoryBuilder(strafe_left.end())
                 .forward(5)
+                .build();
+
+        lil_backward = drive.trajectoryBuilder(startPose)
+                .back(5)
                 .build();
 
         strafe_right = drive.trajectoryBuilder(go_back.end())
@@ -60,16 +66,16 @@ public class AutoTestRight extends AutoOpMode {
 
                 pause(1000),
 
-                trajectory(start_to_mid),
+                trajectory(start_to_accidental_high),
 
                 inline(() -> {
-                    linkage.goToLevel(450, 0.27); // + 30 cand sub 13.3
+                    linkage.goToLevel(540, 0.27); // + 30 cand sub 13.3
                 }),
 
                 pause(2000),
 
                 inline(() -> {
-                    drive.turn(Math.toRadians(-120));
+                    drive.turn(Math.toRadians(120));
                 }),
 
                 pause(2000),
@@ -87,13 +93,13 @@ public class AutoTestRight extends AutoOpMode {
                 pause(2000),
 
                 inline(() -> {
-                    linkage.goToLevel(450, 0.27); // + 30 cand sub 13.3
+                    linkage.goToLevel(540, 0.27); // + 30 cand sub 13.3
                 }),
 
                 pause(2000),
 
                 inline(() -> {
-                    drive.turn(Math.toRadians(116));
+                    drive.turn(Math.toRadians(-115));
                 }),
 
                 pause(1000),
@@ -110,7 +116,6 @@ public class AutoTestRight extends AutoOpMode {
                     switch(x){
                     case 1: drive.followTrajectory(strafe_left); drive.followTrajectory(left_front); break;
                     case 3: drive.followTrajectory(strafe_right); drive.followTrajectory(right_front); break;
-                    // 1.8 secunde kill sh
                     }
                 })
                 );

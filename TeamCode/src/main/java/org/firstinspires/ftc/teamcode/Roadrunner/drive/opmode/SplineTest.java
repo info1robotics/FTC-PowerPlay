@@ -21,7 +21,7 @@ public class SplineTest extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Turret turret = new Turret(this);
         turret.engageBrake();
-        turret.goToAngle(0,1.0);
+//        turret.goToAngle(0,1.0);
         waitForStart();
         if (isStopRequested()) return;
 

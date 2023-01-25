@@ -31,7 +31,7 @@ public abstract class AutoOpMode extends LinearOpMode {
         startPose = new Pose2d(-35, -62, Math.toRadians(90));
         drive.setPoseEstimate(startPose);
         turret.engageBrake();
-        turret.goToAngle(0,1.0);
+//        turret.goToAngle(0,1.0);
         linkage.goToLevel(0, 1.0);
         claw.setState(true);
         onInit();

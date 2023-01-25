@@ -48,12 +48,12 @@ public class BackAndForth extends LinearOpMode {
                 .back(DISTANCE)
                 .build();
         turret.engageBrake();
-        turret.goToAngle(0,1.0);
+//        turret.goToAngle(0,1.0);
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
             turret.engageBrake();
-            turret.goToAngle(0,1.0);
+//            turret.goToAngle(0,1.0);
             drive.followTrajectory(trajectoryForward);
             drive.followTrajectory(trajectoryBackward);
         }
