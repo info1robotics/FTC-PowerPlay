@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
-@TeleOp(name = "TeleOp Codrin")
-public class  StardardTeleOp extends LinearOpMode {
+@TeleOp(name = "TeleOp Gabi")
+public class TeleOpDriver2 extends LinearOpMode {
     public boolean automated = false;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -37,7 +37,7 @@ public class  StardardTeleOp extends LinearOpMode {
         CURRENT_ANGLE = 0;
         // positions: 0 250 350 525
         linkage.goToLevel(CURRENT_LEVEL, 1.0);
-//        turret.goToAngle(CURRENT_ANGLE, 1.0);
+        turret.goToAngle(CURRENT_ANGLE, 1.0);
         boolean STATE_CHANGED = false;
         boolean BRAKE_CHANGED = false;
         turret.disengageBrake();
@@ -49,10 +49,11 @@ public class  StardardTeleOp extends LinearOpMode {
             drivetrain.vectorMove(
                     gamepad1.left_stick_x,
                     -gamepad1.left_stick_y,
-//                    gamepad1.left_trigger - gamepad1.right_trigger,
-                    gamepad1.right_stick_x,
-                    gamepad1.right_bumper ? 0.5 : 0.7
+                    gamepad1.left_trigger - gamepad1.right_trigger,
+//                    gamepad1.right_stick_x,
+                    gamepad1.right_bumper ? 0.5 : 0.8
             );
+
             //Toggle claw power when button A (Xbox) / X (PS4) is pressed.
             if(gamepad2.a && !STATE_CHANGED) {claw.toggle(); STATE_CHANGED = true;}
             else if(!gamepad2.a) STATE_CHANGED = false;
@@ -83,9 +84,7 @@ public class  StardardTeleOp extends LinearOpMode {
 
             if(CURRENT_LEVEL > LINKAGE_MAX) CURRENT_LEVEL = LINKAGE_MAX;
             if(CURRENT_LEVEL < LINKAGE_MIN) CURRENT_LEVEL = LINKAGE_MIN;
-
-            // Apply settings to motors.
-
+            
             if(gamepad2.right_trigger >= 0.1 || gamepad2.left_trigger >= 0.1) turret.disengageBrake();
             else turret.engageBrake();
 
@@ -98,17 +97,13 @@ public class  StardardTeleOp extends LinearOpMode {
                 automated = true;
             }
 
-//            if (automated) {
-//                turret.goToAngle(CURRENT_ANGLE, .5);
-//            } else {
-//                turret.goToAngle(CURRENT_ANGLE, 1.0);
-//            }
+            if (automated) {
+                turret.goToAngle(CURRENT_ANGLE, .5);
+            } else {
+                turret.goToAngle(CURRENT_ANGLE, 1.0);
+            }
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
 
-
-            // viteza la chestii automate mai mica la turela si linkegi
-
-//            telemetry.addData("ticks",turret.turretMotor.getCurrentPosition());
             telemetry.update();
         }
     }

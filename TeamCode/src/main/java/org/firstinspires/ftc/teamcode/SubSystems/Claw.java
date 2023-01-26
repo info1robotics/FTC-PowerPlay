@@ -11,13 +11,16 @@ public class Claw {
     public static boolean state;
     public Servo clawRight;
     public Servo clawLeft;
+    public static enum states{
+        OPEN,
+        CLOSED
+    }
 
     // Activate the servo on initialization
     public Claw(LinearOpMode opMode) {
-        state = true;
         clawLeft = opMode.hardwareMap.get(Servo.class, "ClawLeft");
         clawRight = opMode.hardwareMap.get(Servo.class, "ClawRight");
-        setState(state);
+        setState(states.OPEN);
     }
 
     // Simple toggle command for the claw mechanism (might be replaced in the near future)
@@ -33,11 +36,12 @@ public class Claw {
         }
     }
 
-    public void setState(boolean state) {
-        if (state) {
+    public void setState(states state) {
+
+        if (state == states.CLOSED) {
             clawRight.setPosition(0.1);
             clawLeft.setPosition(0.6);
-        } else {
+        } else if (state == states.OPEN){
             clawRight.setPosition(0.45);
             clawLeft.setPosition(0.3);
         }

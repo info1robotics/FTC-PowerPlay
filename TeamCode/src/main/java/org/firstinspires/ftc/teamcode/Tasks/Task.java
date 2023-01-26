@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Tasks;
 
-import org.firstinspires.ftc.teamcode.OpModes.AutoOpMode;
+import org.firstinspires.ftc.teamcode.OpModes.AutoBase;
 
 public abstract class Task {
     public boolean isFinished() {
@@ -18,12 +18,12 @@ public abstract class Task {
     }
 
     public State state = State.DEFAULT;
-    public AutoOpMode context;
+    public AutoBase context;
 
     public void run() {};
     public void tick() {};
 
-    public void start(AutoOpMode context) {
+    public void start(AutoBase context) {
         this.context = context;
         state = State.RUNNING;
         run();

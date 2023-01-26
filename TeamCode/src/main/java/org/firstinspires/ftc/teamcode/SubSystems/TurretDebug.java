@@ -15,6 +15,7 @@ public class TurretDebug extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()){
             // Get feedback from the turret motor's encoder for debugging.
+
             telemetry.update();
         }
     }

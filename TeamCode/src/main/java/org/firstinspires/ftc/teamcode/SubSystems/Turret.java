@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Turret {
-//    public DcMotor turretMotor;
+    public DcMotor turretMotor;
     public Servo brakeServo1, brakeServo2;
     private static final double GEAR_RATIO = 2.0;
     private static final double TICKS_PER_REVOLUTION = 2786.2;
@@ -24,40 +24,40 @@ public class Turret {
     public Turret(LinearOpMode opMode) {
         brakeServo1 = opMode.hardwareMap.get(Servo.class, "BrakeServo1");
         brakeServo2 = opMode.hardwareMap.get(Servo.class, "BrakeServo2");
-//        turretMotor = opMode.hardwareMap.get(DcMotor.class, "Turret");
-//        turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-//        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        turretMotor = opMode.hardwareMap.get(DcMotor.class, "Turret");
+        turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         brakeState = false;
     }
 
-//    public void setMotorsRunMode(DcMotor.RunMode runMode) {
-//        turretMotor.setMode(runMode);
-//    }
-//
-//    public void setTargetPosition(int ANGLE) {
-//        turretMotor.setTargetPosition(ANGLE);
-//    }
-//
-//    public void setPower(double pw) {
-//        turretMotor.setPower(pw);
-//    }
+    public void setMotorsRunMode(DcMotor.RunMode runMode) {
+        turretMotor.setMode(runMode);
+    }
 
-//    public void goToAngle(double ANGLE, double SPEED) {
-//        if (ANGLE > MAX_ANGLE) ANGLE = MAX_ANGLE;
-//        if (ANGLE < MIN_ANGLE) ANGLE = MIN_ANGLE;
-//        setTargetPosition((int) ((TICKS_PER_REVOLUTION * GEAR_RATIO) / (360 / ANGLE) * ERROR));
-//        setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        setPower(SPEED);
-//    }
+    public void setTargetPosition(int tickCount) {
+        turretMotor.setTargetPosition(tickCount);
+    }
 
-    //    public void GO_TO_TICK(int TICK_COUNT, double SPEED){
-//        if(TICK_COUNT > MAX_TICK) TICK_COUNT = MAX_TICK;
-//        if(TICK_COUNT < MIN_TICK) TICK_COUNT = MIN_TICK;
-//        SET_TARGET_POSITION(TICK_COUNT);
-//        SET_MOTORS_RUNMODE();
-//        SET_MOTOR_POWER(SPEED);
-//    }
+    public void setPower(double pw) {
+        turretMotor.setPower(pw);
+    }
+
+    public void goToAngle(double ANGLE, double SPEED) {
+        if (ANGLE > MAX_ANGLE) ANGLE = MAX_ANGLE;
+        if (ANGLE < MIN_ANGLE) ANGLE = MIN_ANGLE;
+        setTargetPosition((int) ((TICKS_PER_REVOLUTION * GEAR_RATIO) / (360 / ANGLE) * ERROR));
+        setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setPower(SPEED);
+    }
+
+        public void goToTick(int TICK_COUNT, double SPEED){
+        if(TICK_COUNT > MAX_TICK) TICK_COUNT = MAX_TICK;
+        if(TICK_COUNT < MIN_TICK) TICK_COUNT = MIN_TICK;
+        setTargetPosition(TICK_COUNT);
+        setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setPower(SPEED);
+    }
     public void toggleBrake() {
         brakeState = !brakeState;
         if (brakeState) {
@@ -68,12 +68,18 @@ public class Turret {
     }
 
     public void engageBrake() {
-        brakeServo1.setPosition(0.05);
         brakeServo2.setPosition(0.25);
     }
 
     public void disengageBrake() {
-        brakeServo1.setPosition(0.35);
         brakeServo2.setPosition(0.6);
+    }
+
+    public void engageSuperBrake(){
+        brakeServo1.setPosition(0.05);
+    }
+
+    public void disengageSuperBrake(){
+        brakeServo1.setPosition(0.35);
     }
 }
