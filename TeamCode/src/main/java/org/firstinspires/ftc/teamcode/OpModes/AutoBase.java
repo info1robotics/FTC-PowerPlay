@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.EOCV.f41h12.AprilTagDetection_41h12;
@@ -32,14 +33,11 @@ public abstract class AutoBase extends LinearOpMode {
         turret.goToAngle(0,1.0);
         linkage.goToLevel(0, 1.0);
         claw.setState(Claw.states.OPEN);
-        onInit();
         while (!isStarted() && !isStopRequested()) {
             atag.detectZone();
             x = atag.getZone();
-            telemetry.addData("x = ", x);
             telemetry.update();
         }
-        waitForStart();
         task.start(this);
         while(opModeIsActive() && task.isRunning()) {
             onLoop();
