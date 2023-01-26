@@ -9,10 +9,10 @@ public class Turret {
     public DcMotor turretMotor;
     public Servo brakeServo1, brakeServo2;
     private static final double GEAR_RATIO = 2.0;
-    private static final double TICKS_PER_REVOLUTION = 2786.2;
+    private static final double TICKS_PER_REVOLUTION = 3895.9;
     private static final double ERROR = 2;
     public static boolean brakeState;
-    public static final double ANGLE_THRESHOLD = 1.0;
+    public static final double ANGLE_THRESHOLD = 0.5;
     public static double CURRENT_ANGLE = 0;
     public static int CURRENT_TICK = 0;
     public static final double MAX_ANGLE = 540;
@@ -28,7 +28,7 @@ public class Turret {
         turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        brakeState = false;
+//        brakeState = false;
     }
 
     public void setMotorsRunMode(DcMotor.RunMode runMode) {

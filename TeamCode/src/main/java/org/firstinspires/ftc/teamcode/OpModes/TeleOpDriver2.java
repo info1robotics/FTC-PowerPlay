@@ -58,8 +58,8 @@ public class TeleOpDriver2 extends LinearOpMode {
             if(gamepad2.a && !STATE_CHANGED) {claw.toggle(); STATE_CHANGED = true;}
             else if(!gamepad2.a) STATE_CHANGED = false;
 
-            if(gamepad2.square && !BRAKE_CHANGED) {turret.toggleBrake(); BRAKE_CHANGED = true;}
-            else if(!gamepad2.square) BRAKE_CHANGED = false;
+//            if(gamepad2.square && !BRAKE_CHANGED) {turret.toggleBrake(); BRAKE_CHANGED = true;}
+//            else if(!gamepad2.square) BRAKE_CHANGED = false;
 
             // Set desired linkage height using fixed counts on the left d-pad.
             if(gamepad2.dpad_up) CURRENT_LEVEL = HIGH_LEVEL;
@@ -85,8 +85,11 @@ public class TeleOpDriver2 extends LinearOpMode {
             if(CURRENT_LEVEL > LINKAGE_MAX) CURRENT_LEVEL = LINKAGE_MAX;
             if(CURRENT_LEVEL < LINKAGE_MIN) CURRENT_LEVEL = LINKAGE_MIN;
             
-            if(gamepad2.right_trigger >= 0.1 || gamepad2.left_trigger >= 0.1) turret.disengageBrake();
-            else turret.engageBrake();
+//            if(gamepad2.right_trigger >= 0.1 || gamepad2.left_trigger >= 0.1) turret.disengageBrake();
+//            else turret.engageBrake();
+
+            if(gamepad2.x){turret.engageBrake(); turret.engageSuperBrake();}
+            else {turret.disengageSuperBrake(); turret.disengageBrake();}
 
             if(gamepad2.right_stick_button) {
                 CURRENT_ANGLE = 90;
@@ -100,7 +103,7 @@ public class TeleOpDriver2 extends LinearOpMode {
             if (automated) {
                 turret.goToAngle(CURRENT_ANGLE, .5);
             } else {
-                turret.goToAngle(CURRENT_ANGLE, 1.0);
+                turret.goToAngle(CURRENT_ANGLE, 0.8);
             }
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
 
