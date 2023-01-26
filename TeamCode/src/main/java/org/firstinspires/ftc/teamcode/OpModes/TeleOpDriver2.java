@@ -103,7 +103,7 @@ public class TeleOpDriver2 extends LinearOpMode {
             if (automated) {
                 turret.goToAngle(CURRENT_ANGLE, .5);
             } else {
-                turret.goToAngle(CURRENT_ANGLE, 0.8);
+                turret.goToAngle(CURRENT_ANGLE, 1.0);
             }
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
 

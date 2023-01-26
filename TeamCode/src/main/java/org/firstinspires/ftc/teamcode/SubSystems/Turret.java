@@ -10,9 +10,9 @@ public class Turret {
     public Servo brakeServo1, brakeServo2;
     private static final double GEAR_RATIO = 2.0;
     private static final double TICKS_PER_REVOLUTION = 3895.9;
-    private static final double ERROR = 2;
+    private static final double ERROR = 1;
     public static boolean brakeState;
-    public static final double ANGLE_THRESHOLD = 0.5;
+    public static final double ANGLE_THRESHOLD = 1f;
     public static double CURRENT_ANGLE = 0;
     public static int CURRENT_TICK = 0;
     public static final double MAX_ANGLE = 540;
@@ -46,7 +46,7 @@ public class Turret {
     public void goToAngle(double ANGLE, double SPEED) {
         if (ANGLE > MAX_ANGLE) ANGLE = MAX_ANGLE;
         if (ANGLE < MIN_ANGLE) ANGLE = MIN_ANGLE;
-        setTargetPosition((int) ((TICKS_PER_REVOLUTION * GEAR_RATIO) / (360 / ANGLE) * ERROR));
+        setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / ANGLE) * ERROR));
         setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         setPower(SPEED);
     }
