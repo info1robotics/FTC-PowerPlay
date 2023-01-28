@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 /*
  * This is an example of a more complex path to really test the tuning.
  */
-@Disabled
+//@Disabled
 @Autonomous(group = "drive")
 public class SplineTest extends LinearOpMode {
     @Override
@@ -21,6 +21,7 @@ public class SplineTest extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Turret turret = new Turret(this);
         turret.engageBrake();
+        turret.engageSuperBrake();
 //        turret.goToAngle(0,1.0);
         waitForStart();
         if (isStopRequested()) return;

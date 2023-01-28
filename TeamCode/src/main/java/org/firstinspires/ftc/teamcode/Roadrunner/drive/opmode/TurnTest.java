@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 /*
  * This is a simple routine to test turning capabilities.
  */
-@Disabled
+//@Disabled
 @Config
 @Autonomous(group = "drive")
 public class TurnTest extends LinearOpMode {
@@ -21,8 +21,8 @@ public class TurnTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Turret turret = new Turret(this);
+        turret.engageSuperBrake();
         turret.engageBrake();
-//        turret.goToAngle(0, 1.0);
         waitForStart();
 
         if (isStopRequested()) return;
