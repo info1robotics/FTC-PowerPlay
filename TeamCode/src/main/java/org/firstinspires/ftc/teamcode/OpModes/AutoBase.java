@@ -18,25 +18,26 @@ public abstract class AutoBase extends LinearOpMode {
     public Pose2d startPose;
     public Linkage linkage;
     public Claw claw;
-    public AprilTagDetection_41h12 atag;
+//    public AprilTagDetection_41h12 atag;
     public int x = 0;
     @Override
     public final void runOpMode() throws InterruptedException {
         claw = new Claw(this);
         turret = new Turret(this);
         linkage = new Linkage(this);
-        atag = new AprilTagDetection_41h12(this);
+//        atag = new AprilTagDetection_41h12(this);
         drive = new SampleMecanumDrive(hardwareMap);
         startPose = new Pose2d(-35, -62, Math.toRadians(90));
         drive.setPoseEstimate(startPose);
         turret.engageBrake();
+        turret.engageSuperBrake();
         turret.goToAngle(0,1.0);
         linkage.goToLevel(0, 1.0);
-        claw.setState(Claw.states.OPEN);
+        onInit();
         while (!isStarted() && !isStopRequested()) {
-            atag.detectZone();
-            x = atag.getZone();
-            telemetry.update();
+//            atag.detectZone();
+//            x = atag.getZone();
+//            telemetry.update();
         }
         task.start(this);
         while(opModeIsActive() && task.isRunning()) {
