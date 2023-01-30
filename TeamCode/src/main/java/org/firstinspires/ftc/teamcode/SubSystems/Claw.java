@@ -38,10 +38,10 @@ public class Claw {
 
     public void setState(states state) {
 
-        if (state == states.CLOSED) {
+        if (state == states.OPEN) {
             clawRight.setPosition(0.1);
             clawLeft.setPosition(0.6);
-        } else if (state == states.OPEN){
+        } else if (state == states.CLOSED){
             clawRight.setPosition(0.45);
             clawLeft.setPosition(0.3);
         }

@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
+
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.async;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.inline;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.pause;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.sync;
@@ -10,10 +12,19 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.SubSystems.Claw;
+
 @Autonomous(name = "Auto Left")
 @Config
 public class AutoLeft extends AutoBase {
-    public Trajectory start_to_align, spline_to_high;
+    public Trajectory start_to_align, spline_to_high, high_to_stack, stack_to_high;
+    public static double SPLINE_TO_HIGH_X = -22.0;
+    public static double SPLINE_TO_HIGH_Y = -15.0;
+    public static int SPLINE_ANGLE = 94;
+
+    public static double HIGH_TO_STACK_X = -51.7;
+    public static double HIGH_TO_STACK_Y = -8.0;
+    public static double STACK_ANGLE = 160;
 
     @Override
     public void onInit() {
@@ -22,12 +33,60 @@ public class AutoLeft extends AutoBase {
                 .build();
 
         spline_to_high = drive.trajectoryBuilder(start_to_align.end())
-                .splineTo(new Vector2d(-22, -12), Math.toRadians(0))
+                .splineTo(new Vector2d(SPLINE_TO_HIGH_X, SPLINE_TO_HIGH_Y), Math.toRadians(0))
+                .build();
+
+        high_to_stack = drive.trajectoryBuilder(spline_to_high.end())
+                .lineTo(new Vector2d(HIGH_TO_STACK_X, HIGH_TO_STACK_Y))
+                .build();
+
+        stack_to_high = drive.trajectoryBuilder(high_to_stack.end())
+                .lineToLinearHeading(new Pose2d(-20.6, -14.0, Math.toRadians(0)))
                 .build();
 
         task = sync(
+                inline(() -> claw.setState(Claw.states.CLOSED)),
+                pause(150),
+                inline(() -> {
+                    linkage.goToLevel(100, 0.3);
+                }),
                 trajectory(start_to_align),
-                trajectory(spline_to_high)
+                async(
+                        inline(() -> {
+                            linkage.goToLevel(560, 0.35);
+                            turret.goToAngle(SPLINE_ANGLE, 0.5);
+                        }),
+                        trajectory(spline_to_high)
+                ),
+                pause(250),
+                async(
+                        inline(() -> linkage.goToLevel(500, 0.3)),
+                        sync(
+                                pause(400),
+                                inline(() -> claw.setState(Claw.states.OPEN))
+                        )
+                ),
+                pause(300),
+                async(
+                        inline(() -> {
+                            linkage.goToLevel(55, 0.3);
+                            turret.goToAngle(STACK_ANGLE, 0.5);
+                        }),
+                        trajectory(high_to_stack)
+                )
+//                pause(300),
+//                inline(() -> claw.setState(Claw.states.CLOSED)),
+//                pause(300),
+//                async(
+//                        inline(() -> {
+//                            linkage.goToLevel(550, 0.3);
+//                            turret.goToAngle(30, 0.5);
+//                        }),
+//                        trajectory(stack_to_high)
+//                ),
+//                pause(1000),
+//                inline(() -> claw.setState(Claw.states.OPEN)),
+//                pause(3000)
         );
     }
 }
