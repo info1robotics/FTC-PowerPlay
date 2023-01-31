@@ -84,12 +84,12 @@ public class TeleOpDriver2 extends LinearOpMode {
 
             if(CURRENT_LEVEL > LINKAGE_MAX) CURRENT_LEVEL = LINKAGE_MAX;
             if(CURRENT_LEVEL < LINKAGE_MIN) CURRENT_LEVEL = LINKAGE_MIN;
-            
-//            if(gamepad2.right_trigger >= 0.1 || gamepad2.left_trigger >= 0.1) turret.disengageBrake();
-//            else turret.engageBrake();
 
-            if(gamepad2.x){turret.engageBrake(); turret.engageSuperBrake();}
-            else {turret.disengageSuperBrake(); turret.disengageBrake();}
+            if(gamepad2.right_trigger >= 0.1 || gamepad2.left_trigger >= 0.1) {turret.disengageBrake(); turret.disengageSuperBrake();}
+            else {turret.engageBrake(); turret.engageSuperBrake();}
+            
+//            if(gamepad2.x){turret.engageBrake(); turret.engageSuperBrake();}
+//            else {turret.disengageSuperBrake(); turret.disengageBrake();}
 
             if(gamepad2.right_stick_button) {
                 CURRENT_ANGLE = 90;

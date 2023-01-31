@@ -87,11 +87,11 @@ public class TeleOpDriver1 extends LinearOpMode {
 
             // Apply settings to motors.
 
-//            if(gamepad2.right_trigger >= 0.1 || gamepad2.left_trigger >= 0.1) {turret.disengageBrake(); turret.disengageSuperBrake();}
-//            else {turret.engageBrake(); turret.engageSuperBrake();}
+            if(gamepad2.right_trigger >= 0.1 || gamepad2.left_trigger >= 0.1) {turret.disengageBrake(); turret.disengageSuperBrake();}
+            else {turret.engageBrake(); turret.engageSuperBrake();}
 
-            if(gamepad2.x){turret.engageBrake(); turret.engageSuperBrake();}
-            else {turret.disengageSuperBrake(); turret.disengageBrake();}
+//            if(gamepad2.x){turret.engageBrake(); turret.engageSuperBrake();}
+//            else {turret.disengageSuperBrake(); turret.disengageBrake();}
 
             if(gamepad2.right_stick_button) {
                 CURRENT_ANGLE = 90;

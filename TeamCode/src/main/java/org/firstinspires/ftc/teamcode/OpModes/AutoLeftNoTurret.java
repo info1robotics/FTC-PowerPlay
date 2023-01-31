@@ -10,14 +10,18 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 
-@Autonomous(name = "Auto Left")
+@Autonomous(name = "Auto Left No Turret")
 @Config
-public class AutoLeft extends AutoBase {
-    public Trajectory start_to_align, spline_to_high, high_to_stack, stack_to_high;
+public class AutoLeftNoTurret extends AutoBase {
+    public Trajectory spline_to_high, start_to_align, high_to_stack, stack_to_high;
+//    public TrajectorySequence spline_to_high;
+//    public TrajectoryVelocityConstraint = 30;
     public static double SPLINE_TO_HIGH_X = -21.0;
     public static double SPLINE_TO_HIGH_Y = -15.0;
     public static int SPLINE_ANGLE = 90;
@@ -33,7 +37,8 @@ public class AutoLeft extends AutoBase {
                 .build();
 
         spline_to_high = drive.trajectoryBuilder(start_to_align.end())
-                .splineTo(new Vector2d(SPLINE_TO_HIGH_X, SPLINE_TO_HIGH_Y), Math.toRadians(0))
+//                .setVelConstraint(30)
+                .splineTo(new Vector2d(-26.25, -8.75), Math.toRadians(45))
                 .build();
 
         high_to_stack = drive.trajectoryBuilder(spline_to_high.end())
@@ -51,42 +56,50 @@ public class AutoLeft extends AutoBase {
                     linkage.goToLevel(100, 0.3);
                 }),
                 trajectory(start_to_align),
+                inline(() -> {
+                    linkage.goToLevel(350, 0.3);
+                }),
+                pause(500),
+                trajectory(spline_to_high),
+                inline(() -> {
+                    turret.goToAngle(0, 1.0);
+                    linkage.goToLevel(600, 0.35);
+                }),
+//                async(
+//                        inline(() -> {
+//                            linkage.goToLevel(550, 0.35);
+//                        }),
+//                        trajectory(spline_to_high)
+//                ),
+                pause(1000),
                 async(
-                        inline(() -> {
-                            linkage.goToLevel(550, 0.35);
-                            turret.goToAngle(SPLINE_ANGLE, 1.0);
-                        }),
-                        trajectory(spline_to_high)
-                ),
-                pause(250),
-                async(
-                        inline(() -> linkage.goToLevel(500, 0.3)),
+                        inline(() -> linkage.goToLevel(450, 0.3)),
                         sync(
                                 pause(1000),
                                 inline(() -> claw.setState(Claw.states.OPEN))
                         )
                 ),
-                pause(300),
-                async(
-                        inline(() -> {
-                            turret.goToAngle(STACK_ANGLE, 1.0);
-                            linkage.goToLevel(110, 0.3);
-                        }),
-                        trajectory(high_to_stack)
-                ),
-                pause(300),
-                inline(() -> claw.setState(Claw.states.CLOSED)),
-                pause(300),
-                async(
-                        inline(() -> {
-                            linkage.goToLevel(550, 0.3);
-                            turret.goToAngle(45, 1.0);
-                        }),
-                        trajectory(stack_to_high)
-                ),
-                pause(1000),
-                inline(() -> claw.setState(Claw.states.OPEN)),
-                pause(3000)
+                pause(300)
+//                async(
+//                        inline(() -> {
+//                            turret.goToAngle(STACK_ANGLE, 1.0);
+//                            linkage.goToLevel(110, 0.3);
+//                        }),
+//                        trajectory(high_to_stack)
+//                ),
+//                pause(300),
+//                inline(() -> claw.setState(Claw.states.CLOSED)),
+//                pause(300),
+//                async(
+//                        inline(() -> {
+//                            linkage.goToLevel(550, 0.3);
+//                            turret.goToAngle(45, 1.0);
+//                        }),
+//                        trajectory(stack_to_high)
+//                ),
+//                pause(1000),
+//                inline(() -> claw.setState(Claw.states.OPEN)),
+//                pause(3000)
         );
     }
 }

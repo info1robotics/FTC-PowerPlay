@@ -4,12 +4,12 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 
 import org.firstinspires.ftc.teamcode.Roadrunner.trajectorysequence.TrajectorySequence;
 
-public class TrajectoryTask extends Task {
-    Trajectory trajectory;
+public class TrajectorySequenceTask extends Task {
+
     TrajectorySequence trajectorySequence;
 
-    public TrajectoryTask(Trajectory trajectory) {
-        this.trajectory = trajectory;
+    public TrajectorySequenceTask(TrajectorySequence trajectory) {
+        this.trajectorySequence = trajectory;
     }
 
 
@@ -22,7 +22,7 @@ public class TrajectoryTask extends Task {
 
     @Override
     public void run() {
-        context.drive.followTrajectoryAsync(trajectory);
+        context.drive.followTrajectorySequenceAsync(trajectorySequence);
     }
 }
 
