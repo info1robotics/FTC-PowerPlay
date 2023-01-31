@@ -20,15 +20,14 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 @Config
 public class AutoLeftNoTurret extends AutoBase {
     public Trajectory spline_to_high, start_to_align, high_to_stack, stack_to_high;
-//    public TrajectorySequence spline_to_high;
-//    public TrajectoryVelocityConstraint = 30;
-    public static double SPLINE_TO_HIGH_X = -21.0;
-    public static double SPLINE_TO_HIGH_Y = -15.0;
+    public static double SPLINE_TO_HIGH_X = -29.4;
+    public static double SPLINE_TO_HIGH_Y = -8.65;
     public static int SPLINE_ANGLE = 90;
 
-    public static double HIGH_TO_STACK_X = -51.7;
-    public static double HIGH_TO_STACK_Y = -8.0;
+    public static double HIGH_TO_STACK_X = -40.7;
+    public static double HIGH_TO_STACK_Y = -10.0;
     public static double STACK_ANGLE = 180;
+    public static double STACK_TURRET_SPEED = 0.3;
 
     @Override
     public void onInit() {
@@ -38,11 +37,11 @@ public class AutoLeftNoTurret extends AutoBase {
 
         spline_to_high = drive.trajectoryBuilder(start_to_align.end())
 //                .setVelConstraint(30)
-                .splineTo(new Vector2d(-26.25, -8.75), Math.toRadians(45))
+                .splineTo(new Vector2d(SPLINE_TO_HIGH_X, SPLINE_TO_HIGH_Y), Math.toRadians(45))
                 .build();
 
         high_to_stack = drive.trajectoryBuilder(spline_to_high.end())
-                .lineTo(new Vector2d(HIGH_TO_STACK_X, HIGH_TO_STACK_Y))
+                .lineToConstantHeading(new Vector2d(HIGH_TO_STACK_X, HIGH_TO_STACK_Y))
                 .build();
 
         stack_to_high = drive.trajectoryBuilder(high_to_stack.end())
@@ -56,37 +55,36 @@ public class AutoLeftNoTurret extends AutoBase {
                     linkage.goToLevel(100, 0.3);
                 }),
                 trajectory(start_to_align),
-                inline(() -> {
-                    linkage.goToLevel(350, 0.3);
-                }),
                 pause(500),
-                trajectory(spline_to_high),
-                inline(() -> {
-                    turret.goToAngle(0, 1.0);
-                    linkage.goToLevel(600, 0.35);
-                }),
-//                async(
-//                        inline(() -> {
-//                            linkage.goToLevel(550, 0.35);
-//                        }),
-//                        trajectory(spline_to_high)
-//                ),
+                async (
+                        trajectory(spline_to_high),
+                        sync(
+                                pause(200),
+                                inline(() -> {
+                                    turret.goToAngle(0, 1.0);
+                                    linkage.goToLevel(600, 0.35);
+                                })
+                        )
+                ),
                 pause(1000),
                 async(
-                        inline(() -> linkage.goToLevel(450, 0.3)),
+                        inline(() -> linkage.goToLevel(450, 0.45)),
                         sync(
-                                pause(1000),
+                                pause(300),
                                 inline(() -> claw.setState(Claw.states.OPEN))
                         )
                 ),
-                pause(300)
-//                async(
-//                        inline(() -> {
-//                            turret.goToAngle(STACK_ANGLE, 1.0);
-//                            linkage.goToLevel(110, 0.3);
-//                        }),
-//                        trajectory(high_to_stack)
-//                ),
+                pause(900),
+                async(
+                        sync(
+                                pause(300),
+                                inline(() -> {
+//                                    turret.goToAngle(STACK_ANGLE, STACK_TURRET_SPEED);
+                                    linkage.goToLevel(110, 0.3);
+                                })
+                        ),
+                        trajectory(high_to_stack)
+                )
 //                pause(300),
 //                inline(() -> claw.setState(Claw.states.CLOSED)),
 //                pause(300),
