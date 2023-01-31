@@ -6,19 +6,19 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Turret {
-    public DcMotor turretMotor;
-    public Servo brakeServo1, brakeServo2;
-    private static final double GEAR_RATIO = 2.0;
-    private static final double TICKS_PER_REVOLUTION = 3895.9;
-    private static final double ERROR = 1;
-    public static boolean brakeState;
     public static final double ANGLE_THRESHOLD = 1f;
-    public static double CURRENT_ANGLE = 0;
-    public static int CURRENT_TICK = 0;
     public static final double MAX_ANGLE = 540;
     public static final int MAX_TICK = 500;
     public static final int MIN_TICK = -500;
     public static final double MIN_ANGLE = -540;
+    private static final double GEAR_RATIO = 2.0;
+    private static final double TICKS_PER_REVOLUTION = 3895.9;
+    private static final double ERROR = 1;
+    public static boolean brakeState;
+    public static double CURRENT_ANGLE = 0;
+    public static int CURRENT_TICK = 0;
+    public DcMotor turretMotor;
+    public Servo brakeServo1, brakeServo2;
 
 
     public Turret(LinearOpMode opMode) {
@@ -48,16 +48,26 @@ public class Turret {
         if (ANGLE < MIN_ANGLE) ANGLE = MIN_ANGLE;
         setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / ANGLE) * ERROR));
         setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(SPEED);
+
+        if (Math.abs(turretMotor.getCurrentPosition() - turretMotor.getTargetPosition()) < 15) {
+            setPower(0);
+            engageBrake();
+            engageSuperBrake();
+        } else {
+            setPower(SPEED);
+            disengageBrake();
+            disengageSuperBrake();
+        }
     }
 
-        public void goToTick(int TICK_COUNT, double SPEED){
-        if(TICK_COUNT > MAX_TICK) TICK_COUNT = MAX_TICK;
-        if(TICK_COUNT < MIN_TICK) TICK_COUNT = MIN_TICK;
+    public void goToTick(int TICK_COUNT, double SPEED) {
+        if (TICK_COUNT > MAX_TICK) TICK_COUNT = MAX_TICK;
+        if (TICK_COUNT < MIN_TICK) TICK_COUNT = MIN_TICK;
         setTargetPosition(TICK_COUNT);
         setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         setPower(SPEED);
     }
+
     public void toggleBrake() {
         brakeState = !brakeState;
         if (brakeState) {
@@ -75,11 +85,12 @@ public class Turret {
         brakeServo2.setPosition(0.6);
     }
 
-    public void engageSuperBrake(){
+    public void engageSuperBrake() {
         brakeServo1.setPosition(0.05);
     }
 
-    public void disengageSuperBrake(){
+    public void disengageSuperBrake() {
         brakeServo1.setPosition(0.35);
     }
+
 }
