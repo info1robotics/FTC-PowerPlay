@@ -40,7 +40,7 @@ public class AutoLeftNoTurretCycles extends AutoBase {
                 .build();
 
         high_to_stack = drive.trajectoryBuilder(spline_to_high.end(), true)
-                .splineTo(new Vector2d(-60,-12), Math.toRadians(180))
+                .splineTo(new Vector2d(-55,-10), Math.toRadians(180))
                 .build();
 
         stack_to_high = drive.trajectoryBuilder(high_to_stack.end())
@@ -61,7 +61,7 @@ public class AutoLeftNoTurretCycles extends AutoBase {
                 trajectory(spline_to_high),
                 inline(() -> {
                     turret.goToAngle(0, 1.0);
-                    linkage.goToLevel(600, 0.35);
+                    linkage.goToLevel(630, 0.35);
                 }),
 //                async(
 //                        inline(() -> {
@@ -71,7 +71,7 @@ public class AutoLeftNoTurretCycles extends AutoBase {
 //                ),
                 pause(1000),
                 async(
-                        inline(() -> linkage.goToLevel(450, 0.3)),
+                        inline(() -> linkage.goToLevel(500, 0.3)),
                         sync(
                                 pause(1000),
                                 inline(() -> claw.setState(Claw.states.OPEN))

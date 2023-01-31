@@ -43,6 +43,11 @@ public class Turret {
         turretMotor.setPower(pw);
     }
 
+    public double getCurrentAngle(){
+//        (int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / ANGLE))
+        return (turretMotor.getCurrentPosition() * 360 * GEAR_RATIO) / TICKS_PER_REVOLUTION;
+    }
+
     public void goToAngle(double ANGLE, double SPEED) {
         if (ANGLE > MAX_ANGLE) ANGLE = MAX_ANGLE;
         if (ANGLE < MIN_ANGLE) ANGLE = MIN_ANGLE;

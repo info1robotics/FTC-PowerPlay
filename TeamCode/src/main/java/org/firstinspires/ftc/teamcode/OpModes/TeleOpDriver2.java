@@ -23,7 +23,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 @TeleOp(name = "TeleOp Gabi")
 public class TeleOpDriver2 extends LinearOpMode {
     public boolean automated = false;
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -36,16 +35,14 @@ public class TeleOpDriver2 extends LinearOpMode {
         // Fire up the motors.
         CURRENT_LEVEL = 0;
         CURRENT_ANGLE = 0;
-        // positions: 0 250 350 525
         linkage.goToLevel(CURRENT_LEVEL, 1.0);
         turret.goToAngle(CURRENT_ANGLE, 1.0);
         boolean STATE_CHANGED = false;
         boolean BRAKE_CHANGED = false;
         turret.disengageBrake();
-
+        turret.disengageSuperBrake();
         waitForStart();
         while (opModeIsActive()) {
-            automated = false;
             // Omnidirectional drivetrain control.
             drivetrain.vectorMove(
                 gamepad1.left_stick_x,
@@ -75,20 +72,17 @@ public class TeleOpDriver2 extends LinearOpMode {
             if (gamepad2.right_bumper) CURRENT_LEVEL += LINKAGE_THRESHOLD;
 
             // Reset turret angle to 0 when the X (Xbox) / Square (PS4) button is pressed for safe linkage operation.
-            if (CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.circle) {
-                CURRENT_ANGLE = 0;
-                automated = true;
-            }
+
 
             // Manually tune the turret angle. The turret will not spin if it is currently at risk of damaging the linkage.
             if (CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.left_trigger != 0)
-                CURRENT_ANGLE += (ANGLE_THRESHOLD * gamepad2.left_trigger);
+            {CURRENT_ANGLE += (ANGLE_THRESHOLD * gamepad2.left_trigger); automated = false;}
             if (CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.right_trigger != 0)
-                CURRENT_ANGLE -= (ANGLE_THRESHOLD * gamepad2.right_trigger);
+            {CURRENT_ANGLE -= (ANGLE_THRESHOLD * gamepad2.right_trigger); automated = false;}
             if (CURRENT_LEVEL <= SAFETY_THRESHOLD && gamepad2.left_trigger != 0)
-                CURRENT_ANGLE += (ANGLE_THRESHOLD * gamepad2.left_trigger) / 2.5;
+            {CURRENT_ANGLE += (ANGLE_THRESHOLD * gamepad2.left_trigger) / 2.5; automated = false;}
             if (CURRENT_LEVEL <= SAFETY_THRESHOLD && gamepad2.right_trigger != 0)
-                CURRENT_ANGLE -= (ANGLE_THRESHOLD * gamepad2.right_trigger) / 2.5;
+            {CURRENT_ANGLE -= (ANGLE_THRESHOLD * gamepad2.right_trigger) / 2.5; automated = false;}
 
             telemetry.addData("Linkage: ", linkage.linkageLeft.getCurrentPosition());
 
@@ -106,6 +100,11 @@ public class TeleOpDriver2 extends LinearOpMode {
 //            if(gamepad2.x){turret.engageBrake(); turret.engageSuperBrake();}
 //            else {turret.disengageSuperBrake(); turret.disengageBrake();}
 
+            if (CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.circle) {
+                CURRENT_ANGLE = 0;
+                automated = true;
+            }
+
             if (gamepad2.right_stick_button) {
                 CURRENT_ANGLE = 90;
                 automated = true;
@@ -118,10 +117,9 @@ public class TeleOpDriver2 extends LinearOpMode {
             if (automated) {
                 turret.goToAngle(CURRENT_ANGLE, .2);
             } else {
-                turret.goToAngle(CURRENT_ANGLE, 1.0);
+                turret.goToAngle(CURRENT_ANGLE, 0.5);
             }
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
-
             telemetry.update();
         }
     }
