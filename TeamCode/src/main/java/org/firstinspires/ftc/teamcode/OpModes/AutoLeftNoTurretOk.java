@@ -19,9 +19,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 public class AutoLeftNoTurretOk extends AutoBase {
     public Trajectory spline_to_high, start_to_align, high_to_stack, stack_to_high;
 
-    public static double HIGH_TO_STACK_X = -51.7;
-    public static double HIGH_TO_STACK_Y = -8.0;
-
     @Override
     public void onInit() {
         start_to_align = drive.trajectoryBuilder(startPose)
@@ -29,15 +26,15 @@ public class AutoLeftNoTurretOk extends AutoBase {
                 .build();
 
         spline_to_high = drive.trajectoryBuilder(start_to_align.end())
-                .splineTo(new Vector2d(-29.5, -8.25), Math.toRadians(45))
+                .splineTo(new Vector2d(-29.5, -8), Math.toRadians(45))
                 .build();
 
         high_to_stack = drive.trajectoryBuilder(spline_to_high.end(), true)
-                .splineTo(new Vector2d(-53.75,-9), Math.toRadians(180))
+                .splineTo(new Vector2d(-55,-8), Math.toRadians(180))
                 .build();
 
         stack_to_high = drive.trajectoryBuilder(high_to_stack.end())
-                .splineTo(new Vector2d(-29.5, -8.25), Math.toRadians(45))
+                .splineTo(new Vector2d(-32, -8.25), Math.toRadians(45))
                 .build();
 
         task = sync(
@@ -72,38 +69,55 @@ public class AutoLeftNoTurretOk extends AutoBase {
                 ),
                 pause(300),
                 async(
-                        trajectory(high_to_stack),
+                        sync(
+                                pause(1000),
+                                trajectory(high_to_stack)
+                        ),
                         sync(
                                 pause(300),
-                                inline(() -> linkage.goToLevel(130,0.3))
+                                // positia de high X, inaltimea linkage
+                                inline(() -> linkage.goToLevel(125,0.2)) //115
                         ),
                         sync(
                                 inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
-                                pause(100),
-                                inline(() -> turret.goToAngleAuto(215, 0.75)),
-                                pause(800),
+                                pause(300),
+                                inline(() -> turret.goToAngleAuto(170, 1.0)), //165 215
+                                pause(1000),
                                 inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
                         )
                 ),
                 pause(500),
                 inline(() -> claw.setState(Claw.states.CLOSED)),
                 pause(500),
-                inline(() -> linkage.setTargetPosition(350)),
+                async(
+                        inline(() -> linkage.setTargetPosition(350))
+//                        sync(
+//                                inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
+//                                pause(100),
+//                                inline(() -> turret.goToAngleAuto(90, 0.2)),
+//                                pause(500),
+//                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
+//                                )
+                        ),
                 pause(1000),
                 async(
                         trajectory(stack_to_high),
                         sync(
+                                inline(() -> linkage.setTargetPosition(500)),
                                 inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
                                 pause(100),
-                                inline(() -> turret.goToAngleAuto(20, 0.3)),
-                                pause(800),
+                                inline(() -> turret.goToAngleAuto(-5, 0.2)), //10
+                                pause(1000),
                                 inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
                         ),
                         sync(
-                                pause(800),
-                                inline(() -> linkage.goToLevel(630, 0.3))
+                                pause(500),
+                                inline(() -> linkage.goToLevel(630, 0.2))
                         )
                 ),
+                pause(1000),
+                inline(() -> linkage.goToLevel(500, 0.3)),
+                pause(400),
                 inline(() -> claw.setState(Claw.states.OPEN)),
                 pause(1000)
         );
