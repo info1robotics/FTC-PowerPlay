@@ -11,9 +11,11 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 
+@Disabled
 @Autonomous(name = "Auto Left No Turret & Cicles")
 @Config
 public class AutoLeftNoTurretCycles extends AutoBase {
@@ -80,8 +82,9 @@ public class AutoLeftNoTurretCycles extends AutoBase {
                 pause(300),
                 async(
                         trajectory(high_to_stack),
-                        inline(() -> turret.goToAngle(180, 1.0))
-                )
+                        inline(() -> turret.goToAngle(90, 1.0))
+                ),
+pause(3000)
 
 //                async(
 //                        inline(() -> {
