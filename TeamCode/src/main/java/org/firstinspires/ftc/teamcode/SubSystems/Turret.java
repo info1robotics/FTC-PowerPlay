@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Turret {
     public static final double ANGLE_THRESHOLD = 1f;
     public static final double MAX_ANGLE = 540;
-    public static final int MAX_TICK = 500;
-    public static final int MIN_TICK = -500;
+    public static final int MAX_TICK = 5000;
+    public static final int MIN_TICK = -5000;
     public static final double MIN_ANGLE = -540;
     private static final double GEAR_RATIO = 2.0;
     private static final double TICKS_PER_REVOLUTION = 3895.9;
@@ -63,6 +63,14 @@ public class Turret {
             disengageBrake();
             disengageSuperBrake();
         }
+    }
+
+    public void goToAngleAuto(double ANGLE, double SPEED) {
+        if (ANGLE > MAX_ANGLE) ANGLE = MAX_ANGLE;
+        if (ANGLE < MIN_ANGLE) ANGLE = MIN_ANGLE;
+        setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / ANGLE) * ERROR));
+        setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setPower(SPEED);
     }
 
     public void goToTick(int TICK_COUNT, double SPEED) {
