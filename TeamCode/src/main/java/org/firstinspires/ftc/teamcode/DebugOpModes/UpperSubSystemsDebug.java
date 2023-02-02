@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.SubSystems;
+package org.firstinspires.ftc.teamcode.DebugOpModes;
 
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.CURRENT_LEVEL;
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.LINKAGE_THRESHOLD;
@@ -9,9 +9,11 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Common.GamepadEx;
+import org.firstinspires.ftc.teamcode.CommonPackage.GamepadEx;
+import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
+import org.firstinspires.ftc.teamcode.SubSystems.Turret;
+
 @Disabled
 @TeleOp(name = "UpperSubSystemsDebug")
 public class UpperSubSystemsDebug extends LinearOpMode {

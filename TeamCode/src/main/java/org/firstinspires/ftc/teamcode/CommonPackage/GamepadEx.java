@@ -1,9 +1,7 @@
-package org.firstinspires.ftc.teamcode.Common;
+package org.firstinspires.ftc.teamcode.CommonPackage;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GamepadEx {

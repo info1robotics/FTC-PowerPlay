@@ -1,15 +1,10 @@
-package org.firstinspires.ftc.teamcode.Kinematics;
+package org.firstinspires.ftc.teamcode.SubSystems;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Common.GamepadEx;
-import org.firstinspires.ftc.teamcode.Common.Mecanum;
-
-public class OdometrySystem {
+public class Odometry {
 
     DcMotor odoLeft, odoRight, odoCenter;
     private static final double WHEEL_DIAMETER = 2;
@@ -27,7 +22,7 @@ public class OdometrySystem {
     static final double LATERAL_ANGULAR_OFFSET = ((5 * 90) / ( 86.75 + 88.06 + 87.44 + 87.14 + 84.9 ));
     static final double PERPENDICULAR_ANGULAR_OFFSET = ((5 * 90) / ( 112.23 + 123.37 + 124.90 + 111.19 + 115.67 ));
 
-    public OdometrySystem(HardwareMap hardwareMap) {
+    public Odometry(HardwareMap hardwareMap) {
         odoLeft = hardwareMap.get(DcMotor.class, "DrivetrainFLeft_OdometryLeft");
         odoRight = hardwareMap.get(DcMotor.class, "DrivetrainFRight_OdometryRight");
         odoCenter = hardwareMap.get(DcMotor.class, "DrivetrainBRight_OdometryFront");

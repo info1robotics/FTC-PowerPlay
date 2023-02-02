@@ -10,15 +10,14 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.Roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
-
-@Autonomous(name = "Auto Left No Turret")
+@Disabled
+@Autonomous(name = "Left Preload")
 @Config
-public class AutoLeftNoTurret extends AutoBase {
+public class AutoLeftPreload extends AutoBase {
     public Trajectory spline_to_high, start_to_align, high_to_stack, stack_to_high;
 
     public static double HIGH_TO_STACK_X = -51.7;
