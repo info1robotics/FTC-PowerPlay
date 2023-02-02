@@ -11,11 +11,11 @@ public class Linkage {
     public static final int JUNCTION_LEVEL = 100;
     public static final int LOW_LEVEL = 250;
     public static final int MID_LEVEL = 400;
-    public static final int HIGH_LEVEL = 525;
-    public static final int LINKAGE_THRESHOLD = 3;
+    public static final int HIGH_LEVEL = 600;
+    public static final int LINKAGE_THRESHOLD = 8;
     public static final int SAFETY_THRESHOLD = 50;
     public static final int LINKAGE_MIN = 0;
-    public static final int LINKAGE_MAX = 650;
+    public static final int LINKAGE_MAX = 675;
     public static int CURRENT_LEVEL = 0;
     public DcMotor linkageLeft;
     public DcMotor linkageRight;

@@ -102,7 +102,6 @@ public class TeleOpDriver2 extends LinearOpMode {
 
             if (CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.circle) {
                 CURRENT_ANGLE = 0;
-                automated = true;
             }
 
             if (gamepad2.right_stick_button) {
@@ -117,7 +116,7 @@ public class TeleOpDriver2 extends LinearOpMode {
             if (automated) {
                 turret.goToAngle(CURRENT_ANGLE, .2);
             } else {
-                turret.goToAngle(CURRENT_ANGLE, 0.5);
+                turret.goToAngle(CURRENT_ANGLE, 0.7);
             }
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
             telemetry.update();

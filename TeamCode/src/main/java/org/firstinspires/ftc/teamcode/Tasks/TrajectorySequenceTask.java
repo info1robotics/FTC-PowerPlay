@@ -8,12 +8,9 @@ public class TrajectorySequenceTask extends Task {
 
     TrajectorySequence trajectorySequence;
 
-    public TrajectorySequenceTask(TrajectorySequence trajectory) {
-        this.trajectorySequence = trajectory;
+    public TrajectorySequenceTask(TrajectorySequence trajectorySequence) {
+        this.trajectorySequence = trajectorySequence;
     }
-
-
-
     @Override
     public void tick() {
         if (!Thread.currentThread().isInterrupted() && context.drive.isBusy()) context.drive.update();
