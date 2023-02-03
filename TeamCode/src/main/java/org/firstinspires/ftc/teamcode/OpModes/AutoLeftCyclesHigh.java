@@ -13,10 +13,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
+
 @Disabled
-@Autonomous(name = "Left Cycles")
+@Autonomous(name = "Left Cycles High")
 @Config
-public class AutoLeftCycles extends AutoBase {
+public class AutoLeftCyclesHigh extends AutoBase {
     public Trajectory spline_to_high, start_to_align, high_to_stack, stack_to_high;
 
     // Velocity Constraints (just in case)
@@ -33,11 +34,11 @@ public class AutoLeftCycles extends AutoBase {
                 .build();
 
         spline_to_high = drive.trajectoryBuilder(start_to_align.end())
-                .splineTo(new Vector2d(-29.5, -8), Math.toRadians(45))
+                .splineTo(new Vector2d(-30, -8.5), Math.toRadians(45))
                 .build();
 
         high_to_stack = drive.trajectoryBuilder(spline_to_high.end(), true)
-                .splineTo(new Vector2d(-54.5,-8), Math.toRadians(180))
+                .splineTo(new Vector2d(-54.5,0), Math.toRadians(180))
                 .build();
 
         stack_to_high = drive.trajectoryBuilder(high_to_stack.end())

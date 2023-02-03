@@ -18,10 +18,15 @@ public class MyClass {
                 .setColorScheme(new ColorSchemeRedDark())
                 .setConstraints(50, 30, Math.toRadians(180), Math.toRadians(180), 12)
                 .followTrajectorySequence(drive ->
-                drive.trajectorySequenceBuilder(new Pose2d(-35, -62, Math.toRadians(90)))
-                        .lineTo(new Vector2d(-35, -23.5))
-                        .splineTo(new Vector2d(-38,-10), Math.toRadians(135))
-                    .build()
+                drive.trajectorySequenceBuilder(new Pose2d(35, -62, Math.toRadians(90)))
+//                        .lineTo(new Vector2d(-35, -23.5))
+//                        .splineTo(new Vector2d(-38,-10), Math.toRadians(135))
+//                        .lineToLinearHeading(new Pose2d(-35, -35, Math.toRadians(90)))
+                        .lineTo(new Vector2d(35, -23.5))
+                        .splineTo(new Vector2d(30, -10), Math.toRadians(-45))
+                        .splineTo(new Vector2d(54.5,-8), Math.toRadians(0))
+
+                        .build()
         );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
