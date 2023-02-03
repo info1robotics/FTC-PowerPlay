@@ -119,6 +119,7 @@ public class TeleOpMain extends LinearOpMode {
                 turret.goToAngle(CURRENT_ANGLE, 0.7);
             }
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
+            linkage.debug();
             telemetry.update();
         }
     }

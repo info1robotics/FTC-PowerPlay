@@ -67,17 +67,17 @@ public class AutoLeftCycles extends AutoBase {
                         sync(
                                 pause(300),
                                 inline(() -> {
-                                    linkage.goToLevel(650, 0.3);
+                                    linkage.goToLevel(600, 0.7);
                                 })
                         )
                 ),
 
                 // Drop the linkage a little to lock the junction
-                pause(100),
+                pause(400),
                 async(
                         inline(() -> linkage.goToLevel(450, 0.3)),
                         sync(
-                                pause(500),
+                                pause(1000),
                                 inline(() -> claw.setState(Claw.states.OPEN))
                         )
                 ),
@@ -119,7 +119,7 @@ public class AutoLeftCycles extends AutoBase {
                                 inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
                         )
                 ),
-                inline(() -> linkage.goToLevel(650, 0.3)),
+                inline(() -> linkage.goToLevel(600, 0.7)),
                 pause(500),
                 inline(() -> linkage.goToLevel(500, 0.3)),
                 pause(500),
@@ -160,7 +160,7 @@ public class AutoLeftCycles extends AutoBase {
                                 pause(1000),
                                 inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
                         )),
-                        inline(() -> linkage.goToLevel(650, 0.3)),
+                        inline(() -> linkage.goToLevel(600, 0.7)),
                         pause(500),
                         inline(() -> linkage.goToLevel(500, 0.3)),
                         pause(500),
@@ -201,7 +201,7 @@ public class AutoLeftCycles extends AutoBase {
                                 pause(700),
                                 inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
                         )),
-                inline(() -> linkage.goToLevel(650, 0.3)),
+                inline(() -> linkage.goToLevel(600, 0.7)),
                 pause(500),
                 inline(() -> linkage.goToLevel(500, 0.3)),
                 pause(300),
