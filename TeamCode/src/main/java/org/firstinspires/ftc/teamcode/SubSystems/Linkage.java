@@ -32,6 +32,8 @@ public class Linkage {
 
         linkageLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linkageRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        telemetry = opMode.telemetry;
     }
 
     public void resetEncoders() {

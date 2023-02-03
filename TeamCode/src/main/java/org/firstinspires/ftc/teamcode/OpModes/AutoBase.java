@@ -42,6 +42,8 @@ public abstract class AutoBase extends LinearOpMode {
         task.start(this);
         while(opModeIsActive() && task.isRunning()) {
             onLoop();
+            linkage.debug();
+            telemetry.update();
             task.tick();
         }
     }
