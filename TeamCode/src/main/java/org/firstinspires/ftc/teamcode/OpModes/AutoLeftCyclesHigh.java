@@ -38,7 +38,7 @@ public class AutoLeftCyclesHigh extends AutoBase {
                 .build();
 
         high_to_stack = drive.trajectoryBuilder(spline_to_high.end(), true)
-                .splineTo(new Vector2d(-54.5,0), Math.toRadians(180))
+                .splineTo(new Vector2d(-54.5,-5), Math.toRadians(180))
                 .build();
 
         stack_to_high = drive.trajectoryBuilder(high_to_stack.end())
@@ -86,6 +86,9 @@ public class AutoLeftCyclesHigh extends AutoBase {
                 pause(300),
 
                 // First cycle begins here
+
+                // fuckin dies here
+
                 async(
                         sync(
                                 pause(500),
@@ -110,6 +113,8 @@ public class AutoLeftCyclesHigh extends AutoBase {
                 pause(500),
                 inline(() -> linkage.goToLevel(450, 0.2)),
                 pause(500),
+
+
                 async(
                         trajectory(stack_to_high),
                         sync(

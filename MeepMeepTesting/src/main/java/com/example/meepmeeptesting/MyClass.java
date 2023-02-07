@@ -19,9 +19,12 @@ public class MyClass {
                 .setConstraints(50, 30, Math.toRadians(180), Math.toRadians(180), 12)
                 .followTrajectorySequence(drive ->
                 drive.trajectorySequenceBuilder(new Pose2d(-35, -62, Math.toRadians(90)))
-                        .lineTo(new Vector2d(-35, -23.5))
-                        .splineTo(new Vector2d(-38,-10), Math.toRadians(135))
-                    .build()
+//                        .lineTo(new Vector2d(-35, -23.5))
+//                        .splineTo(new Vector2d(-38,-10), Math.toRadians(135))
+//                        .splineTo(new Vector2d(-54.5,-10), Math.toRadians(180))
+
+                        .lineToLinearHeading(new Pose2d(-33, 0, Math.toRadians(0)))
+                        .build()
         );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)

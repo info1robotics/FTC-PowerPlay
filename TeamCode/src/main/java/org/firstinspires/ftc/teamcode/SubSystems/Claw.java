@@ -28,22 +28,22 @@ public class Claw {
         state = !state;
         if (!state) {
             //closed
-            clawRight.setPosition(0.1);
-            clawLeft.setPosition(0.6);
+            clawRight.setPosition(0.0);
+            clawLeft.setPosition(1.0);
         } else {
-            clawRight.setPosition(0.45);
-            clawLeft.setPosition(0.3);
+            clawRight.setPosition(0.325);
+            clawLeft.setPosition(0.675);
         }
     }
 
     public void setState(states state) {
 
         if (state == states.OPEN) {
-            clawRight.setPosition(0.1);
-            clawLeft.setPosition(0.6);
+            clawRight.setPosition(0.0);
+            clawLeft.setPosition(1.0);
         } else if (state == states.CLOSED){
-            clawRight.setPosition(0.45);
-            clawLeft.setPosition(0.3);
+            clawRight.setPosition(0.325);
+            clawLeft.setPosition(0.675);
         }
     }
 }

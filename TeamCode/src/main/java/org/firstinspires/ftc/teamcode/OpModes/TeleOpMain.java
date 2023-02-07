@@ -105,16 +105,16 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             if (gamepad2.right_stick_button) {
-                CURRENT_ANGLE = 90;
+                CURRENT_ANGLE = -90;
                 automated = true;
             }
             if (gamepad2.left_stick_button) {
-                CURRENT_ANGLE = -90;
+                CURRENT_ANGLE = 90;
                 automated = true;
             }
 
             if (automated) {
-                turret.goToAngle(CURRENT_ANGLE, .2);
+                turret.goToAngle(CURRENT_ANGLE, .3);
             } else {
                 turret.goToAngle(CURRENT_ANGLE, 0.7);
             }

@@ -11,9 +11,10 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
-
+@Disabled
 @Autonomous(name = "Left Cycles 1 + 1")
 @Config
 public class AutoLeftCyclesBait extends AutoBase {
@@ -37,7 +38,7 @@ public class AutoLeftCyclesBait extends AutoBase {
                 .build();
 
         high_to_stack = drive.trajectoryBuilder(spline_to_high.end(), true)
-                .splineTo(new Vector2d(-54.5,-8), Math.toRadians(180))
+                .splineTo(new Vector2d(-54.5,0), Math.toRadians(135))
                 .build();
 
         stack_to_high = drive.trajectoryBuilder(high_to_stack.end())

@@ -6,23 +6,19 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
-@Disabled
+//@Disabled
 @TeleOp(name = "BrakeDebug")
 public class BrakeDebug extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-
-        // Initialize all systems.
         Turret turret = new Turret(this);
-//        turret.goToAngle(CURRENT_ANGLE, 1.0);
-        boolean BRAKE_CHANGED = false;
-        turret.disengageBrake();
-        waitForStart();
+//        turret.disengageBrake();
+        turret.disengageSuperBrake();
 
+        waitForStart();
         while(opModeIsActive()){
-            turret.engageBrake();
-            if(gamepad2.square && !BRAKE_CHANGED) {turret.toggleBrake(); BRAKE_CHANGED = true;}
-            else if(!gamepad2.square) BRAKE_CHANGED = false;
+//            turret.engageBrake();
+            turret.engageSuperBrake();
             telemetry.update();
         }
     }

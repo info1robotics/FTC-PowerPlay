@@ -19,7 +19,7 @@ open class AprilTagDetection_36h11(var opMode: LinearOpMode) {
     private var parkZone = ""
     val camera: OpenCvCamera
     private val aprilTagDetectionPipeline: AprilTagDetectionPipeline_36h11
-
+                                                                                                          // care se uita aici are pl mica
     init {
         val cameraMonitorViewId = opMode.hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.packageName)
         camera = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName::class.java, "Webcam 1"), cameraMonitorViewId)

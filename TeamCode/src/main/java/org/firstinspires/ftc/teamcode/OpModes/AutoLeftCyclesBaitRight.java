@@ -27,7 +27,10 @@ public class AutoLeftCyclesBaitRight extends AutoBase {
             strafe_left,
             strafe_right,
             high_forward,
-            high_back;
+            high_back,
+
+            turn_fmm
+                    ;
 
     public static double result = ((9.0 * Math.sin(2 * Math.PI / 3) + Math.pow(Math.E, Math.log(Math.abs(27.73 - 9.0 * Math.cos(Math.PI / 4))) / Math.log(10)) + 2 * Math.pow(Math.E, -27.73 * Math.sin(Math.PI / 6))) / (1 + Math.pow(Math.E, 2 * Math.PI / 3)));
 
@@ -86,16 +89,26 @@ public class AutoLeftCyclesBaitRight extends AutoBase {
         align_to_park = drive.trajectoryBuilder(
 //                stack_to_high.end(),
                 spline_to_high.end(), true)
-                .lineTo(new Vector2d(35, -37))
+//                .lineTo(new Vector2d(35, -37))
+                .lineToLinearHeading(new Pose2d(35, -37, Math.toRadians(90)))
                 .build();
 
-        strafe_left = drive.trajectoryBuilder(align_to_park.end(), true)
-                .lineTo(new Vector2d(50, -37))
+
+//        strafe_left = drive.trajectoryBuilder(align_to_park.end(), true)
+//                .lineTo(new Vector2d(50, -37))
+//                .build();
+//
+        strafe_left = drive.trajectoryBuilder(align_to_park.end())
+                .strafeLeft(25)
                 .build();
 
-        strafe_right = drive.trajectoryBuilder(align_to_park.end(), true)
-                .lineTo(new Vector2d(10, -37))
-                .build();
+//        strafe_right = drive.trajectoryBuilder(align_to_park.end(), true)
+//                .lineTo(new Vector2d(10, -37))
+//                .build();
+
+        strafe_right = drive.trajectoryBuilder(align_to_park.end())
+                .strafeRight(25)
+                    .build();
 
         high_forward = drive.trajectoryBuilder(stack_to_align_stack.end())
                 .splineTo(new Vector2d(HIGH_FORWARD_X, HIGH_FORWARD_Y), Math.toRadians(SPLINE_TO_HIGH_HEADING))
@@ -147,7 +160,9 @@ public class AutoLeftCyclesBaitRight extends AutoBase {
                         inline(() -> turret.goToAngle(0, 0.3)),
                         inline(() -> linkage.goToLevel(0, 0.3))
                 ),
+
                 inline(() -> {
+//                    drive.turn(Math.toRadians(-40));
                   if(x==1){
                       drive.followTrajectory(strafe_left);
                   }

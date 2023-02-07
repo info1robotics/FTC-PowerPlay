@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 @Disabled
-@Autonomous(name = "Left Preload")
+@Autonomous(name = "Left Preload Old")
 @Config
 public class AutoLeftPreload extends AutoBase {
     public Trajectory spline_to_high, start_to_align, high_to_stack, stack_to_high;
