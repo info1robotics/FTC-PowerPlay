@@ -12,12 +12,12 @@ public class BrakeDebug extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Turret turret = new Turret(this);
-//        turret.disengageBrake();
+        turret.disengageBrake();
         turret.disengageSuperBrake();
 
         waitForStart();
         while(opModeIsActive()){
-//            turret.engageBrake();
+            turret.engageBrake();
             turret.engageSuperBrake();
             telemetry.update();
         }

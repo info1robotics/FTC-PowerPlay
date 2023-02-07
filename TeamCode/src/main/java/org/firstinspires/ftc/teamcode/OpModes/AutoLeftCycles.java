@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
-@Disabled
+//@Disabled
 @Autonomous(name = "Left Cycles")
 @Config
 public class AutoLeftCycles extends AutoBase {
@@ -97,9 +97,9 @@ public class AutoLeftCycles extends AutoBase {
                         sync(
                                 inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
                                 pause(300),
-                                inline(() -> turret.goToAngleAuto(175, 0.5)),
-                                pause(1000),
-                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
+                                inline(() -> turret.goToAngleAuto(-180, 1.0)),
+                                pause(1000)
+//                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
                         )
                 ),
                 pause(500),
@@ -115,99 +115,99 @@ public class AutoLeftCycles extends AutoBase {
                                 inline(() -> linkage.setTargetPosition(400)),
                                 inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
                                 pause(100),
-                                inline(() -> turret.goToAngleAuto(0, .3)), //10
-                                pause(1000),
-                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
+                                inline(() -> turret.goToAngleAuto(0, 1.0)), //10
+                                pause(1000)
+//                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
                         )
                 ),
-                inline(() -> linkage.goToLevel(600, 0.7)),
+                inline(() -> linkage.goToLevel(550, 0.3)),
                 pause(500),
                 inline(() -> linkage.goToLevel(500, 0.3)),
                 pause(500),
                 inline(() -> claw.setState(Claw.states.OPEN)),
-                pause(500),
+                pause(500)
 
                 // Second Cycle Begins Here
-
-                async(
-                        sync(
-                                pause(500),
-                                trajectory(high_to_stack)
-                        ),
-                        sync(
-                                pause(100),
-                                inline(() -> linkage.goToLevel(100,0.3))
-                        ),
-                        sync(
-                                inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
-                                pause(300),
-                                inline(() -> turret.goToAngleAuto(175, 0.5)),
-                                pause(1000),
-                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
-                        )
-                ),
-                pause(500),
-                inline(() -> claw.setState(Claw.states.CLOSED)),
-                pause(500),
-                inline(() -> linkage.goToLevel(450, 0.2)),
-                pause(500),
-                async(
-                        trajectory(stack_to_high),
-                        sync(
-                                inline(() -> linkage.setTargetPosition(400)),
-                                inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
-                                pause(100),
-                                inline(() -> turret.goToAngleAuto(0, .3)),
-                                pause(1000),
-                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
-                        )),
-                        inline(() -> linkage.goToLevel(600, 0.7)),
-                        pause(500),
-                        inline(() -> linkage.goToLevel(500, 0.3)),
-                        pause(500),
-                        inline(() -> claw.setState(Claw.states.OPEN)),
-                        pause(500),
-
-                // Third Cycle Begins Here
-
-                async(
-                        sync(
-                                pause(500),
-                                trajectory(high_to_stack)
-                        ),
-                        sync(
-                                pause(100),
-                                inline(() -> linkage.goToLevel(100,0.3))
-                        ),
-                        sync(
-                                inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
-                                pause(300),
-                                inline(() -> turret.goToAngleAuto(175, 0.5)),
-                                pause(1000),
-                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
-                        )
-                ),
-                pause(500),
-                inline(() -> claw.setState(Claw.states.CLOSED)),
-                pause(500),
-                inline(() -> linkage.goToLevel(450, 0.2)),
-                pause(500),
-                async(
-                        trajectory(stack_to_high),
-                        sync(
-                                inline(() -> linkage.setTargetPosition(400)),
-                                inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
-                                pause(100),
-                                inline(() -> turret.goToAngleAuto(0, .3)),
-                                pause(700),
-                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
-                        )),
-                inline(() -> linkage.goToLevel(600, 0.7)),
-                pause(500),
-                inline(() -> linkage.goToLevel(500, 0.3)),
-                pause(300),
-                inline(() -> claw.setState(Claw.states.OPEN)),
-                pause(300)
+//
+//                async(
+//                        sync(
+//                                pause(500),
+//                                trajectory(high_to_stack)
+//                        ),
+//                        sync(
+//                                pause(100),
+//                                inline(() -> linkage.goToLevel(100,0.3))
+//                        ),
+//                        sync(
+//                                inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
+//                                pause(300),
+//                                inline(() -> turret.goToAngleAuto(175, 0.5)),
+//                                pause(1000)
+//                                //                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
+//                        )
+//                ),
+//                pause(500),
+//                inline(() -> claw.setState(Claw.states.CLOSED)),
+//                pause(500),
+//                inline(() -> linkage.goToLevel(450, 0.2)),
+//                pause(500),
+//                async(
+//                        trajectory(stack_to_high),
+//                        sync(
+//                                inline(() -> linkage.setTargetPosition(400)),
+//                                inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
+//                                pause(100),
+//                                inline(() -> turret.goToAngleAuto(0, .3)),
+//                                pause(1000)
+////                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
+//                        )),
+//                        inline(() -> linkage.goToLevel(600, 0.7)),
+//                        pause(500),
+//                        inline(() -> linkage.goToLevel(500, 0.3)),
+//                        pause(500),
+//                        inline(() -> claw.setState(Claw.states.OPEN)),
+//                        pause(500),
+//
+//                // Third Cycle Begins Here
+//
+//                async(
+//                        sync(
+//                                pause(500),
+//                                trajectory(high_to_stack)
+//                        ),
+//                        sync(
+//                                pause(100),
+//                                inline(() -> linkage.goToLevel(100,0.3))
+//                        ),
+//                        sync(
+//                                inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
+//                                pause(300),
+//                                inline(() -> turret.goToAngleAuto(175, 0.5)),
+//                                pause(1000),
+//                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
+//                        )
+//                ),
+//                pause(500),
+//                inline(() -> claw.setState(Claw.states.CLOSED)),
+//                pause(500),
+//                inline(() -> linkage.goToLevel(450, 0.2)),
+//                pause(500),
+//                async(
+//                        trajectory(stack_to_high),
+//                        sync(
+//                                inline(() -> linkage.setTargetPosition(400)),
+//                                inline(() -> {turret.disengageSuperBrake(); turret.disengageBrake();}),
+//                                pause(100),
+//                                inline(() -> turret.goToAngleAuto(0, .3)),
+//                                pause(700)
+////                                inline(() -> {turret.engageSuperBrake(); turret.engageBrake();})
+//                        )),
+//                inline(() -> linkage.goToLevel(600, 0.7)),
+//                pause(500),
+//                inline(() -> linkage.goToLevel(500, 0.3)),
+//                pause(300),
+//                inline(() -> claw.setState(Claw.states.OPEN)),
+//                pause(300)
         );
     }
 }

@@ -12,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.SAFETY_THRESHOLD
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.ANGLE_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -25,7 +26,7 @@ public class TeleOpMain extends LinearOpMode {
     public boolean automated = false;
     @Override
     public void runOpMode() throws InterruptedException {
-
+        TelemetryPacket dash;
         // Initialize all systems.
         Linkage linkage = new Linkage(this);
         Claw claw = new Claw(this);
@@ -114,12 +115,16 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             if (automated) {
-                turret.goToAngle(CURRENT_ANGLE, .3);
+                turret.goToAngle(CURRENT_ANGLE, 1.0);
             } else {
-                turret.goToAngle(CURRENT_ANGLE, 0.7);
+                turret.goToAngle(CURRENT_ANGLE, 1.0);
             }
+
+            telemetry.addData("current angle ", turret.getCurrentAngle());
+
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
             linkage.debug();
+            turret.update();
             telemetry.update();
         }
     }

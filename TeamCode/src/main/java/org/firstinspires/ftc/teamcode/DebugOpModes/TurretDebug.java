@@ -1,22 +1,33 @@
 package org.firstinspires.ftc.teamcode.DebugOpModes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
+import org.firstinspires.ftc.teamcode.SubSystems.TurretMotion;
 
 //@Disabled
 @TeleOp
 public class TurretDebug extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Turret turret = new Turret(this);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        TurretMotion turret = new TurretMotion(this);
         turret.disengageBrake();
         turret.disengageSuperBrake();
+
+
+
         waitForStart();
+
+        turret.goToAngle(30);
         while(opModeIsActive()){
-            // Get feedback from the turret motor's encoder for debugging.
-            telemetry.addData("turret pos: ", turret.turretMotor.getCurrentPosition());
+
+            turret.update();
+            telemetry.addData("turret angle: ", turret.getCurrentAngle());
             telemetry.update();
         }
     }

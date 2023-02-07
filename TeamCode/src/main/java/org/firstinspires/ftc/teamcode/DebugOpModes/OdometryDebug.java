@@ -52,6 +52,7 @@ public class OdometryDebug extends LinearOpMode {
 //        fl.setDirection(DcMotorSimple.Direction.REVERSE);
 //        fr.setDirection(DcMotorSimple.Direction.FORWARD);
         odoRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        odoLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         Odometry odo = new Odometry(hardwareMap);
 
