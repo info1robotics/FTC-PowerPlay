@@ -115,16 +115,16 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             if (automated) {
-                turret.goToAngle(CURRENT_ANGLE, 1.0);
+                turret.goToAngle(CURRENT_ANGLE, 0.2);
             } else {
-                turret.goToAngle(CURRENT_ANGLE, 1.0);
+                turret.goToAngle(CURRENT_ANGLE, 0.5);
             }
 
             telemetry.addData("current angle ", turret.getCurrentAngle());
 
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
-            linkage.debug();
-            turret.update();
+//            linkage.debug();
+//            turret.update();
             telemetry.update();
         }
     }

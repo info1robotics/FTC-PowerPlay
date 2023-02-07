@@ -10,19 +10,19 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 public class Turret {
     public static final double ANGLE_THRESHOLD = 1f;
-    public static final double MAX_ANGLE = 540;
+    public static final double MAX_ANGLE = 220;
     public static final int MAX_TICK = 16000;
     public static final int MIN_TICK = -16000;
-    public static final double MIN_ANGLE = -540;
+    public static final double MIN_ANGLE = -220;
     private static final double GEAR_RATIO = 1.0;
-    private static final double TICKS_PER_REVOLUTION = 8192;
+    private static final double TICKS_PER_REVOLUTION = 3895.9;
     private static final double ERROR = 1;
     public static boolean brakeState;
     public static double CURRENT_ANGLE = 0;
     public static int CURRENT_TICK = 0;
     public DcMotorEx turretMotor;
     public Servo brakeServo1, brakeServo2;
-    public static PIDFCoefficients coeffs = new PIDFCoefficients(0,  0, 0, 0);
+//    public static PIDFCoefficients coeffs = new PIDFCoefficients(0,  0, 0, 0);
 
 
     public Turret(LinearOpMode opMode) {
@@ -31,9 +31,9 @@ public class Turret {
         turretMotor = opMode.hardwareMap.get(DcMotorEx.class, "Turret");
         turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        turretMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, coeffs);
-//        turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        turretMotor.setTargetPositionTolerance(200);
+//        turretMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, coeffs);
+        turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        turretMotor.setTargetPositionTolerance(200);
     }
 
     public void setMotorsRunMode(DcMotor.RunMode runMode) {
@@ -58,19 +58,15 @@ public class Turret {
         if (ANGLE < MIN_ANGLE) ANGLE = MIN_ANGLE;
         setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / ANGLE) * ERROR));
         setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(SPEED * ((Math.abs(turretMotor.getCurrentPosition() - turretMotor.getTargetPosition())) / 8192) );
-
-//        if (Math.abs(turretMotor.getCurrentPosition() - turretMotor.getTargetPosition()) < 200) {
-////            setPower(0);
-////            engageBrake();
-////            engageSuperBrake();
-////            disengageBrake();
-////            disengageSuperBrake();
-//        } else {
-//            setPower(SPEED);
-//            disengageBrake();
-//            disengageSuperBrake();
-//        }
+        if (Math.abs(turretMotor.getCurrentPosition() - turretMotor.getTargetPosition()) < 15) {
+            setPower(0);
+            engageBrake();
+            engageSuperBrake();
+        } else {
+            setPower(SPEED);
+            disengageBrake();
+            disengageSuperBrake();
+        }
     }
 
     public void goToAngleAuto(double ANGLE, double SPEED) {
@@ -114,8 +110,8 @@ public class Turret {
         brakeServo1.setPosition(0.35);
     }
 
-    public void update() {
-        turretMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, coeffs);
-    }
+//    public void update() {
+//        turretMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, coeffs);
+//    }
 
 }

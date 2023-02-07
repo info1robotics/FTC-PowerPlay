@@ -61,10 +61,20 @@ public class TurretMotion {
         turretMotor.setPower(pw);
     }
 
-    public void goToAngle(double ANGLE) {
+    public void goTo180() {
         currentMotionProfile = MotionProfileGenerator.generateSimpleMotionProfile(
-                new MotionState(turretMotor.getCurrentPosition(), 0, 0),
-                new MotionState((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / ANGLE) * ERROR), 0, 0),
+                new MotionState(0, 0, 0),
+                new MotionState(4096, 0, 0),
+                2048, 2048, 0
+        );
+        elapsedTime = 0;
+        controller.reset();
+    }
+
+    public void goTo0() {
+        currentMotionProfile = MotionProfileGenerator.generateSimpleMotionProfile(
+                new MotionState(4096, 0, 0),
+                new MotionState(0, 0, 0),
                 2048, 2048, 0
         );
         elapsedTime = 0;
