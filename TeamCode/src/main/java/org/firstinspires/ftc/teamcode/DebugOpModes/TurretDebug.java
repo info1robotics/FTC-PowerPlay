@@ -23,7 +23,7 @@ public class TurretDebug extends LinearOpMode {
 
         waitForStart();
 
-        turret.goto0();
+//        turret.goto0();
         while(opModeIsActive()){
 
             turret.update();
