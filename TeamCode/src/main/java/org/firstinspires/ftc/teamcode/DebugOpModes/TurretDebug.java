@@ -14,20 +14,19 @@ public class TurretDebug extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
-        TurretMotion turret = new TurretMotion(this);
+        long initial = System.nanoTime();
+        long estimated;
+        Turret turret = new Turret(this);
         turret.disengageBrake();
         turret.disengageSuperBrake();
-
-
-
         waitForStart();
 
 //        turret.goto0();
         while(opModeIsActive()){
-
-            turret.update();
+            estimated = System.nanoTime() - initial;
+            telemetry.addData("timestamp: ", estimated);
             telemetry.addData("turret angle: ", turret.getCurrentAngle());
+//            telemetry.addData("encoder angle: ", turret.getCurrentEncoderAngle());
             telemetry.update();
         }
     }

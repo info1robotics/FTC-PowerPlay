@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.ConceptRevSPARKMini;
+import org.firstinspires.ftc.teamcode.Roadrunner.util.Encoder;
+
 @Config
 public class Turret {
     public static final double ANGLE_THRESHOLD = 1f;
@@ -14,26 +18,33 @@ public class Turret {
     public static final int MAX_TICK = 16000;
     public static final int MIN_TICK = -16000;
     public static final double MIN_ANGLE = -220;
-    private static final double GEAR_RATIO = 1.0;
+    private static final double GEAR_RATIO = 2.0;
     private static final double TICKS_PER_REVOLUTION = 3895.9;
+
+    private static final double ENCODER_TICKS_PER_REVOLUTION = 8192;
     private static final double ERROR = 1;
     public static boolean brakeState;
     public static double CURRENT_ANGLE = 0;
     public static int CURRENT_TICK = 0;
+    public static double DESIRED_ANGLE = 0;
     public DcMotorEx turretMotor;
     public Servo brakeServo1, brakeServo2;
+    public DcMotor turretEncoder;
+    public boolean hardLock = false;
+    public static double CORRECTED_THRESHOLD = 0;
 //    public static PIDFCoefficients coeffs = new PIDFCoefficients(0,  0, 0, 0);
 
 
     public Turret(LinearOpMode opMode) {
+//        turretEncoder = opMode.hardwareMap.get(DcMotor.class, "DrivetrainBLeft");
         brakeServo1 = opMode.hardwareMap.get(Servo.class, "BrakeServo1");
         brakeServo2 = opMode.hardwareMap.get(Servo.class, "BrakeServo2");
         turretMotor = opMode.hardwareMap.get(DcMotorEx.class, "Turret");
         turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        turretMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, coeffs);
+//        turretEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        turretMotor.setTargetPositionTolerance(200);
+//        turretMotor.setTargetPositionTolerance(20);
     }
 
     public void setMotorsRunMode(DcMotor.RunMode runMode) {
@@ -49,16 +60,23 @@ public class Turret {
     }
 
     public double getCurrentAngle(){
-//        (int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / ANGLE))
         return (turretMotor.getCurrentPosition() * 360 * GEAR_RATIO) / TICKS_PER_REVOLUTION;
     }
+
+//    public double getCurrentEncoderAngle(){
+//        return (turretEncoder.getCurrentPosition() * 360) / ENCODER_TICKS_PER_REVOLUTION;
+//    }
 
     public void goToAngle(double ANGLE, double SPEED) {
         if (ANGLE > MAX_ANGLE) ANGLE = MAX_ANGLE;
         if (ANGLE < MIN_ANGLE) ANGLE = MIN_ANGLE;
         setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / ANGLE) * ERROR));
         setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (Math.abs(turretMotor.getCurrentPosition() - turretMotor.getTargetPosition()) < 15) {
+        if(hardLock){
+            setPower(0);
+            engageBrake();
+            engageSuperBrake();
+        }else if (Math.abs(turretMotor.getCurrentPosition() - turretMotor.getTargetPosition()) < 10) {
             setPower(0);
             engageBrake();
             engageSuperBrake();
@@ -69,13 +87,51 @@ public class Turret {
         }
     }
 
-    public void goToAngleAuto(double ANGLE, double SPEED) {
-        if (ANGLE > MAX_ANGLE) ANGLE = MAX_ANGLE;
-        if (ANGLE < MIN_ANGLE) ANGLE = MIN_ANGLE;
-        setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / ANGLE) * ERROR));
+    public void goToAngleHard(double SPEED) {
+        setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / DESIRED_ANGLE) * ERROR));
         setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(SPEED);
+
+        if (Math.abs(turretMotor.getCurrentPosition() - turretMotor.getTargetPosition()) < 10) {
+            setPower(0);
+            engageBrake();
+            engageSuperBrake();
+        } else {
+            setPower(SPEED);
+            disengageBrake();
+            disengageSuperBrake();
+        }
     }
+
+//    public void goToAngleAuto(double SPEED) {
+////        if(Math.abs(getCurrentAngle()-DESIRED_ANGLE) < 2) CORRECTED_ANGLE = -(DESIRED_ANGLE + (DESIRED_ANGLE - getCurrentEncoderAngle()));
+////        if(Math.abs(DESIRED_ANGLE-getCurrentEncoderAngle()) <= 1.0) CORRECTED_ANGLE = getCurrentAngle();
+//        if(DESIRED_ANGLE == 0) DESIRED_ANGLE = 0.1;
+//
+//        if(Math.abs(DESIRED_ANGLE - getCurrentEncoderAngle()) >= 45) CORRECTED_THRESHOLD = 5;
+//        if(Math.abs(DESIRED_ANGLE - getCurrentEncoderAngle()) >= 30 && Math.abs(DESIRED_ANGLE - getCurrentEncoderAngle()) < 45) CORRECTED_THRESHOLD = 1.0;
+//        if(Math.abs(DESIRED_ANGLE - getCurrentEncoderAngle()) >= 15 && Math.abs(DESIRED_ANGLE - getCurrentEncoderAngle()) < 30) CORRECTED_THRESHOLD = 0.75;
+//        if(Math.abs(DESIRED_ANGLE - getCurrentEncoderAngle()) >= 2 && Math.abs(DESIRED_ANGLE - getCurrentEncoderAngle()) < 15) CORRECTED_THRESHOLD = 0.5;
+//        if(Math.abs(DESIRED_ANGLE - getCurrentEncoderAngle()) < 2) CORRECTED_THRESHOLD = 0.25;
+//
+//
+//        if (Math.abs(DESIRED_ANGLE - getCurrentEncoderAngle()) > 2){
+//            if(getCurrentEncoderAngle() < DESIRED_ANGLE) CORRECTED_ANGLE += ((Math.abs(DESIRED_ANGLE) / DESIRED_ANGLE) * CORRECTED_THRESHOLD);
+//            if(getCurrentEncoderAngle() > DESIRED_ANGLE) CORRECTED_ANGLE -= ((Math.abs(DESIRED_ANGLE) / DESIRED_ANGLE) * CORRECTED_THRESHOLD);
+//        }
+//
+//        setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / CORRECTED_ANGLE) * ERROR));
+//        setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        if (Math.abs(DESIRED_ANGLE - getCurrentEncoderAngle()) <= 1.5) {
+//        setPower(0);
+//        engageBrake();
+//        engageSuperBrake();
+//        } else {
+//        setPower(SPEED);
+//        disengageBrake();
+//        disengageSuperBrake();
+//    }
+//    }
 
     public void goToTick(int TICK_COUNT, double SPEED) {
         if (TICK_COUNT > MAX_TICK) TICK_COUNT = MAX_TICK;
@@ -110,8 +166,10 @@ public class Turret {
         brakeServo1.setPosition(0.35);
     }
 
-//    public void update() {
-//        turretMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, coeffs);
-//    }
+    public void update() {
+//       if (LAST_ANGLE != DESIRED_ANGLE) CORRECTED_ANGLE = DESIRED_ANGLE;
+       goToAngleHard(0.3);
+//       LAST_ANGLE = DESIRED_ANGLE;
+    }
 
 }

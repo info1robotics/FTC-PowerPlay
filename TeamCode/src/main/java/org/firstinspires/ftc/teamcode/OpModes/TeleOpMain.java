@@ -40,10 +40,13 @@ public class TeleOpMain extends LinearOpMode {
         turret.goToAngle(CURRENT_ANGLE, 1.0);
         boolean STATE_CHANGED = false;
         boolean BRAKE_CHANGED = false;
-        turret.disengageBrake();
-        turret.disengageSuperBrake();
+        turret.engageBrake();
+        turret.engageSuperBrake();
         waitForStart();
         while (opModeIsActive()) {
+
+            if(linkage.linkageLeft.getCurrentPosition() <= 100) turret.hardLock = true;
+            else turret.hardLock = false;
             // Omnidirectional drivetrain control.
             drivetrain.vectorMove(
                 gamepad1.left_stick_x,

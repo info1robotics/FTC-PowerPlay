@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import static org.firstinspires.ftc.teamcode.SubSystems.Turret.DESIRED_ANGLE;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -32,8 +34,8 @@ public abstract class AutoBase extends LinearOpMode {
         drive.setPoseEstimate(startPose);
         turret.engageBrake();
         turret.engageSuperBrake();
-        turret.goToAngle(0,1.0);
         linkage.goToLevel(0, 1.0);
+        DESIRED_ANGLE = 0;
         onInit();
         while (!isStarted() && !isStopRequested()) {
 //            atag.detectZone();
@@ -42,8 +44,11 @@ public abstract class AutoBase extends LinearOpMode {
         }
         task.start(this);
         while(opModeIsActive() && task.isRunning()) {
+            telemetry.addData("motor angle", turret.getCurrentAngle());
+            telemetry.addLine();
+            telemetry.addData("desired angle", DESIRED_ANGLE);
+            turret.update();
             onLoop();
-            linkage.debug();
             telemetry.update();
             task.tick();
         }
