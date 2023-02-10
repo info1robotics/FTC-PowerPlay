@@ -17,6 +17,7 @@ public class Linkage {
     public static final int LINKAGE_MIN = -25;
     public static final int LINKAGE_MAX = 725;
     public static int CURRENT_LEVEL = 0;
+    public static int DESIRED_HEIGHT = 0;
     public DcMotor linkageLeft;
     public DcMotor linkageRight;
 
@@ -67,5 +68,18 @@ public class Linkage {
         setTargetPosition(LEVEL);
         runToPosition();
         setPower(SPEED);
+    }
+    public void goToLevelAuto(int LEVEL, double SPEED) {
+        if (LEVEL > LINKAGE_MAX) LEVEL = LINKAGE_MAX;
+        if (LEVEL < LINKAGE_MIN) LEVEL = LINKAGE_MIN;
+        if(DESIRED_HEIGHT > 550) SPEED = 0.15;
+        setTargetPosition(LEVEL);
+        runToPosition();
+        setPower(SPEED);
+    }
+
+
+    public void update(){
+        goToLevelAuto(DESIRED_HEIGHT, 0.3);
     }
 }

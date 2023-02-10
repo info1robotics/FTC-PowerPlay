@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode.EOCV.f41h12
 
 import android.os.SystemClock
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import org.openftc.easyopencv.OpenCvCamera
-import org.openftc.easyopencv.OpenCvCameraFactory
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
+import org.openftc.easyopencv.OpenCvCamera
 import org.openftc.easyopencv.OpenCvCamera.AsyncCameraOpenListener
+import org.openftc.easyopencv.OpenCvCameraFactory
 import org.openftc.easyopencv.OpenCvCameraRotation
 
 open class AprilTagDetection_41h12(var opMode: LinearOpMode) {
@@ -61,6 +61,8 @@ open class AprilTagDetection_41h12(var opMode: LinearOpMode) {
         opMode.telemetry.addData("Ideal Park Location ", parkZone)
         opMode.telemetry.addData("Location ID Detected in View ", zone)
         opMode.telemetry.addData("April Tag ID in View ", tagInView)
+        if (zone != 0) opMode.telemetry.addLine("SIGNAL DETECTED, READY TO ROLL")
+
 
         opMode.telemetry.update()
     }
