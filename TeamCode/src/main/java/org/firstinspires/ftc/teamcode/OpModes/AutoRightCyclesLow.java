@@ -38,7 +38,7 @@ public class AutoRightCyclesLow extends AutoBase {
     public TrajectorySequence mid_preload, stack_to_low, preload_to_turn, low_to_stack, turn_to_stack, go_to_stack, low_to_stack_1, low_to_stack_2, low_to_stack_3, low_to_stack_4, run_to_zone3;
     public TrajectorySequence cycle_high_1, cycle_high_2, cycle_high_3, cycle_high_4, cycle_high_5;
     public TrajectorySequence cycle_stack_1, cycle_stack_2, cycle_stack_3, cycle_stack_4, cycle_stack_5;
-    public static double HIGH_TURRET_ANGLE = 110;
+    public static double HIGH_TURRET_ANGLE = 100;
     public static double PRELOAD_HIGH_X = 34, PRELOAD_HIGH_Y = -10;
     public static double STACK_X = 59, STACK_Y = -9;
     public static double LOW_X = 34, LOW_Y = -10;
@@ -152,7 +152,7 @@ public class AutoRightCyclesLow extends AutoBase {
                 inline(() -> DESIRED_HEIGHT = 400),
                 async(
                 trajectory(align_preload),
-                inline(() -> DESIRED_ANGLE = -90)
+                inline(() -> DESIRED_ANGLE = -100)
                 ),
                 sync(
                         pause(250),
@@ -168,7 +168,7 @@ public class AutoRightCyclesLow extends AutoBase {
                 ),
 
                 // first cycle
-                inline(() -> REVERT_THRESHOLD = -3),
+//                inline(() -> REVERT_THRESHOLD = -2),
                 inline(() -> AUTO_SPEED = 0.1),
                 inline(() -> DESIRED_ANGLE = 0),
                 pause(300),
@@ -197,7 +197,7 @@ public class AutoRightCyclesLow extends AutoBase {
                 inline(() -> turret.toggleSetThreshold(false)),
 
                 // second cycle
-                inline(() -> REVERT_THRESHOLD = -5),
+//                inline(() -> REVERT_THRESHOLD = -2),
                 inline(() -> DESIRED_ANGLE = 0),
                 pause(750),
                 inline(() -> DESIRED_HEIGHT = 80),
@@ -227,7 +227,7 @@ public class AutoRightCyclesLow extends AutoBase {
                 inline(() -> claw.setState(Claw.states.OPEN)),
                 inline(() -> turret.toggleSetThreshold(false)),
                 // third cycle
-                inline(() -> REVERT_THRESHOLD = -5),
+                inline(() -> REVERT_THRESHOLD = -3),
 
                 inline(() -> DESIRED_ANGLE = 0),
                 pause(750),
@@ -291,7 +291,7 @@ public class AutoRightCyclesLow extends AutoBase {
                         trajectory(run_to_zone3),
                         inline(() -> {
                             AUTO_SPEED = 0.3;
-                            DESIRED_ANGLE = 0;
+                            DESIRED_ANGLE = 90;
                         }),
                         pause(200),
                         inline(() -> DESIRED_HEIGHT = 0)
