@@ -16,10 +16,10 @@ import org.firstinspires.ftc.teamcode.Roadrunner.util.Encoder;
 @Config
 public class Turret {
     public static final double ANGLE_THRESHOLD = 1f;
-    public static final double MAX_ANGLE = 220;
+    public static double MAX_ANGLE = 220;
     public static final int MAX_TICK = 16000;
     public static final int MIN_TICK = -16000;
-    public static final double MIN_ANGLE = -220;
+    public static double MIN_ANGLE = -220;
     private static final double GEAR_RATIO = 2.0;
     private static final double TICKS_PER_REVOLUTION = 3895.9;
 
@@ -48,11 +48,13 @@ public class Turret {
         brakeServo2 = opMode.hardwareMap.get(Servo.class, "BrakeServo2");
         turretMotor = opMode.hardwareMap.get(DcMotorEx.class, "Turret");
         turretMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    public void resetEncoder(){
+        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
     public void setMotorsRunMode(DcMotor.RunMode runMode) {
         turretMotor.setMode(runMode);
     }

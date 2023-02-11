@@ -11,8 +11,9 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.MID_LEVEL;
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.SAFETY_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.ANGLE_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
+import static org.firstinspires.ftc.teamcode.SubSystems.Turret.MAX_ANGLE;
+import static org.firstinspires.ftc.teamcode.SubSystems.Turret.MIN_ANGLE;
 
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -21,10 +22,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
-@TeleOp(name = "Main TeleOp")
-public class TeleOpMain extends LinearOpMode {
+@TeleOp(name = "TeleOp w/o Safety Systems")
+public class TeleOpMainUnlimited extends LinearOpMode {
     public boolean automated = false;
-    public boolean started;
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize all systems.
@@ -34,18 +34,16 @@ public class TeleOpMain extends LinearOpMode {
         Mecanum drivetrain = new Mecanum(hardwareMap);
 
         // Fire up the motors.
-        started = true;
         boolean STATE_CHANGED = false;
         boolean BRAKE_CHANGED = false;
         turret.engageBrake();
         turret.engageSuperBrake();
+        MIN_ANGLE = -720;
+        MAX_ANGLE = 720;
+        LINKAGE_MIN = -2000;
+        LINKAGE_MAX = 2000;
         waitForStart();
         while (opModeIsActive()) {
-            if(started){
-                started = false;
-                CURRENT_LEVEL = 100;
-                CURRENT_ANGLE = 0;
-            }
 
             if(linkage.linkageLeft.getCurrentPosition() <= 100) turret.hardLock = true;
             else turret.hardLock = false;

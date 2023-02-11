@@ -14,8 +14,8 @@ public class Linkage {
     public static final int HIGH_LEVEL = 550;
     public static final int LINKAGE_THRESHOLD = 8;
     public static final int SAFETY_THRESHOLD = 50;
-    public static final int LINKAGE_MIN = -25;
-    public static final int LINKAGE_MAX = 725;
+    public static int LINKAGE_MIN = -25;
+    public static int LINKAGE_MAX = 725;
     public static int CURRENT_LEVEL = 0;
     public static int DESIRED_HEIGHT = 0;
     public DcMotor linkageLeft;

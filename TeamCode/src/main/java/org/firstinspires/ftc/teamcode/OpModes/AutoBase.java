@@ -25,14 +25,14 @@ public abstract class AutoBase extends LinearOpMode {
     public Linkage linkage;
     public Claw claw;
 
-//    public AprilTagDetection_41h12 atag;
+    public AprilTagDetection_41h12 atag;
     public int x = 0;
     @Override
     public final void runOpMode() throws InterruptedException {
         claw = new Claw(this);
         turret = new Turret(this);
         linkage = new Linkage(this);
-//        atag = new AprilTagDetection_41h12(this);
+        atag = new AprilTagDetection_41h12(this);
         drive = new SampleMecanumDrive(hardwareMap);
 //        startPose = new Pose2d(-37.5, -62, Math.toRadians(90));
 //        drive.setPoseEstimate(startPose);
@@ -42,20 +42,19 @@ public abstract class AutoBase extends LinearOpMode {
         AUTO_SPEED = 0.2;
         turret.engageBrake();
         turret.engageSuperBrake();
+        turret.resetEncoder();
 
         DESIRED_HEIGHT = 0;
         onInit();
         while (!isStarted() && !isStopRequested()) {
-//            atag.detectZone();
-//            x = atag.getZone();
-//            telemetry.update();
+            atag.detectZone();
+            x = atag.getZone();
+            telemetry.update();
         }
         task.start(this);
         while(opModeIsActive() && task.isRunning()) {
             linkage.update();
             turret.update();
-            telemetry.addData("distance value", turret.distanceSensor.getDistance(DistanceUnit.MM));
-            telemetry.addData("angle fed into motor", CORRECTED_ANGLE);
             onLoop();
             telemetry.update();
             task.tick();

@@ -5,7 +5,6 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.DESIRED_HEIGHT;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.DESIRED_ANGLE;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.AUTO_SPEED;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.REVERT_THRESHOLD;
-import static org.firstinspires.ftc.teamcode.SubSystems.Turret.REVERT_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.async;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.inline;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.pause;
@@ -35,18 +34,9 @@ import java.util.Arrays;
 public class AutoLeftCyclesLow extends AutoBase {
     public Pose2d startPoseLeft;
     public Trajectory align_preload;
-    public TrajectorySequence mid_preload, stack_to_low, preload_to_turn, low_to_stack, turn_to_stack, go_to_stack, low_to_stack_1, low_to_stack_2, low_to_stack_3, low_to_stack_4, run_to_zone3;
-    public TrajectorySequence cycle_high_1, cycle_high_2, cycle_high_3, cycle_high_4, cycle_high_5;
-    public TrajectorySequence cycle_stack_1, cycle_stack_2, cycle_stack_3, cycle_stack_4, cycle_stack_5;
+    public TrajectorySequence stack_to_low, preload_to_turn, low_to_stack, turn_to_stack, go_to_stack, low_to_stack_1, low_to_stack_2, low_to_stack_3, low_to_stack_4;
+    public TrajectorySequence run_to_zone_3, run_to_zone_2, run_to_zone_1;
     public static double HIGH_TURRET_ANGLE = -105;
-    public static double PRELOAD_HIGH_X = -34, PRELOAD_HIGH_Y = -10;
-    public static double STACK_X = -59, STACK_Y = -9;
-    public static double LOW_X = -34, LOW_Y = -10;
-    public static double CYCLE1_HIGH_X = 0.0, CYCLE1_HIGH_Y = 0.0, CYCLE1_STACK_X = 0.0, CYCLE1_STACK_Y = 0.0;
-    public static double CYCLE2_HIGH_X = 0.0, CYCLE2_HIGH_Y = 0.0, CYCLE2_STACK_X = 0.0, CYCLE2_STACK_Y = 0.0;
-    public static double CYCLE3_HIGH_X = 0.0, CYCLE3_HIGH_Y = 0.0, CYCLE3_STACK_X = 0.0, CYCLE3_STACK_Y = 0.0;
-    public static double CYCLE4_HIGH_X = 0.0, CYCLE4_HIGH_Y = 0.0, CYCLE4_STACK_X = 0.0, CYCLE4_STACK_Y = 0.0;
-    public static double CYCLE5_HIGH_X = 0.0, CYCLE5_HIGH_Y = 0.0, CYCLE5_STACK_X = 0.0, CYCLE5_STACK_Y = 0.0;
 
     TrajectoryVelocityConstraint slowConstraint = new MinVelocityConstraint(Arrays.asList(
             new TranslationalVelocityConstraint(40),
@@ -112,7 +102,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                 .lineTo(new Vector2d(-58.25, -8))
                 .build();
 
-        run_to_zone3 = drive.trajectorySequenceBuilder(stack_to_low.end())
+        run_to_zone_3 = drive.trajectorySequenceBuilder(stack_to_low.end())
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
                 .setReversed(true)
@@ -120,30 +110,21 @@ public class AutoLeftCyclesLow extends AutoBase {
                 .resetConstraints()
                 .build();
 
+        run_to_zone_2 = drive.trajectorySequenceBuilder(stack_to_low.end())
+                .setAccelConstraint(fastAccelConstraint)
+                .setVelConstraint(fastConstraint)
+                .setReversed(true)
+                .lineTo(new Vector2d(-30, -8))
+                .resetConstraints()
+                .build();
 
-        //
-//        stack_to_low = drive.trajectorySequenceBuilder(high_to_stack.end())
-//                .lineTo(new Vector2d(LOW_X, LOW_Y))
-//                .build();
-//
-//        cycle_stack_1 = drive.trajectorySequenceBuilder(mid_preload.end())
-//                .setReversed(true)
-//                .splineTo(new Vector2d(-50,-9), Math.toRadians(180))
-//                .setAccelConstraint(accelConstraint)
-//                .setVelConstraint(slowConstraint)
-//                .lineTo(new Vector2d(CYCLE1_STACK_X, CYCLE1_STACK_Y))
-//                .resetConstraints()
-//                .build();
-//
-//        cycle_high_1 = drive.trajectorySequenceBuilder(high_to_stack.end())
-//                .lineTo(new Vector2d(-55, -8))
-//                .setAccelConstraint(accelConstraint)
-//                .setVelConstraint(slowConstraint)
-//                .splineToSplineHeading(new Pose2d(CYCLE1_HIGH_X, CYCLE1_HIGH_Y, Math.toRadians(45)), Math.toRadians(0))
-//                .resetConstraints()
-//                .build();
-
-
+        run_to_zone_1 = drive.trajectorySequenceBuilder(stack_to_low.end())
+                .setAccelConstraint(fastAccelConstraint)
+                .setVelConstraint(fastConstraint)
+                .setReversed(true)
+                .lineTo(new Vector2d(-54, -8))
+                .resetConstraints()
+                .build();
 
         task = sync(
                 // Robot goes forward and aligns itself with the mid junction.
@@ -168,7 +149,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                 ),
 
                 // first cycle
-                inline(() -> REVERT_THRESHOLD = 3),
+                inline(() -> REVERT_THRESHOLD = 0),
                 inline(() -> AUTO_SPEED = 0.1),
                 inline(() -> DESIRED_ANGLE = 0),
                 pause(300),
@@ -197,7 +178,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                 inline(() -> turret.toggleSetThreshold(false)),
 
                 // second cycle
-                inline(() -> REVERT_THRESHOLD = 6),
+                inline(() -> REVERT_THRESHOLD = 0),
                 inline(() -> DESIRED_ANGLE = 0),
                 pause(750),
                 inline(() -> DESIRED_HEIGHT = 80),
@@ -214,9 +195,9 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> DESIRED_HEIGHT = 250),
                                 inline(() -> AUTO_SPEED = 0.20),
                                 inline(() -> {
-                                    REVERT_THRESHOLD = -3;
+                                    REVERT_THRESHOLD = 0;
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(170);
+                                    turret.setDistanceThreshold(160);
                                 }),
                                 pause(1500)
                         )
@@ -227,7 +208,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                 inline(() -> claw.setState(Claw.states.OPEN)),
                 inline(() -> turret.toggleSetThreshold(false)),
                 // third cycle
-                inline(() -> REVERT_THRESHOLD = 6),
+                inline(() -> REVERT_THRESHOLD = 0),
 
                 inline(() -> DESIRED_ANGLE = 0),
                 pause(750),
@@ -247,7 +228,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> AUTO_SPEED = 0.20),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(170);
+                                    turret.setDistanceThreshold(160);
                                 }),
                                 pause(1500)
                         )
@@ -277,7 +258,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> DESIRED_HEIGHT = 250),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(170);
+                                    turret.setDistanceThreshold(160);
                                 }),
                                 pause(1500)
                         )
@@ -288,48 +269,18 @@ public class AutoLeftCyclesLow extends AutoBase {
                 inline(() -> claw.setState(Claw.states.OPEN)),
                 inline(() -> turret.toggleSetThreshold(false)),
                 async(
-                        trajectory(run_to_zone3),
+                        inline(() -> {
+                            if(x == 2) drive.followTrajectorySequence(run_to_zone_2);
+                            else if (x == 3) drive.followTrajectorySequence(run_to_zone_3);
+                            else drive.followTrajectorySequence(run_to_zone_1);
+                        }),
                         inline(() -> {
                             AUTO_SPEED = 0.3;
                             DESIRED_ANGLE = 0;
                         }),
                         pause(200),
                         inline(() -> DESIRED_HEIGHT = 0)
-                        )
-
-
-
-                // fifth cycle
-//
-//                inline(() -> DESIRED_ANGLE = 0),
-//                pause(1000),
-//                inline(() -> DESIRED_HEIGHT = 25),
-//                pause(300),
-//                trajectory(low_to_stack_4),
-//                pause(100),
-//                inline(() -> claw.setState(Claw.states.CLOSED)),
-//                pause(200),
-//                inline(() -> DESIRED_HEIGHT = 150),
-//                pause(200),
-//                async(
-//                        trajectory(stack_to_low),
-//                        sync(
-//                                pause(200),
-//                                inline(() -> DESIRED_HEIGHT = 250),
-//                                inline(() -> AUTO_SPEED = 0.20),
-//                                inline(() -> {
-//                                    DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-//                                    turret.setDistanceThreshold(170);
-//                                }),
-//                                pause(1500)
-//                        )
-//                ),
-//                inline(() -> turret.toggleSetThreshold(true)),
-//                pause(1000),
-//                inline(() -> DESIRED_HEIGHT = 150),
-//                pause(100),
-//                inline(() -> claw.setState(Claw.states.OPEN)),
-//                inline(() -> turret.toggleSetThreshold(false))
+                )
         );
     }
 }
