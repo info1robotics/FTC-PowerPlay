@@ -166,7 +166,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> AUTO_SPEED = 0.20),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(190);
+                                    turret.setDistanceThreshold(210);
                                 }),
                                 pause(1500)
                                 )
@@ -197,7 +197,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> {
                                     REVERT_THRESHOLD = 0;
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(180);
+                                    turret.setDistanceThreshold(190);
                                 }),
                                 pause(1500)
                         )
@@ -228,7 +228,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> AUTO_SPEED = 0.20),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(180);
+                                    turret.setDistanceThreshold(190);
                                 }),
                                 pause(1500)
                         )
@@ -258,7 +258,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> DESIRED_HEIGHT = 250),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(180);
+                                    turret.setDistanceThreshold(190);
                                 }),
                                 pause(1500)
                         )
