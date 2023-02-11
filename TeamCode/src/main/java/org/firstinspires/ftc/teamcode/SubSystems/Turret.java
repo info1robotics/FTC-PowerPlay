@@ -38,7 +38,7 @@ public class Turret {
     public boolean hardLock = false;
     public boolean correctionFound = false;
     public static double CORRECTED_THRESHOLD = 0;
-    public static double REVERT_THRESHOLD = 7.5;
+    public static double REVERT_THRESHOLD = 0;
     public static double AUTO_SPEED = 0.0;
 
     public Turret(LinearOpMode opMode) {
@@ -113,7 +113,7 @@ public class Turret {
 //            engageSuperBrake();
 //            return;
         }
-        if (Math.abs(turretMotor.getCurrentPosition() - turretMotor.getTargetPosition()) < 5) {
+        if (Math.abs(turretMotor.getCurrentPosition() - turretMotor.getTargetPosition()) < 20) {
             setPower(0);
             engageBrake();
             engageSuperBrake();

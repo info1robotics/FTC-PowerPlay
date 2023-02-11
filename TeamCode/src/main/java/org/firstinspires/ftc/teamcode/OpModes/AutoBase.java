@@ -21,7 +21,7 @@ public abstract class AutoBase extends LinearOpMode {
     public Task task;
     public SampleMecanumDrive drive;
     public Turret turret;
-    public Pose2d startPose;
+//    public Pose2d startPose;
     public Linkage linkage;
     public Claw claw;
 
@@ -34,9 +34,8 @@ public abstract class AutoBase extends LinearOpMode {
         linkage = new Linkage(this);
 //        atag = new AprilTagDetection_41h12(this);
         drive = new SampleMecanumDrive(hardwareMap);
-
-        startPose = new Pose2d(-37.5, -62, Math.toRadians(90));
-        drive.setPoseEstimate(startPose);
+//        startPose = new Pose2d(-37.5, -62, Math.toRadians(90));
+//        drive.setPoseEstimate(startPose);
 
         DESIRED_ANGLE = 0;
         CORRECTED_ANGLE = 0;
