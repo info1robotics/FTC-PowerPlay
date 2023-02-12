@@ -59,8 +59,6 @@ public class TurretIMU {
 
             motor.setPower(velocity * -direction);
         }
-
-
     }
 
     int getTargetAngle() {

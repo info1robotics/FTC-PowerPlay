@@ -39,8 +39,11 @@ public class TeleOpMain extends LinearOpMode {
         boolean BRAKE_CHANGED = false;
         turret.engageBrake();
         turret.engageSuperBrake();
+        
         waitForStart();
+
         while (opModeIsActive()) {
+
             if(started){
                 started = false;
                 CURRENT_LEVEL = 100;
@@ -55,7 +58,7 @@ public class TeleOpMain extends LinearOpMode {
                 -gamepad1.left_stick_y,
                 gamepad1.left_trigger - gamepad1.right_trigger,
 //                    gamepad1.right_stick_x,
-                gamepad1.right_bumper ? 0.5 : 0.8
+                gamepad1.right_bumper ? 0.6 : 1.0
             );
 
             //Toggle claw power when button A (Xbox) / X (PS4) is pressed.
@@ -120,12 +123,14 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             if (automated) {
-                turret.goToAngle(CURRENT_ANGLE, 0.2);
+                turret.goToAngle(CURRENT_ANGLE, 0.35);
             } else {
-                turret.goToAngle(CURRENT_ANGLE, 0.5);
+                turret.goToAngle(CURRENT_ANGLE, 0.65);
             }
 
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
+
+            if(gamepad2.y) turret.resetEncoder();
 //            linkage.debug();
 //            turret.update();
             telemetry.update();
