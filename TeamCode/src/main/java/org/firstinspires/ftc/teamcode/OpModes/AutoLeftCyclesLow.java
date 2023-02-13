@@ -106,7 +106,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
                 .setReversed(true)
-                .lineTo(new Vector2d(-11, -8))
+                .lineTo(new Vector2d(-14, -8))
                 .resetConstraints()
                 .build();
 
@@ -114,7 +114,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
                 .setReversed(true)
-                .lineTo(new Vector2d(-30, -8))
+                .lineTo(new Vector2d(-35, -8))
                 .resetConstraints()
                 .build();
 
@@ -156,13 +156,13 @@ public class AutoLeftCyclesLow extends AutoBase {
                 trajectory(go_to_stack),
                 pause(100),
                 inline(() -> claw.setState(Claw.states.CLOSED)),
-                inline(() -> DESIRED_HEIGHT = 150),
+                inline(() -> DESIRED_HEIGHT = 200),
                 pause(200),
                 async(
                         trajectory(stack_to_low),
                         sync(
                                 pause(200),
-                                inline(() -> DESIRED_HEIGHT = 260),
+                                inline(() -> DESIRED_HEIGHT = 290),
                                 inline(() -> AUTO_SPEED = 0.20),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
@@ -187,12 +187,12 @@ public class AutoLeftCyclesLow extends AutoBase {
                 pause(100),
                 inline(() -> claw.setState(Claw.states.CLOSED)),
                 pause(100),
-                inline(() -> DESIRED_HEIGHT = 150),
+                inline(() -> DESIRED_HEIGHT = 200),
                 async(
                         trajectory(stack_to_low),
                         sync(
                                 pause(200),
-                                inline(() -> DESIRED_HEIGHT = 260),
+                                inline(() -> DESIRED_HEIGHT = 290),
                                 inline(() -> AUTO_SPEED = 0.20),
                                 inline(() -> {
                                     REVERT_THRESHOLD = 0;
@@ -218,13 +218,13 @@ public class AutoLeftCyclesLow extends AutoBase {
                 pause(100),
                 inline(() -> claw.setState(Claw.states.CLOSED)),
                 pause(200),
-                inline(() -> DESIRED_HEIGHT = 150),
+                inline(() -> DESIRED_HEIGHT = 200),
                 pause(200),
                 async(
                         trajectory(stack_to_low),
                         sync(
                                 pause(200),
-                                inline(() -> DESIRED_HEIGHT = 260),
+                                inline(() -> DESIRED_HEIGHT = 290),
                                 inline(() -> AUTO_SPEED = 0.20),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
@@ -249,13 +249,13 @@ public class AutoLeftCyclesLow extends AutoBase {
                 pause(100),
                 inline(() -> claw.setState(Claw.states.CLOSED)),
                 pause(200),
-                inline(() -> DESIRED_HEIGHT = 150),
+                inline(() -> DESIRED_HEIGHT = 200),
                 pause(100),
                 async(
                         trajectory(stack_to_low),
                         sync(
                                 pause(200),
-                                inline(() -> DESIRED_HEIGHT = 260),
+                                inline(() -> DESIRED_HEIGHT = 290),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
                                     turret.setDistanceThreshold(190);

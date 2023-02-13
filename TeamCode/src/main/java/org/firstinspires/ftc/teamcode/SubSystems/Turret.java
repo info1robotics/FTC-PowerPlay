@@ -41,6 +41,8 @@ public class Turret {
     public static double REVERT_THRESHOLD = 0;
     public static double AUTO_SPEED = 0.0;
 
+    public boolean softBrake = false;
+
     public Turret(LinearOpMode opMode) {
         distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "DistanceSensor");
         turretEncoder = opMode.hardwareMap.get(DcMotor.class, "TurretEncoder");
@@ -193,6 +195,10 @@ public class Turret {
         }
     }
 
+    public void setSoftBrake(boolean state) {
+        softBrake = state;
+    }
+
     public void engageBrake() {
         brakeServo2.setPosition(0.25);
     }
@@ -214,6 +220,19 @@ public class Turret {
        correctionFound = false;}
        LAST_ANGLE = DESIRED_ANGLE;
         goToAngleHard(AUTO_SPEED);
+
+        // soft braking
+//        if(softBrake) {
+//            if(turretMotor.getPower() >= 0) {
+//
+//                // disengage super servo and engage normal one
+//                brakeServo2.setPosition(0.35);
+//                brakeServo1.setPosition(0.25);
+//            } else {
+//                brakeServo1.setPosition(0.05);
+//                brakeServo2.setPosition(0.6);
+//            }
+//        }
     }
 
 }
