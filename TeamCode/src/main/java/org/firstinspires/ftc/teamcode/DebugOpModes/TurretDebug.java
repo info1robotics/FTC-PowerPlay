@@ -2,13 +2,14 @@ package org.firstinspires.ftc.teamcode.DebugOpModes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 import org.firstinspires.ftc.teamcode.SubSystems.TurretMotion;
 
-//@Disabled
+@Disabled
 @TeleOp
 public class TurretDebug extends LinearOpMode {
     @Override

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 
-//@Disabled
+@Disabled
 @TeleOp
 public class ClawDebug extends LinearOpMode {
     @Override
