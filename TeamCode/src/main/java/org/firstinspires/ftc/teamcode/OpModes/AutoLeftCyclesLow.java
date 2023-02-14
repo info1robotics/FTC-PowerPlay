@@ -36,7 +36,7 @@ public class AutoLeftCyclesLow extends AutoBase {
     public Trajectory align_preload;
     public TrajectorySequence stack_to_low, preload_to_turn, low_to_stack, turn_to_stack, go_to_stack, low_to_stack_1, low_to_stack_2, low_to_stack_3, low_to_stack_4;
     public TrajectorySequence run_to_zone_3, run_to_zone_2, run_to_zone_1;
-    public static double HIGH_TURRET_ANGLE = -105;
+    public static double HIGH_TURRET_ANGLE = -95;
 
     TrajectoryVelocityConstraint slowConstraint = new MinVelocityConstraint(Arrays.asList(
             new TranslationalVelocityConstraint(40),
@@ -73,7 +73,7 @@ public class AutoLeftCyclesLow extends AutoBase {
         go_to_stack = drive.trajectorySequenceBuilder(turn_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineTo(new Vector2d(-59, -9.5))
+                .lineTo(new Vector2d(-58.5, -9.5))
                 .resetConstraints()
                 .build();
 
@@ -83,19 +83,19 @@ public class AutoLeftCyclesLow extends AutoBase {
                 .build();
 
         low_to_stack = drive.trajectorySequenceBuilder(stack_to_low.end())
-                .lineTo(new Vector2d(-59, -9.5))
+                .lineTo(new Vector2d(-59.25, -9.5))
                 .build();
 
         low_to_stack_1 = drive.trajectorySequenceBuilder(stack_to_low.end())
-                .lineTo(new Vector2d(-58.5, -10.5))
+                .lineTo(new Vector2d(-59, -10.5))
                 .build();
 
         low_to_stack_2 = drive.trajectorySequenceBuilder(stack_to_low.end())
-                .lineTo(new Vector2d(-58.25, -10.5))
+                .lineTo(new Vector2d(-58.75, -10.5))
                 .build();
 
         low_to_stack_3 = drive.trajectorySequenceBuilder(stack_to_low.end())
-                .lineTo(new Vector2d(-58.25, -10.5))
+                .lineTo(new Vector2d(-58.75, -10.5))
                 .build();
 
         low_to_stack_4 = drive.trajectorySequenceBuilder(stack_to_low.end())
@@ -151,7 +151,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                 // first cycle
                 inline(() -> REVERT_THRESHOLD = 0),
                 inline(() -> AUTO_SPEED = 0.1),
-                inline(() -> DESIRED_ANGLE = 0),
+                inline(() -> DESIRED_ANGLE = 2.5),
                 pause(300),
                 trajectory(go_to_stack),
                 pause(100),
@@ -166,7 +166,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> AUTO_SPEED = 0.20),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(190);
+                                    turret.setDistanceThreshold(150);
                                 }),
                                 pause(1500)
                                 )
@@ -179,9 +179,9 @@ public class AutoLeftCyclesLow extends AutoBase {
 
                 // second cycle
                 inline(() -> REVERT_THRESHOLD = 0),
-                inline(() -> DESIRED_ANGLE = 0),
+                inline(() -> DESIRED_ANGLE = 2.5),
                 pause(750),
-                inline(() -> DESIRED_HEIGHT = 80),
+                inline(() -> DESIRED_HEIGHT = 70),
                 pause(300),
                 trajectory(low_to_stack_1),
                 pause(100),
@@ -197,7 +197,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> {
                                     REVERT_THRESHOLD = 0;
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(190);
+                                    turret.setDistanceThreshold(150);
                                 }),
                                 pause(1500)
                         )
@@ -210,9 +210,9 @@ public class AutoLeftCyclesLow extends AutoBase {
                 // third cycle
                 inline(() -> REVERT_THRESHOLD = 0),
 
-                inline(() -> DESIRED_ANGLE = 0),
+                inline(() -> DESIRED_ANGLE = 2.5),
                 pause(750),
-                inline(() -> DESIRED_HEIGHT = 70),
+                inline(() -> DESIRED_HEIGHT = 50),
                 pause(300),
                 trajectory(low_to_stack_2),
                 pause(100),
@@ -228,7 +228,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> AUTO_SPEED = 0.20),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(190);
+                                    turret.setDistanceThreshold(150);
                                 }),
                                 pause(1500)
                         )
@@ -241,9 +241,9 @@ public class AutoLeftCyclesLow extends AutoBase {
 
                 // fourth cycle
 
-                inline(() -> DESIRED_ANGLE = 0),
+                inline(() -> DESIRED_ANGLE = 2.5),
                 pause(750),
-                inline(() -> DESIRED_HEIGHT = 50),
+                inline(() -> DESIRED_HEIGHT = 40),
                 pause(300),
                 trajectory(low_to_stack_3),
                 pause(100),
@@ -258,7 +258,7 @@ public class AutoLeftCyclesLow extends AutoBase {
                                 inline(() -> DESIRED_HEIGHT = 290),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(190);
+                                    turret.setDistanceThreshold(150);
                                 }),
                                 pause(1500)
                         )

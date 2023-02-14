@@ -200,7 +200,7 @@ public class Turret {
     }
 
     public void engageBrake() {
-        brakeServo2.setPosition(0.25);
+        brakeServo2.setPosition(0.35);
     }
 
     public void disengageBrake() {
@@ -208,7 +208,7 @@ public class Turret {
     }
 
     public void engageSuperBrake() {
-        brakeServo1.setPosition(0.05);
+        brakeServo1.setPosition(0.1);
     }
 
     public void disengageSuperBrake() {

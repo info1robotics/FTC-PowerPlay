@@ -18,11 +18,13 @@ public class MyClass {
                 .setColorScheme(new ColorSchemeRedDark())
                 .setConstraints(50, 30, Math.toRadians(180), Math.toRadians(180), 12)
                 .followTrajectorySequence(drive ->
-                drive.trajectorySequenceBuilder(new Pose2d(-35, -62, Math.toRadians(90)))
-                        .lineTo(new Vector2d(-35, -23.5))
-                        .splineToSplineHeading(new Pose2d(-30,-9, Math.toRadians(45)), Math.toRadians(0))
-//                        .splineTo(new Vector2d(-54.5,-10), Math.toRadians(180))
-
+                drive.trajectorySequenceBuilder(new Pose2d(-37.5, -62, Math.toRadians(90)))
+                        .lineTo(new Vector2d(-38.5, -20))
+                        .lineTo(new Vector2d(-38.5, -8))
+                        .turn(Math.toRadians(90))
+                        .lineTo(new Vector2d(-58.25, -9.5))
+                        .lineTo(new Vector2d(0, -10))
+                        .lineTo(new Vector2d(-58.25, -9.5))
                         .build()
         );
 

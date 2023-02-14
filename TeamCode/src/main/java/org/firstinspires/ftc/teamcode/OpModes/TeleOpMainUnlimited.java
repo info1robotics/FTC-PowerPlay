@@ -14,6 +14,7 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.MAX_ANGLE;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.MIN_ANGLE;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -22,6 +23,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
+@Disabled
 @TeleOp(name = "TeleOp w/o Safety Systems")
 public class TeleOpMainUnlimited extends LinearOpMode {
     public boolean automated = false;

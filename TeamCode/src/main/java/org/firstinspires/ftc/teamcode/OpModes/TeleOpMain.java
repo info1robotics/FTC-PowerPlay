@@ -13,6 +13,7 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Turret.ANGLE_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -21,6 +22,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
+
+@Disabled
 @TeleOp(name = "Main TeleOp")
 public class TeleOpMain extends LinearOpMode {
     public boolean automated = false;

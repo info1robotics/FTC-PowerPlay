@@ -120,9 +120,9 @@ public class TeleOpGabi extends LinearOpMode {
             }
 
             if (automated) {
-                turret.goToAngle(CURRENT_ANGLE, 0.2);
+                turret.goToAngle(CURRENT_ANGLE, 0.3);
             } else {
-                turret.goToAngle(CURRENT_ANGLE, 0.5);
+                turret.goToAngle(CURRENT_ANGLE, 0.6);
             }
 
             linkage.goToLevel(CURRENT_LEVEL, 1.0);

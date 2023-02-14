@@ -158,7 +158,7 @@ public class AutoRightCyclesLow extends AutoBase {
                 pause(100),
                 inline(() -> claw.setState(Claw.states.CLOSED)),
                 inline(() -> DESIRED_HEIGHT = 150),
-                pause(200),
+                pause(300),
                 async(
                         trajectory(stack_to_low),
                         sync(
@@ -189,6 +189,7 @@ public class AutoRightCyclesLow extends AutoBase {
                 inline(() -> claw.setState(Claw.states.CLOSED)),
                 pause(100),
                 inline(() -> DESIRED_HEIGHT = 150),
+                pause(300),
                 async(
                         trajectory(stack_to_low),
                         sync(
@@ -219,7 +220,7 @@ public class AutoRightCyclesLow extends AutoBase {
                 inline(() -> claw.setState(Claw.states.CLOSED)),
                 pause(200),
                 inline(() -> DESIRED_HEIGHT = 150),
-                pause(200),
+                pause(300),
                 async(
                         trajectory(stack_to_low),
                         sync(
@@ -250,7 +251,7 @@ public class AutoRightCyclesLow extends AutoBase {
                 inline(() -> claw.setState(Claw.states.CLOSED)),
                 pause(200),
                 inline(() -> DESIRED_HEIGHT = 145),
-                pause(100),
+                pause(300),
                 async(
                         trajectory(stack_to_low),
                         sync(
