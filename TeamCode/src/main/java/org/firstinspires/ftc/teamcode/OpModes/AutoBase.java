@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CORRECTED_ANGLE;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.DESIRED_ANGLE;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.AUTO_SPEED;
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -56,6 +57,7 @@ public abstract class AutoBase extends LinearOpMode {
             linkage.update();
             turret.update();
             onLoop();
+            telemetry.addData("distance", turret.distanceSensor.getDistance(DistanceUnit.CM));
             telemetry.update();
             task.tick();
         }
