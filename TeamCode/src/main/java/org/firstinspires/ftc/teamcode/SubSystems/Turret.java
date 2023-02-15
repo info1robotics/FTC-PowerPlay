@@ -109,7 +109,7 @@ public class Turret {
         setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / CORRECTED_ANGLE) * ERROR));
         setMotorsRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if(TOGGLE_DIST && distanceSensor.getDistance(DistanceUnit.CM) <= MAX_DIST && !correctionFound){
+        if(TOGGLE_DIST && distanceSensor.getDistance(DistanceUnit.MM) <= MAX_DIST && !correctionFound){
             correctionFound = true;
             CORRECTED_ANGLE = getCurrentAngle() + REVERT_THRESHOLD;
 //            setPower(0);

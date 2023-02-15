@@ -22,19 +22,20 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 
 import java.util.Arrays;
 
-//@Disabled
+@Disabled
 @Autonomous(name = "Left High Cycles")
 @Config
 public class AutoHighAntiDefense extends AutoBase {
     public Pose2d startPoseLeft;
     public Trajectory align_preload;
-    public TrajectorySequence stack_to_high, high_align, preload_to_turn, high_to_stack, turn_to_stack, go_to_stack, low_to_stack_1, low_to_stack_2, low_to_stack_3, low_to_stack_4;
+    public TrajectorySequence stack_to_high_1, stack_to_high_2, high_align_1, high_align_2, preload_to_turn, high_to_stack_1, high_to_stack_2, turn_to_stack, go_to_stack, low_to_stack_1, low_to_stack_2, low_to_stack_3, low_to_stack_4;
     public TrajectorySequence run_to_zone_3, run_to_zone_2, run_to_zone_1;
     public static double HIGH_TURRET_ANGLE = -100;
 
@@ -73,24 +74,44 @@ public class AutoHighAntiDefense extends AutoBase {
         go_to_stack = drive.trajectorySequenceBuilder(turn_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineTo(new Vector2d(-59.25, -9.5))
+                .lineTo(new Vector2d(-58.75, -9.5))
                 .resetConstraints()
                 .build();
 
 
-        stack_to_high = drive.trajectorySequenceBuilder(go_to_stack.end())
+        stack_to_high_1 = drive.trajectorySequenceBuilder(go_to_stack.end())
                 .setReversed(true)
                 .lineTo(new Vector2d(-5, -10))
                 .build();
 
-        high_align = drive.trajectorySequenceBuilder(stack_to_high.end())
+        stack_to_high_2 = drive.trajectorySequenceBuilder(go_to_stack.end())
+                .setReversed(true)
+                .lineTo(new Vector2d(-5, -10))
+                .build();
+
+        high_align_1 = drive.trajectorySequenceBuilder(stack_to_high_1.end())
+                .setAccelConstraint(accelConstraint)
+                .setVelConstraint(slowConstraint)
+                .lineTo(new Vector2d(-1, -9.25))
+                .resetConstraints()
+                .build();
+
+        high_align_2 = drive.trajectorySequenceBuilder(stack_to_high_2.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
                 .lineTo(new Vector2d(-1, -10))
                 .resetConstraints()
                 .build();
 
-        high_to_stack = drive.trajectorySequenceBuilder(stack_to_high.end())
+        high_to_stack_1 = drive.trajectorySequenceBuilder(high_align_1.end())
+                .lineTo(new Vector2d(-55.75, -9.5))
+                .setAccelConstraint(accelConstraint)
+                .setVelConstraint(slowConstraint)
+                .lineTo(new Vector2d(-58, -9.5))
+                .resetConstraints()
+                .build();
+
+        high_to_stack_2 = drive.trajectorySequenceBuilder(high_align_2.end())
                 .lineTo(new Vector2d(-55.75, -9.5))
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
@@ -98,47 +119,29 @@ public class AutoHighAntiDefense extends AutoBase {
                 .resetConstraints()
                 .build();
 
-        low_to_stack_1 = drive.trajectorySequenceBuilder(stack_to_high.end())
-                .lineTo(new Vector2d(-58.5, -10.5))
-                .build();
-
-        low_to_stack_2 = drive.trajectorySequenceBuilder(stack_to_high.end())
-                .lineTo(new Vector2d(-58.25, -10.5))
-                .build();
-
-        low_to_stack_3 = drive.trajectorySequenceBuilder(stack_to_high.end())
-                .lineTo(new Vector2d(-58.25, -10.5))
-                .build();
-
-        low_to_stack_4 = drive.trajectorySequenceBuilder(stack_to_high.end())
-                .lineTo(new Vector2d(-58.75, -8))
-                .build();
-
-
-
-        run_to_zone_3 = drive.trajectorySequenceBuilder(stack_to_high.end())
-                .setAccelConstraint(fastAccelConstraint)
-                .setVelConstraint(fastConstraint)
-                .setReversed(true)
-                .lineTo(new Vector2d(-14, -8))
-                .resetConstraints()
-                .build();
-
-        run_to_zone_2 = drive.trajectorySequenceBuilder(stack_to_high.end())
-                .setAccelConstraint(fastAccelConstraint)
-                .setVelConstraint(fastConstraint)
-                .setReversed(true)
-                .lineTo(new Vector2d(-35, -8))
-                .resetConstraints()
-                .build();
-
-        run_to_zone_1 = drive.trajectorySequenceBuilder(stack_to_high.end())
-                .setAccelConstraint(fastAccelConstraint)
-                .setVelConstraint(fastConstraint)
-                .setReversed(true)
-                .lineTo(new Vector2d(-60, -8))
-                .resetConstraints()
-                .build();
+//        run_to_zone_3 = drive.trajectorySequenceBuilder(stack_to_high.end())
+//                .setAccelConstraint(fastAccelConstraint)
+//                .setVelConstraint(fastConstraint)
+//                .setReversed(true)
+//                .lineTo(new Vector2d(-14, -8))
+//                .resetConstraints()
+//                .build();
+//
+//        run_to_zone_2 = drive.trajectorySequenceBuilder(stack_to_high.end())
+//                .setAccelConstraint(fastAccelConstraint)
+//                .setVelConstraint(fastConstraint)
+//                .setReversed(true)
+//                .lineTo(new Vector2d(-35, -8))
+//                .resetConstraints()
+//                .build();
+//
+//        run_to_zone_1 = drive.trajectorySequenceBuilder(stack_to_high.end())
+//                .setAccelConstraint(fastAccelConstraint)
+//                .setVelConstraint(fastConstraint)
+//                .setReversed(true)
+//                .lineTo(new Vector2d(-60, -8))
+//                .resetConstraints()
+//                .build();
 
         task = sync(
                 // Robot goes forward and aligns itself with the mid junction.
@@ -163,9 +166,10 @@ public class AutoHighAntiDefense extends AutoBase {
                 ),
 
                 // first cycle
+
                 inline(() -> REVERT_THRESHOLD = 0),
                 inline(() -> AUTO_SPEED = 0.1),
-                inline(() -> DESIRED_ANGLE = 2.5),
+                inline(() -> DESIRED_ANGLE = 0),
                 pause(300),
                 trajectory(go_to_stack),
                 pause(100),
@@ -173,62 +177,67 @@ public class AutoHighAntiDefense extends AutoBase {
                 inline(() -> DESIRED_HEIGHT = 200),
                 pause(200),
                 async(
-                        trajectory(stack_to_high),
+                        trajectory(stack_to_high_1),
                         sync(
                                 pause(200),
                                 inline(() -> DESIRED_HEIGHT = 300),
-                                inline(() -> AUTO_SPEED = 0.10),
+                                inline(() -> AUTO_SPEED = 0.15),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(180);
-                                }),
-                                pause(1500)
+                                    turret.setDistanceThreshold(160);
+                                })
+//                                pause(1500)
                                 )
                 ),
-                    async(
+                trajectory(high_align_1),
+                async(
                             inline(() -> DESIRED_HEIGHT = 700),
-                            trajectory(high_align),
                     sync(
                             inline(() -> turret.toggleSetThreshold(true)),
-                            pause(1500),
-                            inline(() -> DESIRED_HEIGHT = 500),
+                            pause(3000),
                             inline(() -> claw.setState(Claw.states.OPEN)),
+                            pause(100),
+                            inline(() -> DESIRED_HEIGHT = 500),
                             inline(() -> turret.toggleSetThreshold(false)))
                         ),
+                pause(100),
+                async(
+                        trajectory(high_to_stack_1),
+                        sync(
+                                inline(() -> AUTO_SPEED = 0.15),
+                                inline(() -> DESIRED_ANGLE = 0),
+                                pause(2000),
+                                inline(() -> DESIRED_HEIGHT = 60)
+                        )),
+                inline(() -> claw.setState(Claw.states.CLOSED)),
 
                 // second cycle
 
-                pause(100),
-                async(
-                        trajectory(high_to_stack),
-                        inline(() -> DESIRED_ANGLE = 2.5),
-                        inline(() -> DESIRED_HEIGHT = 60)
-                        ),
-                inline(() -> claw.setState(Claw.states.CLOSED)),
                 pause(200),
                 inline(() -> DESIRED_HEIGHT = 200),
                 pause(200),
                 async(
-                        trajectory(stack_to_high),
+                        trajectory(stack_to_high_2),
                         sync(
                                 pause(200),
                                 inline(() -> DESIRED_HEIGHT = 300),
                                 inline(() -> AUTO_SPEED = 0.10),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
-                                    turret.setDistanceThreshold(180);
-                                }),
-                                pause(1500)
+                                    turret.setDistanceThreshold(160);
+                                })
+//                                pause(1500)
                         )
                 ),
+                trajectory(high_align_2),
                 async(
                         inline(() -> DESIRED_HEIGHT = 700),
-                        trajectory(high_align),
                         sync(
                                 inline(() -> turret.toggleSetThreshold(true)),
-                                pause(1500),
-                                inline(() -> DESIRED_HEIGHT = 500),
+                                pause(3000),
                                 inline(() -> claw.setState(Claw.states.OPEN)),
+                                pause(100),
+                                inline(() -> DESIRED_HEIGHT = 500),
                                 inline(() -> turret.toggleSetThreshold(false)))
                 ),
                 pause(2000)
