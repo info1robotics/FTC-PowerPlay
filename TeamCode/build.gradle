@@ -19,7 +19,21 @@ apply from: '../build.dependencies.gradle'
 apply plugin: 'kotlin-android'
 
 android {
+
+    defaultConfig {
+        externalNativeBuild {
+            cmake {
+                cppFlags ''
+            }
+        }
+    }
     namespace = 'org.firstinspires.ftc.teamcode'
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version '3.18.1'
+        }
+    }
 
     packagingOptions {
         jniLibs.useLegacyPackaging true
