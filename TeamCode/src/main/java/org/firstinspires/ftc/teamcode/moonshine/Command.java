@@ -19,10 +19,10 @@ public abstract class Command {
     State state = State.NOT_STARTED;
     Command parent = null;
 
-    public Command[] children;
+    public Command[] childrenCommands;
 
     protected Command(Command... children) {
-        this.children = children;
+        this.childrenCommands = children;
         for (Command child : children) {
             child.setParent(this);
         }
@@ -58,21 +58,25 @@ public abstract class Command {
      */
 
     public void step() {
-        if(state == State.NOT_STARTED) {
+        if(notStarted()) {
+            state = State.STARTED;
             hydrateFields();
             onStart();
-            state = State.STARTED;
-        } else if(state == State.STARTED || state == State.TICKING) {
-            onTick();
+        } else if(isRunning()) {
             state = State.TICKING;
+            onTick();
         }
     }
+
     public void end() {
         if(!isRunning())
             return;
 
-        onEnd();
         state = State.ENDED;
+        for(Command child : childrenCommands) {
+            child.end();
+        }
+        onEnd();
     }
 
     public void reuse() {
@@ -80,6 +84,9 @@ public abstract class Command {
             throw new MoonshineException(this, "Cannot reuse a command that's still running!");
 
         state = State.NOT_STARTED;
+        for(Command child : childrenCommands) {
+            child.reuse();
+        }
     }
 
     public State getState() {

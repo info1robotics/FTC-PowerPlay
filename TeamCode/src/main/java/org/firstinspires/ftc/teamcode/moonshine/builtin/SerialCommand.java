@@ -20,16 +20,14 @@ public class SerialCommand extends Command {
     }
     @Override
     protected void onEnd() {
-        if(current < children.length)
-            children[current].end();
     }
 
     void stepThroughChildren() {
-        if(current < children.length) {
-            if(children[current].hasEnded())
+        if(current < childrenCommands.length) {
+            if(childrenCommands[current].hasEnded())
                 current++;
             else
-                children[current].step();
+                childrenCommands[current].step();
         } else end();
     }
 }

@@ -3,12 +3,11 @@ package org.firstinspires.ftc.teamcode.moonshine.builtin;
 import org.firstinspires.ftc.teamcode.moonshine.Command;
 import org.firstinspires.ftc.teamcode.moonshine.MoonshineException;
 
-import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 public class SwitchCommand extends Command {
 
-    public static final int INVALID = -1;
+    public static final int NONE = -1;
 
     int lastResult;
     private final Supplier<Integer> switchResult;
@@ -20,7 +19,7 @@ public class SwitchCommand extends Command {
 
     @Override
     protected void onStart() {
-        lastResult = INVALID;
+        lastResult = NONE;
         stepThroughSelected();
     }
 
@@ -31,18 +30,23 @@ public class SwitchCommand extends Command {
 
     @Override
     protected void onEnd() {
-        int currentResult = getCurrentResult();
-        if(lastResult != INVALID)
-            children[currentResult].end();
     }
 
     void stepThroughSelected() {
         int currentResult = getCurrentResult();
-        if(lastResult != INVALID && lastResult != currentResult) {
-            children[lastResult].end();
+
+        if(lastResult != currentResult) {
+            if(lastResult != NONE) {
+                childrenCommands[lastResult].end();
+            }
+            if(childrenCommands[currentResult].hasEnded())
+                childrenCommands[currentResult].reuse();
         }
-        if(currentResult != INVALID) {
-            children[currentResult].step();
+
+        if(currentResult != NONE) {
+            childrenCommands[currentResult].step();
+        } else {
+            end();
         }
 
         lastResult = currentResult;
@@ -50,8 +54,14 @@ public class SwitchCommand extends Command {
 
     int getCurrentResult() {
         int currentResult = switchResult.get();
-        if(currentResult != INVALID && (currentResult < 0 || currentResult >= children.length))
-            throw new MoonshineException(this, "SwitchCommand: switch result out of children array bounds");
+        if(currentResult != NONE && (currentResult < 0 || currentResult >= childrenCommands.length))
+            throw new MoonshineException(
+                this,
+                String.format(
+                    "SwitchCommand: switch result \"%d\" out of children array bounds",
+                    currentResult)
+            );
+
         return currentResult;
     }
 }

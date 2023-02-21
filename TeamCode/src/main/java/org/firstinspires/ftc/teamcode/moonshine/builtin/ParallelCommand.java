@@ -20,20 +20,17 @@ public class ParallelCommand extends Command {
     }
     @Override
     protected void onEnd() {
-        for(Command child : children) {
-            child.end();
-        }
     }
 
     void stepThroughChildren() {
         int endedChildren = 0;
-        for(Command child : children) {
+        for(Command child : childrenCommands) {
             child.step();
             if(child.hasEnded()) {
                 endedChildren++;
             }
         }
-        if(endedChildren == children.length || (endedChildren > 0 && shorting)) {
+        if(endedChildren == childrenCommands.length || (endedChildren > 0 && shorting)) {
             end();
         }
     }

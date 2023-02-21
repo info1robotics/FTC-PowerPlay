@@ -1,27 +1,35 @@
 package org.firstinspires.ftc.teamcode.moonshine;
 
 public abstract class Subsystem extends Command {
-    protected Subsystem(Command[] children) {
-        super(children);
+    public Subsystem[] childrenSubsystems;
+
+    protected Subsystem() {
+        super();
     }
 
-    abstract void onInitStart();
-    abstract void onInitTick();
-    abstract void onInitEnd();
+    protected abstract void onInitStart();
+    protected abstract void onInitTick();
+    protected abstract void onInitEnd();
 
-    void initStep() {
+    public void initStep() {
         if(state == State.NOT_STARTED) {
+            state = State.STARTED;
             hydrateFields();
             onInitStart();
-            state = State.STARTED;
         }
         else {
-            onInitTick();
             state = State.TICKING;
+            onInitTick();
         }
     }
-    void initEnd() {
-        onInitEnd();
+    public void initEnd() {
+        if(!isRunning())
+            return;
+
         state = State.ENDED;
+        for(Subsystem child : childrenSubsystems) {
+            child.initEnd();
+        }
+        onInitEnd();
     }
 }

@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.moonshine.builtin;
 import org.firstinspires.ftc.teamcode.moonshine.Command;
 
 import java.util.Arrays;
-import java.util.function.Predicate;
 
 public class PassthroughCommand extends Command {
 
-    public PassthroughCommand(Command... children) {
+    private final boolean automaticPrepareForReuse;
+
+    public PassthroughCommand(boolean automaticPrepareForReuse, Command... children) {
         super(children);
+        this.automaticPrepareForReuse = automaticPrepareForReuse;
     }
 
     @Override
@@ -23,20 +25,19 @@ public class PassthroughCommand extends Command {
 
     @Override
     protected void onEnd() {
-        for(Command child : children) {
-            child.end();
-        }
     }
 
     void stepThroughChildren() {
-        for(Command child : children) {
+        for(Command child : childrenCommands) {
             child.step();
+            if(child.hasEnded() && automaticPrepareForReuse)
+                child.reuse();
         }
     }
-
-    public void garbageCollect() {
-        children = (Command[]) Arrays.stream(children)
-            .filter(command -> !command.hasEnded())
-            .toArray();
-    }
+//
+//    public void cleanEnded() {
+//        childrenCommands = (Command[]) Arrays.stream(childrenCommands)
+//            .filter(command -> !command.hasEnded())
+//            .toArray();
+//    }
 }
