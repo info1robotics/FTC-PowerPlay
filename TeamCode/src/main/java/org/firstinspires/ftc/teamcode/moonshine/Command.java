@@ -18,11 +18,12 @@ public abstract class Command {
 
     State state = State.NOT_STARTED;
     Command parent = null;
+    public Command[] children;
 
-    public Command[] childrenCommands;
+    public OpMode opMode;
 
     protected Command(Command... children) {
-        this.childrenCommands = children;
+        this.children = children;
         for (Command child : children) {
             child.setParent(this);
         }
@@ -30,6 +31,7 @@ public abstract class Command {
 
     protected void hydrateFields() {
         OpMode currentOpMode = CommandEnv.getInstance().eventLoop.getOpModeManager().getActiveOpMode();
+        this.opMode = currentOpMode;
         if(currentOpMode == null)
             return;
 
@@ -73,7 +75,7 @@ public abstract class Command {
             return;
 
         state = State.ENDED;
-        for(Command child : childrenCommands) {
+        for(Command child : children) {
             child.end();
         }
         onEnd();
@@ -84,7 +86,7 @@ public abstract class Command {
             throw new MoonshineException(this, "Cannot reuse a command that's still running!");
 
         state = State.NOT_STARTED;
-        for(Command child : childrenCommands) {
+        for(Command child : children) {
             child.reuse();
         }
     }

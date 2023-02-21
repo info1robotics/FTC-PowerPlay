@@ -37,14 +37,14 @@ public class SwitchCommand extends Command {
 
         if(lastResult != currentResult) {
             if(lastResult != NONE) {
-                childrenCommands[lastResult].end();
+                children[lastResult].end();
             }
-            if(childrenCommands[currentResult].hasEnded())
-                childrenCommands[currentResult].reuse();
+            if(children[currentResult].hasEnded())
+                children[currentResult].reuse();
         }
 
         if(currentResult != NONE) {
-            childrenCommands[currentResult].step();
+            children[currentResult].step();
         } else {
             end();
         }
@@ -54,7 +54,7 @@ public class SwitchCommand extends Command {
 
     int getCurrentResult() {
         int currentResult = switchResult.get();
-        if(currentResult != NONE && (currentResult < 0 || currentResult >= childrenCommands.length))
+        if(currentResult != NONE && (currentResult < 0 || currentResult >= children.length))
             throw new MoonshineException(
                 this,
                 String.format(

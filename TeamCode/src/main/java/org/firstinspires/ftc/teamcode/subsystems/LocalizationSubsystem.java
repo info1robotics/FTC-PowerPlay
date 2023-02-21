@@ -12,8 +12,7 @@ public class LocalizationSubsystem extends Subsystem {
     private final Pose2d startPosition;
     StandardTrackingWheelLocalizer localizer;
 
-    public LocalizationSubsystem(Pose2d startPosition, Command... children) {
-        super(children);
+    public LocalizationSubsystem(Pose2d startPosition) {
         this.startPosition = startPosition;
     }
 
@@ -35,16 +34,4 @@ public class LocalizationSubsystem extends Subsystem {
 
     }
 
-    @Override
-    protected void onInitStart() {
-
-    }
-    @Override
-    protected void onInitTick() {
-
-    }
-    @Override
-    protected void onInitEnd() {
-
-    }
 }

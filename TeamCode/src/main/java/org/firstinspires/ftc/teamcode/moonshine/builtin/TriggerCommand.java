@@ -10,7 +10,8 @@ public class TriggerCommand extends Command {
     private final Supplier<Boolean> cond;
     private boolean triggered;
 
-    public TriggerCommand(Supplier<Boolean> cond) {
+    public TriggerCommand(Supplier<Boolean> cond, Command... oneChild) {
+        this.children = oneChild;
         this.cond = cond;
     }
 
@@ -33,13 +34,12 @@ public class TriggerCommand extends Command {
     private void yes() {
         if(cond.get()) triggered = true;
         if(triggered) stepThroughChildren();
-        if(Arrays.stream(childrenCommands).allMatch(Command::hasEnded))
+        if(Arrays.stream(children).allMatch(Command::hasEnded))
             end();
     }
 
     private void stepThroughChildren() {
-        for(Command child : childrenCommands) {
-            child.step();
-        }
+        if(children.length > 0)
+            children[0].step();
     }
 }

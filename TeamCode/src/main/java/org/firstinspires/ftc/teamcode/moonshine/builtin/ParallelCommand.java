@@ -3,11 +3,17 @@ package org.firstinspires.ftc.teamcode.moonshine.builtin;
 import org.firstinspires.ftc.teamcode.moonshine.Command;
 
 public class ParallelCommand extends Command {
-    private final boolean shorting;
+    private final Behavior behavior;
 
-    public ParallelCommand(boolean shorting, Command... children) {
+    public enum Behavior {
+        DEFAULT,
+        CONTINUOUS,
+        SHORT
+    }
+
+    public ParallelCommand(Behavior behavior, Command... children) {
         super(children);
-        this.shorting = shorting;
+        this.behavior = behavior;
     }
 
     @Override
@@ -24,13 +30,18 @@ public class ParallelCommand extends Command {
 
     void stepThroughChildren() {
         int endedChildren = 0;
-        for(Command child : childrenCommands) {
+        for(Command child : children) {
             child.step();
             if(child.hasEnded()) {
-                endedChildren++;
+                if(behavior != Behavior.CONTINUOUS) {
+                    endedChildren++;
+                } else {
+                    child.reuse();
+                }
             }
         }
-        if(endedChildren == childrenCommands.length || (endedChildren > 0 && shorting)) {
+
+        if(endedChildren == children.length || (endedChildren > 0 && behavior == Behavior.SHORT)) {
             end();
         }
     }

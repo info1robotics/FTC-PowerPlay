@@ -23,11 +23,11 @@ public class SerialCommand extends Command {
     }
 
     void stepThroughChildren() {
-        if(current < childrenCommands.length) {
-            if(childrenCommands[current].hasEnded())
+        if(current < children.length) {
+            if(children[current].hasEnded())
                 current++;
             else
-                childrenCommands[current].step();
+                children[current].step();
         } else end();
     }
 }
