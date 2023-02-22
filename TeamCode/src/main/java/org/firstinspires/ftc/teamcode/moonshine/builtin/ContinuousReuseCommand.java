@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.moonshine.builtin;
 
-import org.firstinspires.ftc.teamcode.moonshine.Subsystem;
+import org.firstinspires.ftc.teamcode.moonshine.Command;
 
 public class ContinuousReuseCommand extends ParallelCommand {
-    public ContinuousReuseCommand(Subsystem... children) {
+    public ContinuousReuseCommand(Command... children) {
         super(Behavior.CONTINUOUS, children);
     }
 }

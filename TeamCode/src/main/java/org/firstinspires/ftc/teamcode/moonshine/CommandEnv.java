@@ -25,7 +25,7 @@ public class CommandEnv {
 
 
     public EventLoop eventLoop;
-    public HashMap<String, Object> sharedVars;
+    public HashMap<String, Object> sharedVars = new HashMap<>();
 
     @OnCreateEventLoop
     public static void attachEventLoop(Context context, FtcEventLoop eventLoop) {

@@ -55,8 +55,7 @@ fun newTeleOpRoutine(inner: ContinuousReuseCommand.() -> Unit): ContinuousReuseC
 
 @MoonshineDsl
 fun subsystems(inner: ContinuousReuseCommand.() -> Unit): ContinuousReuseCommand {
-    return ContinuousReuseCommand()
-        .apply(inner)
+    return ContinuousReuseCommand().apply(inner)
 }
 
 @MoonshineDsl

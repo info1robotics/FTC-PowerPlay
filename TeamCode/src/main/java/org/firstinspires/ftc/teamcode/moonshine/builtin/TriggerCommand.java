@@ -34,7 +34,7 @@ public class TriggerCommand extends Command {
     private void yes() {
         if(cond.get()) triggered = true;
         if(triggered) stepThroughChildren();
-        if(Arrays.stream(children).allMatch(Command::hasEnded))
+        if(triggered && Arrays.stream(children).allMatch(Command::hasEnded))
             end();
     }
 

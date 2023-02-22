@@ -22,18 +22,18 @@ open class InjectSharedRoot<T, E: SharedVar<T>>(
     private fun initIfNeeded(property: KProperty<*>) {
         if(!::sharedRoot.isInitialized) {
             sharedRoot = defaultRootProvider(property)
-            sharedRoot.value = defaultValue
+            if(sharedRoot.value == null) sharedRoot.value = defaultValue
         }
     }
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
         initIfNeeded(property)
-        return CommandEnv.getInstance().sharedVars[property.name] as T
+        return sharedRoot.value
     }
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
         initIfNeeded(property)
-        CommandEnv.getInstance().sharedVars[property.name] = value
+        sharedRoot.value = value
     }
 
 }
