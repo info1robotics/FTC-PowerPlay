@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.opmodes
 import com.acmerobotics.roadrunner.geometry.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.moonshine.Command
 import org.firstinspires.ftc.teamcode.moonshine.extensions.*
 import org.firstinspires.ftc.teamcode.subsystems.DrivetrainSubsystem
 import org.firstinspires.ftc.teamcode.subsystems.LocalizationSubsystem

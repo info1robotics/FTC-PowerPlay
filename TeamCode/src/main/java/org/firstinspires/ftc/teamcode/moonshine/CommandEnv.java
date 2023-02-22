@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.moonshine;
 
 import android.content.Context;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.qualcomm.ftccommon.FtcEventLoop;
 import com.qualcomm.robotcore.eventloop.EventLoop;
@@ -10,7 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManagerNotifier;
 
 import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop;
-import org.firstinspires.ftc.ftccommon.external.OnCreateMenu;
 
 import java.util.HashMap;
 

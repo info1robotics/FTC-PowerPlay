@@ -39,7 +39,15 @@ open class InjectSharedRoot<T, E: SharedVar<T>>(
 }
 
 class InjectSharedVar<T>(defaultValue: T) :
-    InjectSharedRoot<T, SharedVar<T>>({ prop -> SharedVar<T>(prop.name) }, defaultValue)
+    InjectSharedRoot<T, SharedVar<T>>({ prop ->
+        SharedVar<T>(
+            prop.name
+        )
+    }, defaultValue)
 
 class InjectSubsystem<T: Subsystem>(defaultValue: T) :
-    InjectSharedRoot<T, SharedSubsystem<T>>({ prop -> SharedSubsystem(defaultValue.javaClass) }, defaultValue)
+    InjectSharedRoot<T, SharedSubsystem<T>>({ prop ->
+        SharedSubsystem(
+            defaultValue.javaClass
+        )
+    }, defaultValue)
