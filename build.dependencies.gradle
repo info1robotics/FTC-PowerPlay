@@ -7,10 +7,12 @@ repositories {
     }
     maven { url = 'https://maven.brott.dev/' }
     maven { url = 'https://jitpack.io' }
+//    maven { url 'https://jitpack.com' }
 }
 
 
 dependencies {
+//    implementation 'com.github.deltacv:EOCV-Sim:3.3.2'
     implementation 'org.firstinspires.ftc:Inspection:8.1.1'
     implementation 'org.firstinspires.ftc:Blocks:8.1.1'
     implementation 'org.firstinspires.ftc:Tfod:8.1.1'

@@ -4,7 +4,9 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 public class Linkage {
     public static final int GROUND_LEVEL = -10;
@@ -18,12 +20,13 @@ public class Linkage {
     public static int LINKAGE_MAX = 725;
     public static int CURRENT_LEVEL = 0;
     public static int DESIRED_HEIGHT = 0;
-    public DcMotor linkageLeft;
-    public DcMotor linkageRight;
-
+    public DcMotorEx linkageLeft;
+    public DcMotorEx linkageRight;
+    public int distanceToTarget;
+    public double maxVelocity;
     public Linkage(LinearOpMode opMode) {
-        linkageLeft = opMode.hardwareMap.get(DcMotor.class, "LinkageLeft");
-        linkageRight = opMode.hardwareMap.get(DcMotor.class, "LinkageRight");
+        linkageLeft = opMode.hardwareMap.get(DcMotorEx.class, "LinkageLeft");
+        linkageRight = opMode.hardwareMap.get(DcMotorEx.class, "LinkageRight");
 
         linkageLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         linkageRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -33,8 +36,6 @@ public class Linkage {
 
         linkageLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linkageRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        telemetry = opMode.telemetry;
     }
 
     public void resetEncoders() {

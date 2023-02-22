@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.DriverControl;
 
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.CURRENT_LEVEL;
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.GROUND_LEVEL;
@@ -12,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.SAFETY_THRESHOLD
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.ANGLE_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -20,9 +21,10 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
-@TeleOp(name = "Gabi TeleOp RESET SYSTEMS")
-public class TeleOpGabiReset extends LinearOpMode {
+@TeleOp(name = "Gabi TeleOp")
+public class TeleOpGabi extends LinearOpMode {
     public boolean automated = false;
+    public boolean started;
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize all systems.
@@ -32,22 +34,19 @@ public class TeleOpGabiReset extends LinearOpMode {
         Mecanum drivetrain = new Mecanum(hardwareMap);
 
         // Fire up the motors.
+        started = true;
         boolean STATE_CHANGED = false;
         boolean BRAKE_CHANGED = false;
         turret.engageBrake();
         turret.engageSuperBrake();
-        turret.resetEncoder();
-        linkage.resetEncoders();
-
-        CURRENT_LEVEL = 0;
-        CURRENT_ANGLE = 0;
-
-        linkage.goToLevel(CURRENT_LEVEL, 1.0);
-        turret.goToAngle(CURRENT_ANGLE, 0.6);
-
         waitForStart();
-
         while (opModeIsActive()) {
+//            if(started){
+//                started = false;
+//                CURRENT_LEVEL = 100;
+//                CURRENT_ANGLE = 0;
+//            }
+
             if(linkage.linkageLeft.getCurrentPosition() <= 100) turret.hardLock = true;
             else turret.hardLock = false;
             // Omnidirectional drivetrain control.

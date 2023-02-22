@@ -19,6 +19,8 @@ public class Mecanum {
 		bl.setDirection(DcMotorSimple.Direction.FORWARD);
 		fl.setDirection(DcMotorSimple.Direction.FORWARD);
 		fr.setDirection(DcMotorSimple.Direction.REVERSE);
+//		fl.setDirection(DcMotorSimple.Direction.REVERSE);
+//		fr.setDirection(DcMotorSimple.Direction.FORWARD);
 	}
 
 	public void vectorMove(double x, double y, double t, double power)

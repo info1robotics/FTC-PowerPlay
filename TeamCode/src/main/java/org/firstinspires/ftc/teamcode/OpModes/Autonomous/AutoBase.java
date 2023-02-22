@@ -1,14 +1,11 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.DESIRED_HEIGHT;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CORRECTED_ANGLE;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.DESIRED_ANGLE;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.AUTO_SPEED;
 
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.EOCV.f41h12.AprilTagDetection_41h12;
@@ -26,14 +23,14 @@ public abstract class AutoBase extends LinearOpMode {
     public Linkage linkage;
     public Claw claw;
 
-    public AprilTagDetection_41h12 atag;
+//    public AprilTagDetection_41h12 atag;
     public int x = 0;
     @Override
     public final void runOpMode() throws InterruptedException {
         claw = new Claw(this);
         turret = new Turret(this);
         linkage = new Linkage(this);
-        atag = new AprilTagDetection_41h12(this);
+//        atag = new AprilTagDetection_41h12(this);
         drive = new SampleMecanumDrive(hardwareMap);
 //        startPose = new Pose2d(-37.5, -62, Math.toRadians(90));
 //        drive.setPoseEstimate(startPose);
@@ -48,14 +45,14 @@ public abstract class AutoBase extends LinearOpMode {
         DESIRED_HEIGHT = 0;
         onInit();
         while (!isStarted() && !isStopRequested()) {
-            atag.detectZone();
-            x = atag.getZone();
+//            atag.detectZone();
+//            x = atag.getZone();
             telemetry.update();
         }
         task.start(this);
         while(opModeIsActive() && task.isRunning()) {
             linkage.update();
-            turret.update();
+            turret.updateAuto();
             onLoop();
             telemetry.addData("distance", turret.distanceSensor.getDistance(DistanceUnit.CM));
             telemetry.update();

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.DriverControl;
 
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.CURRENT_LEVEL;
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.GROUND_LEVEL;
@@ -12,8 +12,6 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.SAFETY_THRESHOLD
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.ANGLE_THRESHOLD;
 import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -22,10 +20,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
 import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
-
-@Disabled
-@TeleOp(name = "Main TeleOp")
-public class TeleOpMain extends LinearOpMode {
+@TeleOp(name = "pulex TeleOp")
+public class TeleOpPulex extends LinearOpMode {
     public boolean automated = false;
     public boolean started;
     @Override
@@ -42,26 +38,23 @@ public class TeleOpMain extends LinearOpMode {
         boolean BRAKE_CHANGED = false;
         turret.engageBrake();
         turret.engageSuperBrake();
-        
         waitForStart();
-
         while (opModeIsActive()) {
-
-            if(started){
-                started = false;
-                CURRENT_LEVEL = 100;
-                CURRENT_ANGLE = 0;
-            }
+//            if(started){
+//                started = false;
+//                CURRENT_LEVEL = 100;
+//                CURRENT_ANGLE = 0;
+//            }
 
             if(linkage.linkageLeft.getCurrentPosition() <= 100) turret.hardLock = true;
             else turret.hardLock = false;
             // Omnidirectional drivetrain control.
             drivetrain.vectorMove(
-                gamepad1.left_stick_x,
-                -gamepad1.left_stick_y,
-                gamepad1.left_trigger - gamepad1.right_trigger,
+                    gamepad1.left_stick_x,
+                    -gamepad1.left_stick_y,
+                    -gamepad1.right_stick_x + (gamepad1.left_trigger - gamepad1.right_trigger),
 //                    gamepad1.right_stick_x,
-                gamepad1.right_bumper ? 0.6 : 1.0
+                    gamepad1.right_bumper ? 0.75 : 1.0
             );
 
             //Toggle claw power when button A (Xbox) / X (PS4) is pressed.
@@ -73,15 +66,15 @@ public class TeleOpMain extends LinearOpMode {
 //            if(gamepad2.square && !BRAKE_CHANGED) {turret.toggleBrake(); BRAKE_CHANGED = true;}
 //            else if(!gamepad2.square) BRAKE_CHANGED = false;
 
-            // Set desired linkage height using fixed counts on the left d-pad.
-            if (gamepad2.dpad_up) CURRENT_LEVEL = HIGH_LEVEL;
-            if (gamepad2.dpad_right) CURRENT_LEVEL = MID_LEVEL;
-            if (gamepad2.dpad_left) CURRENT_LEVEL = LOW_LEVEL;
-            if (gamepad2.dpad_down) CURRENT_LEVEL = GROUND_LEVEL;
+//            // Set desired linkage height using fixed counts on the left d-pad.
+//            if (gamepad2.dpad_up) CURRENT_LEVEL = HIGH_LEVEL;
+//            if (gamepad2.dpad_right) CURRENT_LEVEL = MID_LEVEL;
+//            if (gamepad2.dpad_left) CURRENT_LEVEL = LOW_LEVEL;
+//            if (gamepad2.dpad_down) CURRENT_LEVEL = GROUND_LEVEL;
 
             // Fine-tune the current height on the linkage system.
-            if (gamepad2.left_bumper) CURRENT_LEVEL -= LINKAGE_THRESHOLD;
-            if (gamepad2.right_bumper) CURRENT_LEVEL += LINKAGE_THRESHOLD;
+            if (gamepad2.dpad_down) CURRENT_LEVEL -= LINKAGE_THRESHOLD;
+            if (gamepad2.dpad_up) CURRENT_LEVEL += LINKAGE_THRESHOLD;
 
             // Reset turret angle to 0 when the X (Xbox) / Square (PS4) button is pressed for safe linkage operation.
 
@@ -116,24 +109,22 @@ public class TeleOpMain extends LinearOpMode {
                 CURRENT_ANGLE = 0;
             }
 
-            if (gamepad2.right_stick_button) {
+            if (gamepad2.dpad_right) {
                 CURRENT_ANGLE = -90;
                 automated = true;
             }
-            if (gamepad2.left_stick_button) {
+            if (gamepad2.dpad_left) {
                 CURRENT_ANGLE = 90;
                 automated = true;
             }
 
             if (automated) {
-                turret.goToAngle(CURRENT_ANGLE, 0.35);
+                turret.goToAngle(CURRENT_ANGLE, 0.3);
             } else {
-                turret.goToAngle(CURRENT_ANGLE, 0.65);
+                turret.goToAngle(CURRENT_ANGLE, 0.6);
             }
 
             linkage.goToLevel(CURRENT_LEVEL, 1.0);
-
-            if(gamepad2.y) turret.resetEncoder();
 //            linkage.debug();
 //            turret.update();
             telemetry.update();

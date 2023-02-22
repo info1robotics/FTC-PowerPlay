@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.DESIRED_HEIGHT;
@@ -36,7 +36,7 @@ public class AutoLeftCyclesLow extends AutoBase {
     public Trajectory align_preload;
     public TrajectorySequence stack_to_low, preload_to_turn, low_to_stack, turn_to_stack, go_to_stack, low_to_stack_1, low_to_stack_2, low_to_stack_3, low_to_stack_4;
     public TrajectorySequence run_to_zone_3, run_to_zone_2, run_to_zone_1;
-    public static double HIGH_TURRET_ANGLE = -95;
+    public static double HIGH_TURRET_ANGLE = -100;
 
     TrajectoryVelocityConstraint slowConstraint = new MinVelocityConstraint(Arrays.asList(
             new TranslationalVelocityConstraint(40),
@@ -73,7 +73,7 @@ public class AutoLeftCyclesLow extends AutoBase {
         go_to_stack = drive.trajectorySequenceBuilder(turn_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineTo(new Vector2d(-60, -10))
+                .lineTo(new Vector2d(-58, -10))
                 .resetConstraints()
                 .build();
 
@@ -83,23 +83,23 @@ public class AutoLeftCyclesLow extends AutoBase {
                 .build();
 
         low_to_stack = drive.trajectorySequenceBuilder(stack_to_low.end())
-                .lineTo(new Vector2d(-59.8, -10))
+                .lineTo(new Vector2d(-58.5, -10))
                 .build();
 
         low_to_stack_1 = drive.trajectorySequenceBuilder(stack_to_low.end())
-                .lineTo(new Vector2d(-59.3, -11))
+                .lineTo(new Vector2d(-58.5, -11))
                 .build();
 
         low_to_stack_2 = drive.trajectorySequenceBuilder(stack_to_low.end())
-                .lineTo(new Vector2d(-59.3, -11))
+                .lineTo(new Vector2d(-58.5, -11))
                 .build();
 
         low_to_stack_3 = drive.trajectorySequenceBuilder(stack_to_low.end())
-                .lineTo(new Vector2d(-59.3, -11))
+                .lineTo(new Vector2d(-58.5, -11))
                 .build();
 
         low_to_stack_4 = drive.trajectorySequenceBuilder(stack_to_low.end())
-                .lineTo(new Vector2d(-58.75, -8))
+                .lineTo(new Vector2d(-58.5, -8))
                 .build();
 
         run_to_zone_3 = drive.trajectorySequenceBuilder(stack_to_low.end())

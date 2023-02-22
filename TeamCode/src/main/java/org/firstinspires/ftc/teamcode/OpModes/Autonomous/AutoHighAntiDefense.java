@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 
 import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.DESIRED_HEIGHT;
@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 
 import java.util.Arrays;
 
-@Disabled
+//@Disabled
 @Autonomous(name = "Left High Cycles")
 @Config
 public class AutoHighAntiDefense extends AutoBase {
@@ -74,7 +74,7 @@ public class AutoHighAntiDefense extends AutoBase {
         go_to_stack = drive.trajectorySequenceBuilder(turn_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineTo(new Vector2d(-58.75, -9.5))
+                .lineTo(new Vector2d(-58, -9.5))
                 .resetConstraints()
                 .build();
 
@@ -92,7 +92,7 @@ public class AutoHighAntiDefense extends AutoBase {
         high_align_1 = drive.trajectorySequenceBuilder(stack_to_high_1.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineTo(new Vector2d(-1, -9.25))
+                .lineTo(new Vector2d(-1, -10))
                 .resetConstraints()
                 .build();
 
@@ -194,19 +194,20 @@ public class AutoHighAntiDefense extends AutoBase {
                             inline(() -> DESIRED_HEIGHT = 700),
                     sync(
                             inline(() -> turret.toggleSetThreshold(true)),
-                            pause(3000),
+                            pause(1500),
+                            inline(() -> DESIRED_HEIGHT = 350),
+                            pause(300),
                             inline(() -> claw.setState(Claw.states.OPEN)),
                             pause(100),
-                            inline(() -> DESIRED_HEIGHT = 500),
                             inline(() -> turret.toggleSetThreshold(false)))
                         ),
                 pause(100),
                 async(
                         trajectory(high_to_stack_1),
                         sync(
-                                inline(() -> AUTO_SPEED = 0.15),
+                                inline(() -> AUTO_SPEED = 0.3),
                                 inline(() -> DESIRED_ANGLE = 0),
-                                pause(2000),
+                                pause(500),
                                 inline(() -> DESIRED_HEIGHT = 60)
                         )),
                 inline(() -> claw.setState(Claw.states.CLOSED)),
@@ -234,10 +235,10 @@ public class AutoHighAntiDefense extends AutoBase {
                         inline(() -> DESIRED_HEIGHT = 700),
                         sync(
                                 inline(() -> turret.toggleSetThreshold(true)),
-                                pause(3000),
+                                pause(1500),
+                                inline(() -> DESIRED_HEIGHT = 350),
+                                pause(300),
                                 inline(() -> claw.setState(Claw.states.OPEN)),
-                                pause(100),
-                                inline(() -> DESIRED_HEIGHT = 500),
                                 inline(() -> turret.toggleSetThreshold(false)))
                 ),
                 pause(2000)

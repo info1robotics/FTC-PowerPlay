@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Tasks;
 
-import org.firstinspires.ftc.teamcode.OpModes.AutoBase;
+import org.firstinspires.ftc.teamcode.OpModes.Autonomous.AutoBase;
 
 public abstract class Task {
     public boolean isFinished() {
