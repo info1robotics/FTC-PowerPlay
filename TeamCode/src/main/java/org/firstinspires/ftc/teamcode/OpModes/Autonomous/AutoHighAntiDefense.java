@@ -74,40 +74,40 @@ public class AutoHighAntiDefense extends AutoBase {
         go_to_stack = drive.trajectorySequenceBuilder(turn_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineTo(new Vector2d(-58, -9.5))
+                .lineTo(new Vector2d(-57.3, -9.5))
                 .resetConstraints()
                 .build();
 
 
         stack_to_high_1 = drive.trajectorySequenceBuilder(go_to_stack.end())
                 .setReversed(true)
-                .lineTo(new Vector2d(-5, -10))
+                .lineTo(new Vector2d(-3.4, -9))
                 .build();
 
         stack_to_high_2 = drive.trajectorySequenceBuilder(go_to_stack.end())
                 .setReversed(true)
-                .lineTo(new Vector2d(-5, -10))
+                .lineTo(new Vector2d(-2.6, -9))
                 .build();
 
         high_align_1 = drive.trajectorySequenceBuilder(stack_to_high_1.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineTo(new Vector2d(-1, -10))
+                .lineTo(new Vector2d(-1, -9))
                 .resetConstraints()
                 .build();
 
         high_align_2 = drive.trajectorySequenceBuilder(stack_to_high_2.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineTo(new Vector2d(-1, -10))
+                .lineTo(new Vector2d(-1, -9))
                 .resetConstraints()
                 .build();
 
         high_to_stack_1 = drive.trajectorySequenceBuilder(high_align_1.end())
-                .lineTo(new Vector2d(-55.75, -9.5))
+                .lineTo(new Vector2d(-55.75, -8.8))
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineTo(new Vector2d(-58, -9.5))
+                .lineTo(new Vector2d(-57, -8.8))
                 .resetConstraints()
                 .build();
 
@@ -154,7 +154,7 @@ public class AutoHighAntiDefense extends AutoBase {
                 ),
                 sync(
                         pause(250),
-                        inline(() -> DESIRED_HEIGHT = 250),
+                        inline(() -> DESIRED_HEIGHT = 300),
                         inline(() -> claw.setState(Claw.states.OPEN))
                 ),
                 async(
@@ -172,15 +172,16 @@ public class AutoHighAntiDefense extends AutoBase {
                 inline(() -> DESIRED_ANGLE = 0),
                 pause(300),
                 trajectory(go_to_stack),
-                pause(100),
+                pause(200),
                 inline(() -> claw.setState(Claw.states.CLOSED)),
+                pause(300),
                 inline(() -> DESIRED_HEIGHT = 200),
                 pause(200),
                 async(
                         trajectory(stack_to_high_1),
                         sync(
                                 pause(200),
-                                inline(() -> DESIRED_HEIGHT = 300),
+                                inline(() -> DESIRED_HEIGHT = 370),
                                 inline(() -> AUTO_SPEED = 0.15),
                                 inline(() -> {
                                     DESIRED_ANGLE = HIGH_TURRET_ANGLE;
@@ -195,8 +196,8 @@ public class AutoHighAntiDefense extends AutoBase {
                     sync(
                             inline(() -> turret.toggleSetThreshold(true)),
                             pause(1500),
-                            inline(() -> DESIRED_HEIGHT = 350),
-                            pause(300),
+                            inline(() -> DESIRED_HEIGHT = 375),
+                            pause(500),
                             inline(() -> claw.setState(Claw.states.OPEN)),
                             pause(100),
                             inline(() -> turret.toggleSetThreshold(false)))
@@ -208,7 +209,7 @@ public class AutoHighAntiDefense extends AutoBase {
                                 inline(() -> AUTO_SPEED = 0.3),
                                 inline(() -> DESIRED_ANGLE = 0),
                                 pause(500),
-                                inline(() -> DESIRED_HEIGHT = 60)
+                                inline(() -> DESIRED_HEIGHT = 50)
                         )),
                 inline(() -> claw.setState(Claw.states.CLOSED)),
 

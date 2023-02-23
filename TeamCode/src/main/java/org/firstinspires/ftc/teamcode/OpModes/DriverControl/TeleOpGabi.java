@@ -15,6 +15,7 @@ import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.CommonPackage.Mecanum;
 import org.firstinspires.ftc.teamcode.SubSystems.Claw;
@@ -76,6 +77,12 @@ public class TeleOpGabi extends LinearOpMode {
             // Fine-tune the current height on the linkage system.
             if (gamepad2.left_bumper) CURRENT_LEVEL -= LINKAGE_THRESHOLD;
             if (gamepad2.right_bumper) CURRENT_LEVEL += LINKAGE_THRESHOLD;
+            if (gamepad2.y) {
+                DcMotor.RunMode runMode = turret.turretMotor.getMode();
+                turret.turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                turret.turretMotor.setMode(runMode);
+                CURRENT_ANGLE = 0;
+            }
 
             // Reset turret angle to 0 when the X (Xbox) / Square (PS4) button is pressed for safe linkage operation.
 
