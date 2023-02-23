@@ -2,11 +2,27 @@ package org.firstinspires.ftc.teamcode.moonshine.builtin;
 
 import org.firstinspires.ftc.teamcode.moonshine.Command;
 
-public abstract class BlueprintCommand extends SerialCommand {
+public abstract class BlueprintCommand extends Command {
+    Command blueprint;
+
     public BlueprintCommand() {
         super();
-        children = new Command[]{ getBlueprint() };
     }
 
-    abstract Command getBlueprint();
+    @Override
+    protected void onStart() {
+        blueprint = getBlueprint();
+    }
+
+    @Override
+    protected void onTick() {
+        blueprint.step();
+        if(blueprint.hasEnded())
+            blueprint.end();
+    }
+
+    @Override
+    protected void onEnd() {}
+
+    protected abstract Command getBlueprint();
 }

@@ -10,14 +10,18 @@ public abstract class PrincipledTeleOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        CommandEnv.getInstance().reset();
+
         ContinuousReuseCommand subsystems = getSubsystems();
         ContinuousReuseCommand controlScheme = getControlScheme();
         SerialCommand initRoutine = getInitRoutine();
+        SerialCommand startRoutine = getStartRoutine();
 
         // INIT
         while(opModeInInit()) {
             subsystems.step();
             initRoutine.step();
+            telemetry.update();
         }
         subsystems.end();
         initRoutine.end();
@@ -28,12 +32,18 @@ public abstract class PrincipledTeleOpMode extends LinearOpMode {
         while(opModeIsActive()) {
             subsystems.step();
             controlScheme.step();
+            startRoutine.step();
+            telemetry.update();
         }
         subsystems.end();
         controlScheme.end();
+        startRoutine.end();
+
+        CommandEnv.getInstance().reset();
     }
 
     public abstract ContinuousReuseCommand getSubsystems();
     public abstract SerialCommand getInitRoutine();
     public abstract ContinuousReuseCommand getControlScheme();
+    public abstract SerialCommand getStartRoutine();
 }

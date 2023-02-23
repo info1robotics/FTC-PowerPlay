@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.moonshine;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.qualcomm.ftccommon.FtcEventLoop;
 import com.qualcomm.robotcore.eventloop.EventLoop;
@@ -31,9 +32,6 @@ public class CommandEnv {
     public EventLoop eventLoop;
     public HashMap<String, Object> sharedVars = new HashMap<>();
 
-    public HardwareMap hardwareMap;
-    public Telemetry telemetry;
-    public OpModeType opModeType;
 
     @OnCreateEventLoop
     public static void attachEventLoop(Context context, FtcEventLoop eventLoop) {
@@ -41,10 +39,9 @@ public class CommandEnv {
         eventLoop.getOpModeManager().registerListener(new OpModeManagerNotifier.Notifications() {
             @Override
             public void onOpModePreInit(OpMode opMode) {
-                getInstance().hardwareMap = opMode.hardwareMap;
-                getInstance().telemetry = opMode.telemetry;
-                getInstance().opModeType = opMode.getClass().isAnnotationPresent(Autonomous.class)?
-                    OpModeType.AUTONOMOUS : OpModeType.TELEOP;
+
+                getInstance().sharedVars.clear();
+                Log.d("info1", "Cleared vars!!");
             }
 
             @Override
@@ -54,11 +51,13 @@ public class CommandEnv {
 
             @Override
             public void onOpModePostStop(OpMode opMode) {
-                getInstance().sharedVars.clear();
             }
         });
+
     }
 
-
+    public void reset() {
+        sharedVars.clear();
+    }
 
 }

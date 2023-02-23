@@ -17,7 +17,7 @@ public class InlineCommand extends Command {
 
     @Override
     protected void onTick() {
-
+        end();
     }
 
     @Override

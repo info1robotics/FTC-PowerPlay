@@ -23,7 +23,7 @@ class GoToLevelCommand(var targetPosition: Int, var speed: Double = 0.5): Comman
     }
 
     override fun onTick() {
-        if (CommandEnv.getInstance().opModeType == OpModeType.AUTONOMOUS && targetPosition > 400)
+        if (opModeType == OpModeType.AUTONOMOUS && targetPosition > 550)
             speed = 0.15
 
         linkageSubsystem.value.let {
@@ -36,7 +36,5 @@ class GoToLevelCommand(var targetPosition: Int, var speed: Double = 0.5): Comman
     }
 
     override fun onEnd() {
-        linkageSubsystem.value.setPowers(0.0)
-        linkageSubsystem.value.setMode(DcMotor.RunMode.RUN_USING_ENCODER)
     }
 }

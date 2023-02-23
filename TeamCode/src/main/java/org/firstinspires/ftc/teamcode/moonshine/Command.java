@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.moonshine;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.moonshine.annotations.RequireHardware;
 
 import java.lang.reflect.Field;
@@ -17,24 +20,29 @@ public abstract class Command {
     }
 
     State state = State.NOT_STARTED;
-    Command parent = null;
     public Command[] children;
 
+    protected HardwareMap hardwareMap;
+    protected Telemetry telemetry;
+    protected OpModeType opModeType;
 
     protected Command(Command... children) {
         this.children = children;
-        for (Command child : children) {
-            child.setParent(this);
-        }
     }
 
     protected void hydrateFields() {
+        hardwareMap = CommandEnv.getInstance().eventLoop.getOpModeManager().getActiveOpMode().hardwareMap;
+        telemetry   = CommandEnv.getInstance().eventLoop.getOpModeManager().getActiveOpMode().telemetry;
+        opModeType  = CommandEnv.getInstance().eventLoop.getOpModeManager().getActiveOpMode().getClass().isAnnotationPresent(Autonomous.class)?
+            OpModeType.AUTONOMOUS : OpModeType.TELEOP;
+
+
         for(Field field : getClass().getDeclaredFields()) {
             RequireHardware rh = field.getAnnotation(RequireHardware.class);
             if(rh != null && !rh.hardwareName().isEmpty()) {
                 field.setAccessible(true);
                 try {
-                    field.set(this, CommandEnv.getInstance().hardwareMap.get(field.getType(), rh.hardwareName()));
+                    field.set(this, hardwareMap.get(field.getType(), rh.hardwareName()));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -97,12 +105,5 @@ public abstract class Command {
     }
     public boolean hasEnded() {
         return state == State.ENDED;
-    }
-
-    public Command getParent() {
-        return parent;
-    }
-    public void setParent(Command parent) {
-        this.parent = parent;
     }
 }

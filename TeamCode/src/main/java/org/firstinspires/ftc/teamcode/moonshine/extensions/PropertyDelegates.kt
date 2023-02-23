@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.moonshine.SharedVar
 import org.firstinspires.ftc.teamcode.moonshine.Subsystem
 import kotlin.reflect.KProperty
 
-class InjectHardware<T>(val hardwareName: String? = null) {
+class InjectHardware<T>(private val hardwareName: String? = null) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return CommandEnv.getInstance().eventLoop.opModeManager.hardwareMap[hardwareName ?: property.name] as T
     }

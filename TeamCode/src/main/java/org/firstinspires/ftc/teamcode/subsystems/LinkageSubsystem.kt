@@ -1,34 +1,33 @@
 package org.firstinspires.ftc.teamcode.subsystems
 
-import org.firstinspires.ftc.teamcode.moonshine.Subsystem
-import org.firstinspires.ftc.teamcode.moonshine.annotations.RequireHardware
-import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode
+import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
-import org.firstinspires.ftc.teamcode.moonshine.CommandEnv
-import org.firstinspires.ftc.teamcode.subsystems.LinkageSubsystem
-import org.firstinspires.ftc.teamcode.moonshine.OpModeType
-import org.firstinspires.ftc.teamcode.moonshine.extensions.InjectHardware
+import org.firstinspires.ftc.teamcode.moonshine.Subsystem
 
 class LinkageSubsystem : Subsystem() {
-    private val linkageLeft:
-        DcMotorEx by InjectHardware("LinkageLeft")
+    private lateinit var linkageLeft:
+        DcMotorEx //by InjectHardware("LinkageLeft")
 
-    private val linkageRight:
-        DcMotorEx by InjectHardware("LinkageRight")
+    private lateinit var linkageRight:
+        DcMotorEx //by InjectHardware("LinkageRight")
 
 
     val hasReachedTarget: Boolean get() = !linkageLeft.isBusy || !linkageRight.isBusy
 
     override fun onStart() {
+
+        linkageLeft = hardwareMap.get(DcMotorEx::class.java, "LinkageLeft")
+        linkageRight = hardwareMap.get(DcMotorEx::class.java, "LinkageRight")
+
+        setMode(RunMode.STOP_AND_RESET_ENCODER)
+
         linkageLeft.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         linkageRight.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
 
         linkageLeft.direction = DcMotorSimple.Direction.FORWARD
         linkageRight.direction = DcMotorSimple.Direction.REVERSE
-
-        setMode(RunMode.RUN_USING_ENCODER)
     }
 
     override fun onTick() {
@@ -41,8 +40,8 @@ class LinkageSubsystem : Subsystem() {
     }
 
     fun setPowers(pw: Double) {
-        linkageRight.power = pw
         linkageLeft.power = pw
+        linkageRight.power = pw
     }
 
     fun setTargetPosition(pos: Int) {
@@ -53,8 +52,8 @@ class LinkageSubsystem : Subsystem() {
     override fun onEnd() {}
 
     fun debug() {
-        CommandEnv.getInstance().telemetry.addData("Left Linkage Tick Count ", linkageLeft.currentPosition)
-        CommandEnv.getInstance().telemetry.addData("Right Linkage Tick Count ", linkageRight.currentPosition)
+        telemetry.addData("Left Linkage Tick Count ", linkageLeft.currentPosition)
+        telemetry.addData("Right Linkage Tick Count ", linkageRight.currentPosition)
     }
 
     companion object {

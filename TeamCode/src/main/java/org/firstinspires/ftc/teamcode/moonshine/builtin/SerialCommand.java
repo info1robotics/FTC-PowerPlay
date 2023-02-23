@@ -12,7 +12,6 @@ public class SerialCommand extends Command {
     @Override
     protected void onStart() {
         current = 0;
-        stepThroughChildren();
     }
     @Override
     protected void onTick() {
