@@ -18,24 +18,19 @@ public class TriggerCommand extends Command {
     @Override
     protected void onStart() {
         triggered = false;
-        yes();
     }
 
     @Override
     protected void onTick() {
-        yes();
+        if(cond.get()) triggered = true;
+        if(triggered) stepThroughChildren();
+        if(triggered && Arrays.stream(children).allMatch(Command::hasEnded))
+            end();
     }
 
     @Override
     protected void onEnd() {
 
-    }
-
-    private void yes() {
-        if(cond.get()) triggered = true;
-        if(triggered) stepThroughChildren();
-        if(triggered && Arrays.stream(children).allMatch(Command::hasEnded))
-            end();
     }
 
     private void stepThroughChildren() {

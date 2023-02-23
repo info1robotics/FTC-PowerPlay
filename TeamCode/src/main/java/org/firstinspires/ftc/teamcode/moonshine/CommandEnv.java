@@ -4,15 +4,19 @@ import android.content.Context;
 
 import com.qualcomm.ftccommon.FtcEventLoop;
 import com.qualcomm.robotcore.eventloop.EventLoop;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManagerNotifier;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.HashMap;
 
 public class CommandEnv {
     private static CommandEnv instance;
+
     private CommandEnv() {
 
     }
@@ -27,13 +31,20 @@ public class CommandEnv {
     public EventLoop eventLoop;
     public HashMap<String, Object> sharedVars = new HashMap<>();
 
+    public HardwareMap hardwareMap;
+    public Telemetry telemetry;
+    public OpModeType opModeType;
+
     @OnCreateEventLoop
     public static void attachEventLoop(Context context, FtcEventLoop eventLoop) {
         getInstance().eventLoop = eventLoop;
         eventLoop.getOpModeManager().registerListener(new OpModeManagerNotifier.Notifications() {
             @Override
             public void onOpModePreInit(OpMode opMode) {
-                getInstance().sharedVars = new HashMap<>();
+                getInstance().hardwareMap = opMode.hardwareMap;
+                getInstance().telemetry = opMode.telemetry;
+                getInstance().opModeType = opMode.getClass().isAnnotationPresent(Autonomous.class)?
+                    OpModeType.AUTONOMOUS : OpModeType.TELEOP;
             }
 
             @Override
@@ -43,7 +54,7 @@ public class CommandEnv {
 
             @Override
             public void onOpModePostStop(OpMode opMode) {
-
+                getInstance().sharedVars.clear();
             }
         });
     }

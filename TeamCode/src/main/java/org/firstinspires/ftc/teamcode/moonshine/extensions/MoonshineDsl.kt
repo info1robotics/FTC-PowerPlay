@@ -44,12 +44,12 @@ fun Command.inline(func: () -> Unit) {
 }
 
 @MoonshineDsl
-fun newAutoRoutine(inner: SerialCommand.() -> Unit): SerialCommand {
+fun newSerial(inner: SerialCommand.() -> Unit): SerialCommand {
     return SerialCommand().apply(inner)
 }
 
 @MoonshineDsl
-fun newTeleOpRoutine(inner: ContinuousReuseCommand.() -> Unit): ContinuousReuseCommand {
+fun newContinuous(inner: ContinuousReuseCommand.() -> Unit): ContinuousReuseCommand {
     return ContinuousReuseCommand().apply(inner)
 }
 

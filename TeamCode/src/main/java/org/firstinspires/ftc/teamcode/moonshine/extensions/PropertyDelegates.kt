@@ -6,23 +6,22 @@ import org.firstinspires.ftc.teamcode.moonshine.SharedVar
 import org.firstinspires.ftc.teamcode.moonshine.Subsystem
 import kotlin.reflect.KProperty
 
-class InjectHardware<T> {
+class InjectHardware<T>(val hardwareName: String? = null) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
-        return CommandEnv.getInstance().eventLoop.opModeManager.hardwareMap[property.name] as T
+        return CommandEnv.getInstance().eventLoop.opModeManager.hardwareMap[hardwareName ?: property.name] as T
     }
 
 }
 
 open class InjectSharedRoot<T, E: SharedVar<T>>(
     private val defaultRootProvider: (KProperty<*>) -> E,
-    private val defaultValue: T) {
+    private val defaultValue: T? = null) {
 
     lateinit var sharedRoot: E
 
     private fun initIfNeeded(property: KProperty<*>) {
         if(!::sharedRoot.isInitialized) {
             sharedRoot = defaultRootProvider(property)
-            if(sharedRoot.value == null) sharedRoot.value = defaultValue
         }
     }
 
@@ -38,16 +37,15 @@ open class InjectSharedRoot<T, E: SharedVar<T>>(
 
 }
 
-class InjectSharedVar<T>(defaultValue: T) :
+class InjectSharedVar<T>(defaultValue: T? = null) :
     InjectSharedRoot<T, SharedVar<T>>({ prop ->
         SharedVar<T>(
-            prop.name
+            prop.name,
+            defaultValue
         )
     }, defaultValue)
 
-class InjectSubsystem<T: Subsystem>(defaultValue: T) :
-    InjectSharedRoot<T, SharedSubsystem<T>>({ prop ->
-        SharedSubsystem(
-            defaultValue.javaClass
-        )
-    }, defaultValue)
+//class InjectSubsystem<T: Subsystem>(defaultValue: T? = null, classType: T? = null) :
+//    InjectSharedRoot<T, SharedSubsystem<T>>({ prop ->
+//        SharedSubsystem(defaultValue.javaClass ?: classType, defaultValue)
+//    }, defaultValue)

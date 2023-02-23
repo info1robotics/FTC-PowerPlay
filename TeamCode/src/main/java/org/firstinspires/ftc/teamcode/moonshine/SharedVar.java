@@ -8,6 +8,11 @@ public class SharedVar<T> {
     public SharedVar(String name) {
         this.name = name;
     }
+    public SharedVar(String name, T defaultValue) {
+        this.name = name;
+        if(!CommandEnv.getInstance().sharedVars.containsKey(name))
+            this.setValue(defaultValue);
+    }
 
     public T getValue() {
         if(CommandEnv.getInstance().sharedVars.containsKey(name))

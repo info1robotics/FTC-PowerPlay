@@ -20,7 +20,6 @@ public abstract class Command {
     Command parent = null;
     public Command[] children;
 
-    public OpMode opMode;
 
     protected Command(Command... children) {
         this.children = children;
@@ -30,17 +29,12 @@ public abstract class Command {
     }
 
     protected void hydrateFields() {
-        OpMode currentOpMode = CommandEnv.getInstance().eventLoop.getOpModeManager().getActiveOpMode();
-        this.opMode = currentOpMode;
-        if(currentOpMode == null)
-            return;
-
         for(Field field : getClass().getDeclaredFields()) {
             RequireHardware rh = field.getAnnotation(RequireHardware.class);
             if(rh != null && !rh.hardwareName().isEmpty()) {
                 field.setAccessible(true);
                 try {
-                    field.set(this, currentOpMode.hardwareMap.get(field.getType(), rh.hardwareName()));
+                    field.set(this, CommandEnv.getInstance().hardwareMap.get(field.getType(), rh.hardwareName()));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

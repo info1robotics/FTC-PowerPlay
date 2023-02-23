@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.moonshine.builtin.BlueprintCommand;
 import org.firstinspires.ftc.teamcode.moonshine.builtin.ContinuousReuseCommand;
+import org.firstinspires.ftc.teamcode.moonshine.builtin.SerialCommand;
 
 public abstract class PrincipledTeleOpMode extends LinearOpMode {
 
@@ -11,7 +12,7 @@ public abstract class PrincipledTeleOpMode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         ContinuousReuseCommand subsystems = getSubsystems();
         ContinuousReuseCommand controlScheme = getControlScheme();
-        BlueprintCommand initRoutine = getInitRoutine();
+        SerialCommand initRoutine = getInitRoutine();
 
         // INIT
         while(opModeInInit()) {
@@ -32,7 +33,7 @@ public abstract class PrincipledTeleOpMode extends LinearOpMode {
         controlScheme.end();
     }
 
-    abstract ContinuousReuseCommand getSubsystems();
-    abstract BlueprintCommand getInitRoutine();
-    abstract ContinuousReuseCommand getControlScheme();
+    public abstract ContinuousReuseCommand getSubsystems();
+    public abstract SerialCommand getInitRoutine();
+    public abstract ContinuousReuseCommand getControlScheme();
 }
