@@ -31,8 +31,8 @@ class GoToAngleSensorCommand(private val angle: Double, private val speed: Doubl
         }
         sleep(100)
         run(GoToTickCommand(
-            {turretSubsystem.value.currentPosition - 10 * sign(angle).toInt()},
-            0.3))
+            {turretSubsystem.value.currentPosition - 15 * sign(angle).toInt()},
+            speed))
     }
 
 }

@@ -58,6 +58,7 @@ class TurretSubsystem : Subsystem() {
 
     override fun onStart() {
         turretMotor = hardwareMap.get(DcMotorEx::class.java, "Turret")
+        turretMotor.setVelocityPIDFCoefficients(1.0, 0.0, 0.0, 14.0)
         turretMotor.setPositionPIDFCoefficients(1.5)
         turretMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         turretMotor.targetPosition = 0

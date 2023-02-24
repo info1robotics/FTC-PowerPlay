@@ -1,9 +1,13 @@
-package org.firstinspires.ftc.teamcode.drive;
+package org.firstinspires.ftc.teamcode.roadrunner.util;
 
 import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+/**
+ * Wraps a motor instance to provide corrected velocity counts and allow reversing independently of the corresponding
+ * slot's motor direction
+ */
 public class Encoder {
     private final static int CPS_STEP = 0x10000;
 
@@ -114,8 +118,8 @@ public class Encoder {
      */
     public double getCorrectedVelocity() {
         double median = velocityEstimates[0] > velocityEstimates[1]
-            ? Math.max(velocityEstimates[1], Math.min(velocityEstimates[0], velocityEstimates[2]))
-            : Math.max(velocityEstimates[0], Math.min(velocityEstimates[1], velocityEstimates[2]));
+                ? Math.max(velocityEstimates[1], Math.min(velocityEstimates[0], velocityEstimates[2]))
+                : Math.max(velocityEstimates[0], Math.min(velocityEstimates[1], velocityEstimates[2]));
         return inverseOverflow(getRawVelocity(), median);
     }
 }
