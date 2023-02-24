@@ -21,17 +21,17 @@ public abstract class PrincipledTeleOpMode extends LinearOpMode {
         SerialCommand startRoutine = getStartRoutine();
 
         // INIT
+        subsystems.step();
         while(opModeInInit()) {
             subsystems.step();
             initRoutine.step();
             telemetry.update();
         }
-        subsystems.end();
         initRoutine.end();
 
+        waitForStart();
 
         // OPMODE
-        subsystems.reuse();
         while(opModeIsActive()) {
             subsystems.step();
             controlScheme.step();

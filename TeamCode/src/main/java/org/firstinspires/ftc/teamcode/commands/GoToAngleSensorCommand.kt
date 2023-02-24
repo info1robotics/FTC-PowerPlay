@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.moonshine.extensions.*
 import org.firstinspires.ftc.teamcode.subsystems.TurretSubsystem
 import kotlin.math.sign
 
-class GoToAngleSensorCommand(private val angle: Double, private val speed: Double) : BlueprintCommand() {
+class GoToAngleSensorCommand(private val angle: Double, private val speed: Double, private val distance: Int = 300) : BlueprintCommand() {
 
     val distanceSensor by InjectHardware<DistanceSensor>("DistanceSensor")
     val turretSubsystem = SharedSubsystem(TurretSubsystem::class.java)
@@ -22,7 +22,7 @@ class GoToAngleSensorCommand(private val angle: Double, private val speed: Doubl
                 override fun onStart() {}
                 override fun onTick() {
                     telemetry.addData("Distance", distanceSensor.getDistance(DistanceUnit.MM))
-                    if(distanceSensor.getDistance(DistanceUnit.MM) <= 300) {
+                    if(distanceSensor.getDistance(DistanceUnit.MM) <= distance) {
                         end()
                     }
                 }

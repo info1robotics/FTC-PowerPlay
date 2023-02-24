@@ -9,7 +9,7 @@ class GoToAngleCommand(val angle: Double, val speed: Double) : Command() {
 
     override fun onStart() {
         turretSubsystem.value.setTargetAngle(angle)
-        turretSubsystem.value.power = speed
+        turretSubsystem.value.targetPower = speed
     }
 
     override fun onTick() {

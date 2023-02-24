@@ -5,20 +5,17 @@ import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.moonshine.Subsystem
-import kotlin.math.abs
 
 class TurretSubsystem : Subsystem() {
 
     private lateinit var turretMotor: DcMotorEx
     private lateinit var brakeServo: Servo
     private lateinit var superBrakeServo: Servo
-    var hardLock = false
+    var noAutoBrakes = false
 
     val hasReachedTarget: Boolean get() = !turretMotor.isBusy
 
-    var power: Double
-        get() = turretMotor.power
-        set(value) { turretMotor.power = value }
+    var targetPower: Double = 0.0
 
     val currentPosition: Int
         get() = turretMotor.currentPosition
@@ -58,8 +55,6 @@ class TurretSubsystem : Subsystem() {
 
     override fun onStart() {
         turretMotor = hardwareMap.get(DcMotorEx::class.java, "Turret")
-        turretMotor.setVelocityPIDFCoefficients(1.0, 0.0, 0.0, 14.0)
-        turretMotor.setPositionPIDFCoefficients(1.5)
         turretMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         turretMotor.targetPosition = 0
         turretMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
@@ -71,15 +66,18 @@ class TurretSubsystem : Subsystem() {
     override fun onTick() {
         telemetry.addData("Current Position ", currentPosition)
         telemetry.addData("Target Position ", targetPosition)
-        telemetry.addData("POWR ", power)
-        if (hardLock || !turretMotor.isBusy) {
-            power = 0.0
-            engageBrake()
-            engageSuperBrake()
-        } else {
-            disengageBrake()
-            disengageSuperBrake()
+        telemetry.addData("POWR ", targetPower)
+        if(!noAutoBrakes) {
+            if (hasReachedTarget) {
+                targetPower = 0.0
+                engageBrake()
+                engageSuperBrake()
+            } else {
+                disengageBrake()
+                disengageSuperBrake()
+            }
         }
+        turretMotor.power = targetPower
     }
 
     override fun onEnd() {

@@ -10,7 +10,7 @@ class GoToTickCommand(private val targetPosition: Supplier<Int>, private val spe
 
     override fun onStart() {
         turretSubsystem.value.targetPosition = targetPosition.get()
-        turretSubsystem.value.power = speed
+        turretSubsystem.value.targetPower = speed
     }
 
     override fun onTick() {
