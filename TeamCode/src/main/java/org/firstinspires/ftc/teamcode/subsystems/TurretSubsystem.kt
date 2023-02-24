@@ -58,8 +58,10 @@ class TurretSubsystem : Subsystem() {
 
     override fun onStart() {
         turretMotor = hardwareMap.get(DcMotorEx::class.java, "Turret")
+        turretMotor.setPositionPIDFCoefficients(1.5)
         turretMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
-        turretMotor.mode = DcMotor.RunMode.RUN_USING_ENCODER
+        turretMotor.targetPosition = 0
+        turretMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
         turretMotor.direction = DcMotorSimple.Direction.FORWARD
         brakeServo = hardwareMap.get(Servo::class.java, "BrakeServo2")
         superBrakeServo = hardwareMap.get(Servo::class.java, "BrakeServo1")
@@ -68,11 +70,14 @@ class TurretSubsystem : Subsystem() {
     override fun onTick() {
         telemetry.addData("Current Position ", currentPosition)
         telemetry.addData("Target Position ", targetPosition)
-        val currentError = abs(currentPosition - targetPosition)
-        if (hardLock || currentError < 10) {
+        telemetry.addData("POWR ", power)
+        if (hardLock || !turretMotor.isBusy) {
             power = 0.0
             engageBrake()
             engageSuperBrake()
+        } else {
+            disengageBrake()
+            disengageSuperBrake()
         }
     }
 

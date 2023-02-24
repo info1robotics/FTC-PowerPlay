@@ -18,7 +18,7 @@ public abstract class BlueprintCommand extends Command {
     protected void onTick() {
         blueprint.step();
         if(blueprint.hasEnded())
-            blueprint.end();
+             end();
     }
 
     @Override

@@ -29,14 +29,11 @@ class TurretDistanceDebug : PrincipledTeleOpMode() {
     override fun getControlScheme(): ContinuousReuseCommand = newContinuous {  }
 
     override fun getStartRoutine(): SerialCommand = newSerial {
-        run(SetClawCommand(SetClawCommand.ClawState.CLOSED))
-        sleep(3000)
-        run(SetClawCommand(SetClawCommand.ClawState.CLOSED))
-        run(GoToLevelCommand(LinkageSubsystem.LOW_LEVEL, .15))
-        run(GoToAngleSensorCommand(-90.0, .1))
         run(SetClawCommand(SetClawCommand.ClawState.OPEN))
-    }.also {
-        println("blablabla")
-        println(it.children.size)
+        sleep(2000)
+        run(SetClawCommand(SetClawCommand.ClawState.CLOSED))
+        run(GoToLevelCommand(LinkageSubsystem.MID_LEVEL, .35))
+        run(GoToAngleSensorCommand(90.0, .5))
+        run(SetClawCommand(SetClawCommand.ClawState.OPEN))
     }
 }

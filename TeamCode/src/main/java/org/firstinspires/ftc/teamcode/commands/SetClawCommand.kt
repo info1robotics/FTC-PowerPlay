@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.moonshine.extensions.newSerial
 
 class SetClawCommand(val clawState: ClawState) : BlueprintCommand() {
     enum class ClawState(val posLeft: Double, val posRight: Double) {
-        OPEN(0.675, 0.325),
-        CLOSED(1.0, 0.0)
+        OPEN(1.0, 0.0),
+        CLOSED(0.675, 0.325)
     }
 
     val clawServoLeft by InjectHardware<Servo>("ClawLeft")

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.moonshine;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.moonshine.builtin.BlueprintCommand;
@@ -10,6 +12,7 @@ public abstract class PrincipledTeleOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         CommandEnv.getInstance().reset();
 
         ContinuousReuseCommand subsystems = getSubsystems();
