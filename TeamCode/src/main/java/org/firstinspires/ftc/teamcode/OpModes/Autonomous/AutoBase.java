@@ -1,60 +1,48 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
-import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.DESIRED_HEIGHT;
-import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CORRECTED_ANGLE;
-import static org.firstinspires.ftc.teamcode.SubSystems.Turret.DESIRED_ANGLE;
-import static org.firstinspires.ftc.teamcode.SubSystems.Turret.AUTO_SPEED;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.EOCV.f41h12.AprilTagDetection_41h12;
-import org.firstinspires.ftc.teamcode.Roadrunner.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.SubSystems.Claw;
-import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
-import org.firstinspires.ftc.teamcode.SubSystems.Turret;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
+import org.firstinspires.ftc.teamcode.SubSystems.V2.Linkage;
+import org.firstinspires.ftc.teamcode.SubSystems.V2.Turret;
 import org.firstinspires.ftc.teamcode.Tasks.Task;
 
 public abstract class AutoBase extends LinearOpMode {
     public Task task;
     public SampleMecanumDrive drive;
     public Turret turret;
-//    public Pose2d startPose;
     public Linkage linkage;
     public Claw claw;
-
-//    public AprilTagDetection_41h12 atag;
-    public int x = 0;
+    public double turretVelocity = 0.0, linkageVelocity = 0.0, targetAngle = 0.0;
+    public int targetHeight = 0, preferredZone = 0;
+    public AprilTagDetection_41h12 atag;
     @Override
     public final void runOpMode() throws InterruptedException {
         claw = new Claw(this);
         turret = new Turret(this);
         linkage = new Linkage(this);
-//        atag = new AprilTagDetection_41h12(this);
         drive = new SampleMecanumDrive(hardwareMap);
-//        startPose = new Pose2d(-37.5, -62, Math.toRadians(90));
-//        drive.setPoseEstimate(startPose);
+        atag = new AprilTagDetection_41h12(this);
 
-        DESIRED_ANGLE = 0;
-        CORRECTED_ANGLE = 0;
-        AUTO_SPEED = 0.2;
-        turret.engageBrake();
-        turret.engageSuperBrake();
         turret.resetEncoder();
+        linkage.resetEncoders();
+        claw.setState(Claw.states.OPEN);
 
-        DESIRED_HEIGHT = 0;
         onInit();
-        while (!isStarted() && !isStopRequested()) {
-//            atag.detectZone();
-//            x = atag.getZone();
+        while (!isStarted()) {
+            atag.detectZone();
+            preferredZone = atag.getZone();
             telemetry.update();
         }
+
         task.start(this);
         while(opModeIsActive() && task.isRunning()) {
-            linkage.update();
-            turret.updateAuto();
             onLoop();
-            telemetry.addData("distance", turret.distanceSensor.getDistance(DistanceUnit.CM));
+            turret.setHeading(targetAngle, turretVelocity);
+            linkage.setHeight(targetHeight, linkageVelocity);
+
             telemetry.update();
             task.tick();
         }

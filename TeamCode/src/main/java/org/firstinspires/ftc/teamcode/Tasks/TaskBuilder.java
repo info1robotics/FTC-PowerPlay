@@ -2,15 +2,15 @@ package org.firstinspires.ftc.teamcode.Tasks;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 
-import org.firstinspires.ftc.teamcode.Roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequence;
 
 public class TaskBuilder {
-    public static SyncTask sync(Task... task) {
-        return new SyncTask(task);
+    public static SerialTask serial(Task... task) {
+        return new SerialTask(task);
     }
 
-    public static AsyncTask async(Task... task) {
-        return new AsyncTask(task);
+    public static ParallelTask parallel(Task... task) {
+        return new ParallelTask(task);
     }
 
     public static SleepTask pause(long ms) {
@@ -21,11 +21,11 @@ public class TaskBuilder {
         return new TrajectoryTask(trajectory);
     }
 
-    public static TrajectorySequenceTask trajectory(TrajectorySequence trajectory) {
+    public static TrajectorySequenceTask trajectorySequence(TrajectorySequence trajectory) {
         return new TrajectorySequenceTask(trajectory);
     }
 
-    public static InlineTask inline(Runnable runnable) {
-        return new InlineTask(runnable);
+    public static ExecuteTask execute(Runnable runnable) {
+        return new ExecuteTask(runnable);
     }
 }

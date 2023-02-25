@@ -20,11 +20,6 @@ public class MyClass {
                 .followTrajectorySequence(drive ->
                 drive.trajectorySequenceBuilder(new Pose2d(-37.5, -62, Math.toRadians(90)))
                         .lineTo(new Vector2d(-38.5, -20))
-                        .lineTo(new Vector2d(-38.5, -8))
-                        .turn(Math.toRadians(90))
-                        .lineTo(new Vector2d(-58.25, -9.5))
-                        .lineTo(new Vector2d(0, -10))
-                        .lineTo(new Vector2d(-58.25, -9.5))
                         .build()
         );
 

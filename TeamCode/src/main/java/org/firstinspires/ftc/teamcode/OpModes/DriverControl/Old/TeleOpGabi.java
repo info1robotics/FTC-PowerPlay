@@ -1,4 +1,4 @@
-//package org.firstinspires.ftc.teamcode.OpModes;
+//package org.firstinspires.ftc.teamcode.OpModes.DriverControl;
 //
 //import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.CURRENT_LEVEL;
 //import static org.firstinspires.ftc.teamcode.SubSystems.Linkage.GROUND_LEVEL;
@@ -12,50 +12,52 @@
 //import static org.firstinspires.ftc.teamcode.SubSystems.Turret.ANGLE_THRESHOLD;
 //import static org.firstinspires.ftc.teamcode.SubSystems.Turret.CURRENT_ANGLE;
 //
-//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 //import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+//import com.qualcomm.robotcore.hardware.DcMotor;
 //
-//import org.firstinspires.ftc.teamcode.SubSystems.V2.Mecanum;
+//import org.firstinspires.ftc.teamcode.SubSystems.V2.Drivetrain;
 //import org.firstinspires.ftc.teamcode.SubSystems.Claw;
 //import org.firstinspires.ftc.teamcode.SubSystems.Linkage;
 //import org.firstinspires.ftc.teamcode.SubSystems.Turret;
-//@Disabled
-//@TeleOp(name = "TeleOp Codrin")
-//public class TeleOpSecondary extends LinearOpMode {
-//    public boolean automated = false;
 //
+//@TeleOp(name = "Gabi TeleOp")
+//public class TeleOpGabi extends LinearOpMode {
+//    public boolean automated = false;
+//    public boolean started;
 //    @Override
 //    public void runOpMode() throws InterruptedException {
-//
 //        // Initialize all systems.
 //        Linkage linkage = new Linkage(this);
 //        Claw claw = new Claw(this);
 //        Turret turret = new Turret(this);
-//        Mecanum drivetrain = new Mecanum(hardwareMap);
+//        Drivetrain drivetrain = new Drivetrain(hardwareMap);
 //
 //        // Fire up the motors.
-//        CURRENT_LEVEL = 0;
-//        CURRENT_ANGLE = 0;
-//        // positions: 0 250 350 525
-//        linkage.goToLevel(CURRENT_LEVEL, 1.0);
-//        turret.goToAngle(CURRENT_ANGLE, 1.0);
+//        started = true;
 //        boolean STATE_CHANGED = false;
 //        boolean BRAKE_CHANGED = false;
-//        turret.disengageBrake();
-//        turret.disengageSuperBrake();
-//
+//        turret.engageBrake();
+//        turret.engageSuperBrake();
 //        waitForStart();
 //        while (opModeIsActive()) {
-//            automated = false;
+////            if(started){
+////                started = false;
+////                CURRENT_LEVEL = 100;
+////                CURRENT_ANGLE = 0;
+////            }
+//
+//            if(linkage.linkageLeft.getCurrentPosition() <= 100) turret.hardLock = true;
+//            else turret.hardLock = false;
 //            // Omnidirectional drivetrain control.
 //            drivetrain.vectorMove(
-//                gamepad1.left_stick_x,
-//                -gamepad1.left_stick_y,
-////                    gamepad1.left_trigger - gamepad1.right_trigger,
-//                gamepad1.right_stick_x,
-//                gamepad1.right_bumper ? 0.5 : 0.7
+//                    gamepad1.left_stick_x,
+//                    -gamepad1.left_stick_y,
+//                    gamepad1.left_trigger - gamepad1.right_trigger,
+////                    gamepad1.right_stick_x,
+//                    gamepad1.right_bumper ? 0.5 : 0.8
 //            );
+//
 //            //Toggle claw power when button A (Xbox) / X (PS4) is pressed.
 //            if (gamepad2.a && !STATE_CHANGED) {
 //                claw.toggle();
@@ -74,26 +76,30 @@
 //            // Fine-tune the current height on the linkage system.
 //            if (gamepad2.left_bumper) CURRENT_LEVEL -= LINKAGE_THRESHOLD;
 //            if (gamepad2.right_bumper) CURRENT_LEVEL += LINKAGE_THRESHOLD;
+//            if (gamepad2.y) {
+//                DcMotor.RunMode runMode = turret.turretMotor.getMode();
+//                turret.turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                turret.turretMotor.setMode(runMode);
+//                CURRENT_ANGLE = 0;
+//            }
 //
 //            // Reset turret angle to 0 when the X (Xbox) / Square (PS4) button is pressed for safe linkage operation.
-//            if (CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.circle) CURRENT_ANGLE = 0;
+//
 //
 //            // Manually tune the turret angle. The turret will not spin if it is currently at risk of damaging the linkage.
 //            if (CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.left_trigger != 0)
-//                CURRENT_ANGLE += (ANGLE_THRESHOLD * gamepad2.left_trigger);
+//            {CURRENT_ANGLE += (ANGLE_THRESHOLD * gamepad2.left_trigger); automated = false;}
 //            if (CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.right_trigger != 0)
-//                CURRENT_ANGLE -= (ANGLE_THRESHOLD * gamepad2.right_trigger);
+//            {CURRENT_ANGLE -= (ANGLE_THRESHOLD * gamepad2.right_trigger); automated = false;}
 //            if (CURRENT_LEVEL <= SAFETY_THRESHOLD && gamepad2.left_trigger != 0)
-//                CURRENT_ANGLE += (ANGLE_THRESHOLD * gamepad2.left_trigger) / 2.5;
+//            {CURRENT_ANGLE += (ANGLE_THRESHOLD * gamepad2.left_trigger) / 2.5; automated = false;}
 //            if (CURRENT_LEVEL <= SAFETY_THRESHOLD && gamepad2.right_trigger != 0)
-//                CURRENT_ANGLE -= (ANGLE_THRESHOLD * gamepad2.right_trigger) / 2.5;
+//            {CURRENT_ANGLE -= (ANGLE_THRESHOLD * gamepad2.right_trigger) / 2.5; automated = false;}
 //
 //            telemetry.addData("Linkage: ", linkage.linkageLeft.getCurrentPosition());
 //
 //            if (CURRENT_LEVEL > LINKAGE_MAX) CURRENT_LEVEL = LINKAGE_MAX;
 //            if (CURRENT_LEVEL < LINKAGE_MIN) CURRENT_LEVEL = LINKAGE_MIN;
-//
-//            // Apply settings to motors.
 //
 ////            if (gamepad2.right_trigger >= 0.1 || gamepad2.left_trigger >= 0.1) {
 ////                turret.disengageBrake();
@@ -106,22 +112,28 @@
 ////            if(gamepad2.x){turret.engageBrake(); turret.engageSuperBrake();}
 ////            else {turret.disengageSuperBrake(); turret.disengageBrake();}
 //
+//            if (CURRENT_LEVEL > SAFETY_THRESHOLD && gamepad2.circle) {
+//                CURRENT_ANGLE = 0;
+//            }
+//
 //            if (gamepad2.right_stick_button) {
-//                CURRENT_ANGLE = 90;
+//                CURRENT_ANGLE = -90;
 //                automated = true;
 //            }
 //            if (gamepad2.left_stick_button) {
-//                CURRENT_ANGLE = -90;
+//                CURRENT_ANGLE = 90;
 //                automated = true;
 //            }
 //
 //            if (automated) {
-//                turret.goToAngle(CURRENT_ANGLE, .2);
+//                turret.goToAngle(CURRENT_ANGLE, 0.3);
 //            } else {
-//                turret.goToAngle(CURRENT_ANGLE, 1.0);
+//                turret.goToAngle(CURRENT_ANGLE, 0.6);
 //            }
-//            linkage.goToLevel(CURRENT_LEVEL, 1.0);
 //
+//            linkage.goToLevel(CURRENT_LEVEL, 1.0);
+////            linkage.debug();
+////            turret.update();
 //            telemetry.update();
 //        }
 //    }

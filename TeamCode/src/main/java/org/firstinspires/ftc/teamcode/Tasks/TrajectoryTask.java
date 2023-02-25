@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Tasks;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 
-import org.firstinspires.ftc.teamcode.Roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequence;
 
 public class TrajectoryTask extends Task {
     Trajectory trajectory;
