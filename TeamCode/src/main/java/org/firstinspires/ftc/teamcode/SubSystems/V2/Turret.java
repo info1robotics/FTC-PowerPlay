@@ -8,14 +8,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class Turret{
     public DcMotorEx turretMotor;
-    private static final double GEAR_RATIO = 231.0 / 36.0;
+    private static final double GEAR_RATIO = 36.0 / 231.0;
     private static final double TICKS_PER_REVOLUTION = 384.5;
     public static final double THRESHOLD = 1f;
     public double LOWER_ANGLE_LIMIT = -360;
     public double HIGHER_ANGLE_LIMIT = 360;
 
     public Turret(LinearOpMode opMode){
-        turretMotor = opMode.hardwareMap.get(DcMotorEx.class, "turretMotor");
+        turretMotor = opMode.hardwareMap.get(DcMotorEx.class, "TurretMotor");
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }

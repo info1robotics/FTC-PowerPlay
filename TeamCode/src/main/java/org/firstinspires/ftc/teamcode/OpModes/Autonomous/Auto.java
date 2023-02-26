@@ -41,7 +41,7 @@ public class Auto extends AutoBase {
 //                .build();
 
         task = serial(
-                execute(() -> claw.setState(Claw.states.CLOSED))
+                execute(() -> claw.setClawState(Claw.clawStates.CLOSED))
         );
     }
 }

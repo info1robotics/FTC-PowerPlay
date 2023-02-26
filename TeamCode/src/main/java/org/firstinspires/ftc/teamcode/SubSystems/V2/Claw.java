@@ -4,33 +4,93 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Claw {
-    Servo clawLeft, clawRight;
+    Servo clawLeft;
+    Servo clawRight;
+    public Servo pivotSecondary, pivotMain;
 
     public double LEFT_OPEN = 1.0;
-    public double LEFT_CLOSED = 0.0;
+    public double LEFT_CLOSED = 0.95;
     public double RIGHT_OPEN = 0.0;
-    public double RIGHT_CLOSED = 1.0;
+    public double RIGHT_CLOSED = 0.05;
+    public double PIVOT_SECONDARY_DOWN = 0.0;
+    public double PIVOT_SECONDARY_UP = 0.075;
+    public double PIVOT_SECONDARY_INIT = 0.075;
+    public double PIVOT_MAIN_DOWN = 0.1;
+    public double PIVOT_MAIN_UP = 0.0;
+    public double PIVOT_MAIN_INIT = 0.0;
+    public double PIVOT_MAIN_DROP = 0.035;
+
     public static boolean isClosed;
-    public enum states{
+    public enum clawStates {
         OPEN,
-        CLOSED
+        CLOSED,
+    }
+    public enum pivotPositions {
+        INIT,
+        DOWN,
+        UP
+    }
+
+    public enum subsystemStates{
+        READY,
+        COLLECTED,
+        RETRACTED,
+        DROP
     }
 
     public Claw(LinearOpMode opMode) {
         clawLeft = opMode.hardwareMap.get(Servo.class, "ClawLeft");
         clawRight = opMode.hardwareMap.get(Servo.class, "ClawRight");
-        setState(states.OPEN);
+        pivotSecondary = opMode.hardwareMap.get(Servo.class, "PivotSecondary");
+        pivotMain = opMode.hardwareMap.get(Servo.class, "PivotMain");
+        setClawState(clawStates.OPEN);
     }
 
-    public void setState(states state) {
-        if (state == states.OPEN) {
+    public void setClawState(clawStates state) {
+        if (state == clawStates.OPEN) {
             // Opens the Claw
             clawRight.setPosition(RIGHT_OPEN);
             clawLeft.setPosition(LEFT_OPEN);
-        } else if (state == states.CLOSED) {
+        } else if (state == clawStates.CLOSED) {
             // Closes the Claw
             clawRight.setPosition(RIGHT_CLOSED);
             clawLeft.setPosition(LEFT_CLOSED);
+        }
+    }
+    public void setPivotPosition(pivotPositions position) {
+        switch(position){
+            case INIT:
+                pivotMain.setPosition(PIVOT_MAIN_INIT);
+                pivotSecondary.setPosition(PIVOT_SECONDARY_INIT);
+                break;
+            case UP:
+                pivotMain.setPosition(PIVOT_MAIN_UP);
+                pivotSecondary.setPosition(PIVOT_SECONDARY_DOWN);
+                break;
+            case DOWN:
+                pivotSecondary.setPosition(PIVOT_SECONDARY_UP);
+                pivotMain.setPosition(PIVOT_MAIN_DOWN);
+                break;
+        }
+    }
+
+    public void setSubsystemState(subsystemStates state){
+        switch(state){
+            case READY:
+                setClawState(clawStates.OPEN);
+                setPivotPosition(pivotPositions.DOWN);
+                break;
+            case COLLECTED:
+                setClawState(clawStates.CLOSED);
+                setPivotPosition(pivotPositions.UP);
+                break;
+            case RETRACTED:
+                setClawState(clawStates.CLOSED);
+                setPivotPosition(pivotPositions.INIT);
+                break;
+            case DROP:
+                pivotMain.setPosition(PIVOT_MAIN_DROP);
+                setClawState(clawStates.OPEN);
         }
     }
     public void toggle() {

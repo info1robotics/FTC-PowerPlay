@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.DebugOpModes;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -17,7 +19,8 @@ public class UpperSubSystemsDebug extends LinearOpMode {
         Turret turret = new Turret(this);
         Claw claw = new Claw(this);
 
-        claw.setState(Claw.states.OPEN);
+        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
+
         telemetry.addLine("Warning! This OpMode resets all motor encoders after start is pressed!");
         telemetry.addLine("Claw is open during INIT and closed after start.");
         telemetry.update();
@@ -29,9 +32,14 @@ public class UpperSubSystemsDebug extends LinearOpMode {
         turret.resetEncoder();
 
         while(opModeIsActive()){
-            linkage.debug();
+            telemetry.addData("Left Motor Tick Count ", linkage.linkageLeft.getCurrentPosition());
+            telemetry.addData("Right Motor Tick Count ", linkage.linkageRight.getCurrentPosition());
+
             telemetry.addLine();
-            turret.debug();
+
+            telemetry.addData("Turret's Current Angle Heading ", turret.getCurrentAngleHeading());
+            telemetry.addData("Turret's Current Tick Count ", turret.turretMotor.getCurrentPosition());
+
             telemetry.addLine();
             telemetry.update();
         }

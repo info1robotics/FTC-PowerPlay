@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSystems.V2;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -19,8 +20,8 @@ public class Linkage{
     public int TARGET_HEIGHT   =    0;
 
     public Linkage(LinearOpMode opMode){
-    linkageLeft = opMode.hardwareMap.get(DcMotorEx.class, "linkageLeft");
-    linkageRight = opMode.hardwareMap.get(DcMotorEx.class, "linkageRight");
+    linkageLeft = opMode.hardwareMap.get(DcMotorEx.class, "LinkageLeft");
+    linkageRight = opMode.hardwareMap.get(DcMotorEx.class, "LinkageRight");
 
     linkageRight.setDirection(DcMotorSimple.Direction.REVERSE);
     linkageLeft.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -63,7 +64,5 @@ public class Linkage{
     }
 
     public void debug() {
-        telemetry.addData("Left Motor Tick Count ", linkageLeft.getCurrentPosition());
-        telemetry.addData("Right Motor Tick Count ", linkageRight.getCurrentPosition());
     }
 }

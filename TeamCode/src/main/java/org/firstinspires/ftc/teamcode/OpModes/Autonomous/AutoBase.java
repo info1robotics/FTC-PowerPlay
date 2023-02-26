@@ -28,7 +28,7 @@ public abstract class AutoBase extends LinearOpMode {
 
         turret.resetEncoder();
         linkage.resetEncoders();
-        claw.setState(Claw.states.OPEN);
+        claw.setClawState(Claw.clawStates.OPEN);
 
         onInit();
         while (!isStarted()) {

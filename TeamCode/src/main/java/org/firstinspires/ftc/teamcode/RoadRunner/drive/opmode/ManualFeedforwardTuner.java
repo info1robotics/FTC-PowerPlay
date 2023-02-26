@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.util.RobotLog;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.SubSystems.Turret;
 
 import java.util.Objects;
 
@@ -70,7 +69,6 @@ public class ManualFeedforwardTuner extends LinearOpMode {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
 
         drive = new SampleMecanumDrive(hardwareMap);
-        Turret turret = new Turret(this);
         mode = Mode.TUNING_MODE;
 
         NanoClock clock = NanoClock.system();
@@ -89,9 +87,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
 
         while (!isStopRequested()) {
-            turret.engageBrake();
-            turret.engageSuperBrake();
-            turret.goToAngle(0, 1.0);
+
             telemetry.addData("mode", mode);
 
             switch (mode) {

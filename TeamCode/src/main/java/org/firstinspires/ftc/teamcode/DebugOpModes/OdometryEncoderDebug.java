@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.DebugOpModes;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -15,7 +17,12 @@ public class OdometryEncoderDebug extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()){
-            odometry.debug();
+            telemetry.addData("Parallel Raw Value ", odometry.rawDistanceParallel());
+            telemetry.addData("Perpendicular Raw Value ", odometry.rawDistancePerpendicular());
+            telemetry.addLine();
+            telemetry.addData("Parallel Distance Traveled ", odometry.translatedDistanceParallel());
+            telemetry.addData("Perpendicular Distance Traveled ", odometry.translatedDistancePerpendicular());
+
             telemetry.update();
         }
     }

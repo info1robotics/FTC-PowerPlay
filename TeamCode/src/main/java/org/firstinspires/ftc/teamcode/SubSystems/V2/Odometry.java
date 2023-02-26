@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class Odometry {
-    DcMotorEx odoLeft, odoRight, odoCenter;
+    DcMotorEx odoParallel, odoPerpendicular;
     private static final double WHEEL_DIAMETER = 2;
     private static final double WHEEL_DIAMETER_TO_NORMAL_UNITS = WHEEL_DIAMETER * 2.54;
     static final double WHEEL_RADIUS = WHEEL_DIAMETER_TO_NORMAL_UNITS / 2;
@@ -21,38 +21,31 @@ public class Odometry {
     static final double PERPENDICULAR_ANGULAR_OFFSET = ((5 * 90) / ( 112.23 + 123.37 + 124.90 + 111.19 + 115.67 ));
 
     public Odometry(LinearOpMode opMode) {
-        odoLeft = opMode.hardwareMap.get(DcMotorEx.class, "FL_Left");
-        odoRight = opMode.hardwareMap.get(DcMotorEx.class, "FR_Right");
-        odoCenter = opMode.hardwareMap.get(DcMotorEx.class, "BR_Center");
+        odoParallel = opMode.hardwareMap.get(DcMotorEx.class, "BR_Parallel");
+        odoPerpendicular = opMode.hardwareMap.get(DcMotorEx.class, "FL_Perpendicular");
 
         resetEncoders();
 
-        odoRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        odoCenter.setDirection(DcMotorSimple.Direction.REVERSE);
+        odoParallel.setDirection(DcMotorSimple.Direction.REVERSE);
+        odoPerpendicular.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void resetEncoders() {
-        odoLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        odoRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        odoCenter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        odoParallel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        odoPerpendicular.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void setHeading(double angle){ HEADING = angle; }
-    public double rawDistanceLeft(){ return odoLeft.getCurrentPosition(); }
-    public double rawDistanceRight(){ return odoRight.getCurrentPosition(); }
-    public double rawDistanceCenter(){ return odoCenter.getCurrentPosition(); }
-    public double translatedDistanceLeft(){ return (odoLeft.getCurrentPosition() / TICKS_PER_REVOLUTION) * WHEEL_CIRCUMFERENCE; }
-    public double translatedDistanceRight(){ return (odoRight.getCurrentPosition() / TICKS_PER_REVOLUTION) * WHEEL_CIRCUMFERENCE; }
-    public double translatedDistanceCenter(){ return (odoCenter.getCurrentPosition() / TICKS_PER_REVOLUTION) * WHEEL_CIRCUMFERENCE; }
-    public double getCurrentHeading(){ return Math.toDegrees(((translatedDistanceRight() - translatedDistanceLeft()) / WHEELBASE_WIDTH) * LATERAL_ANGULAR_OFFSET); }
+    public double rawDistanceParallel(){ return odoParallel.getCurrentPosition(); }
+    public double rawDistancePerpendicular(){ return odoPerpendicular.getCurrentPosition(); }
+    public double translatedDistanceParallel(){ return (odoParallel.getCurrentPosition() / TICKS_PER_REVOLUTION) * WHEEL_CIRCUMFERENCE; }
+    public double translatedDistancePerpendicular(){ return (odoPerpendicular.getCurrentPosition() / TICKS_PER_REVOLUTION) * WHEEL_CIRCUMFERENCE; }
     public void debug(){
-        telemetry.addData("Left Raw Value ", rawDistanceLeft());
-        telemetry.addData("Right Raw Value ", rawDistanceRight());
-        telemetry.addData("Center Raw Value ", rawDistanceCenter());
+        telemetry.addData("Parallel Raw Value ", rawDistanceParallel());
+        telemetry.addData("Perpendicular Raw Value ", rawDistancePerpendicular());
         telemetry.addLine();
-        telemetry.addData("Left Distance Traveled ", translatedDistanceLeft());
-        telemetry.addData("Right Distance Traveled ", translatedDistanceRight());
-        telemetry.addData("Center Distance Traveled ", translatedDistanceCenter());
+        telemetry.addData("Parallel Distance Traveled ", translatedDistanceParallel());
+        telemetry.addData("Perpendicular Distance Traveled ", translatedDistancePerpendicular());
     }
 }
 
