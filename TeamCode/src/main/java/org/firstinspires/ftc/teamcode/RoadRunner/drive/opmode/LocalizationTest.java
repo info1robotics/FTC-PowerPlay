@@ -5,7 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.StandardTrackingWheelLocalizer;
 
 
 /**
@@ -22,7 +24,7 @@ public class LocalizationTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    waitForStart();
+        waitForStart();
 
         while (!isStopRequested()) {
             drive.setWeightedDrivePower(
@@ -39,6 +41,10 @@ public class LocalizationTest extends LinearOpMode {
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
+
+            telemetry.addData("imuHeading", drive.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+            telemetry.addData("yOdo", ((StandardTrackingWheelLocalizer)drive.getLocalizer()).parallelEncoder.getCurrentPosition());
+            telemetry.addData("xOdo", ((StandardTrackingWheelLocalizer)drive.getLocalizer()).perpendicularEncoder.getCurrentPosition());
             telemetry.update();
         }
     }

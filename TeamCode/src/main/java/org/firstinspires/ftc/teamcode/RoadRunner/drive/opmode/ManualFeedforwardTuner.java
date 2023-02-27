@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.StandardTrackingWheelLocalizer;
 
 import java.util.Objects;
 
@@ -35,11 +36,11 @@ import java.util.Objects;
  * user to reset the position of the bot in the event that it drifts off the path.
  * Pressing B/O (Xbox/PS4) will cede control back to the tuning process.
  */
-@Disabled
+//@Disabled
 @Config
 @Autonomous(group = "drive")
 public class ManualFeedforwardTuner extends LinearOpMode {
-    public static double DISTANCE = 72; // in
+    public static double DISTANCE = 90; // in
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
@@ -73,9 +74,10 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
         NanoClock clock = NanoClock.system();
 
-        telemetry.addLine("Ready!");
+        telemetry.addData("targetVelocity", 0);
+        telemetry.addData("measuredVelocity", 0);
+        telemetry.addData("error", 0);
         telemetry.update();
-        telemetry.clearAll();
 
         waitForStart();
 
@@ -112,13 +114,13 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                     drive.setDrivePower(new Pose2d(targetPower, 0, 0));
                     drive.updatePoseEstimate();
 
-                    Pose2d poseVelo = Objects.requireNonNull(drive.getPoseVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
+                    Pose2d poseVelo = Objects.requireNonNull(drive.getPoseVelocity(),   ((StandardTrackingWheelLocalizer) drive.getLocalizer()).parallelEncoder.getCorrectedVelocity() + "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
                     double currentVelo = poseVelo.getX();
 
                     // update telemetry
-                    telemetry.addData("targetVelocity", motionState.getV());
-                    telemetry.addData("measuredVelocity", currentVelo);
-                    telemetry.addData("error", motionState.getV() - currentVelo);
+                        telemetry.addData("targetVelocity", motionState.getV());
+                        telemetry.addData("measuredVelocity", currentVelo);
+                        telemetry.addData("error", motionState.getV() - currentVelo);
                     break;
                 case DRIVER_MODE:
                     if (gamepad1.b) {

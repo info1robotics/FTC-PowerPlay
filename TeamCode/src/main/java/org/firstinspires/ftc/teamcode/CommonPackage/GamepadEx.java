@@ -40,7 +40,6 @@ public class GamepadEx {
 
 	private float[] analog = new float[6];
 
-	// TODO update to java 8 way when possible
 	public static final HashMap<String, Integer> buttonName = new HashMap<String, Integer>() {{
 		put("start", 0);
 		put("back", 1);
@@ -89,7 +88,6 @@ public class GamepadEx {
 		newButtonState[0] 	= gamepad.start;
 		newButtonState[1] 	= gamepad.back;
 		newButtonState[2] 	= false;
-		// TODO find better way to ignore start
 		newButtonState[3] 	= gamepad.a & !newButtonState[0]; // ignore start + a
 		newButtonState[4] 	= gamepad.b & !newButtonState[0]; // ignore start + b
 		newButtonState[5] 	= gamepad.x;
