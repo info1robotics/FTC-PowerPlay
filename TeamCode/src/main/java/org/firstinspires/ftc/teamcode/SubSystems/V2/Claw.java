@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Claw {
-    Servo clawLeft;
+    public Servo clawLeft;
     Servo clawRight;
     public Servo pivotSecondary, pivotMain;
 
@@ -12,13 +12,13 @@ public class Claw {
     public double LEFT_CLOSED = 0.95;
     public double RIGHT_OPEN = 0.0;
     public double RIGHT_CLOSED = 0.05;
-    public double PIVOT_SECONDARY_DOWN = 0.0;
-    public double PIVOT_SECONDARY_UP = 0.075;
+    public double PIVOT_SECONDARY_DOWN = 0.09;
+    public double PIVOT_SECONDARY_UP = 0.165;
     public double PIVOT_SECONDARY_INIT = 0.075;
-    public double PIVOT_MAIN_DOWN = 0.1;
-    public double PIVOT_MAIN_UP = 0.0;
+    public double PIVOT_MAIN_DOWN = 0.15;
+    public double PIVOT_MAIN_UP = 0.05;
     public double PIVOT_MAIN_INIT = 0.0;
-    public double PIVOT_MAIN_DROP = 0.035;
+    public double PIVOT_MAIN_DROP = 0.075;
 
     public static boolean isClosed;
     public enum clawStates {
@@ -43,7 +43,6 @@ public class Claw {
         clawRight = opMode.hardwareMap.get(Servo.class, "ClawRight");
         pivotSecondary = opMode.hardwareMap.get(Servo.class, "PivotSecondary");
         pivotMain = opMode.hardwareMap.get(Servo.class, "PivotMain");
-        setClawState(clawStates.OPEN);
     }
 
     public void setClawState(clawStates state) {

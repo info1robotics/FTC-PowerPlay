@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.DriverControl;
 
-import com.qualcomm.hardware.lynx.EmbeddedControlHubModule;
-import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.hardware.lynx.LynxModuleWarningManager;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Drivetrain;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Linkage;
@@ -72,6 +68,9 @@ public class DriverControl extends LinearOpMode {
             }
             if (gamepad2.dpad_up) {
                 targetHeight = 400;
+            }
+            if  (gamepad1.x){
+                turret.hardReset();
             }
 
 

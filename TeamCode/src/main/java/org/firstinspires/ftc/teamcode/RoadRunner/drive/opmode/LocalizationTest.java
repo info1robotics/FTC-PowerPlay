@@ -42,7 +42,6 @@ public class LocalizationTest extends LinearOpMode {
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
 
-            telemetry.addData("imuHeading", drive.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
             telemetry.addData("yOdo", ((StandardTrackingWheelLocalizer)drive.getLocalizer()).parallelEncoder.getCurrentPosition());
             telemetry.addData("xOdo", ((StandardTrackingWheelLocalizer)drive.getLocalizer()).perpendicularEncoder.getCurrentPosition());
             telemetry.update();

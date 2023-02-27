@@ -13,7 +13,7 @@ public class TaskBuilder {
         return new ParallelTask(task);
     }
 
-    public static SleepTask pause(long ms) {
+    public static SleepTask sleepms(long ms) {
         return new SleepTask(ms);
     }
 

@@ -15,25 +15,25 @@ public abstract class AutoBase extends LinearOpMode {
     public Turret turret;
     public Linkage linkage;
     public Claw claw;
-    public double turretVelocity = 0.0, linkageVelocity = 0.0, targetAngle = 0.0;
+    public double turretVelocity = 1.0, linkageVelocity = 1.0, targetAngle = 0.0;
     public int targetHeight = 0, preferredZone = 0;
-    public AprilTagDetection_41h12 atag;
+//    public AprilTagDetection_41h12 atag;
     @Override
     public final void runOpMode() throws InterruptedException {
         claw = new Claw(this);
         turret = new Turret(this);
         linkage = new Linkage(this);
         drive = new SampleMecanumDrive(hardwareMap);
-        atag = new AprilTagDetection_41h12(this);
+//        atag = new AprilTagDetection_41h12(this);
 
         turret.resetEncoder();
         linkage.resetEncoders();
-        claw.setClawState(Claw.clawStates.OPEN);
+        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
 
         onInit();
         while (!isStarted()) {
-            atag.detectZone();
-            preferredZone = atag.getZone();
+//            atag.detectZone();
+//            preferredZone = atag.getZone();
             telemetry.update();
         }
 
@@ -42,7 +42,6 @@ public abstract class AutoBase extends LinearOpMode {
             onLoop();
             turret.setHeading(targetAngle, turretVelocity);
             linkage.setHeight(targetHeight, linkageVelocity);
-
             telemetry.update();
             task.tick();
         }

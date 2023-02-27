@@ -28,7 +28,9 @@ public class Turret {
         setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         setPower(power);
     }
-
+    public void hardReset(){
+        turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
     public void setPower(double power) {
         turretMotor.setPower(power);
     }

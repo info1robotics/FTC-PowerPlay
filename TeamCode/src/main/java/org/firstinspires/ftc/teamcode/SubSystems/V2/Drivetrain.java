@@ -10,10 +10,10 @@ public class Drivetrain {
 
 	public Drivetrain(HardwareMap hardwareMap)
 	{
-		fl = hardwareMap.get(DcMotor.class, "FL_Perpendicular");
-		fr = hardwareMap.get(DcMotor.class, "FR");
-		bl = hardwareMap.get(DcMotor.class, "BL");
-		br = hardwareMap.get(DcMotor.class, "BR_Parallel");
+		fl = hardwareMap.get(DcMotor.class, "FL");
+		fr = hardwareMap.get(DcMotor.class, "FR_Perpendicular");
+		bl = hardwareMap.get(DcMotor.class, "BL_Parallel");
+		br = hardwareMap.get(DcMotor.class, "BR");
 
 		br.setDirection(DcMotorSimple.Direction.REVERSE);
 		bl.setDirection(DcMotorSimple.Direction.FORWARD);
