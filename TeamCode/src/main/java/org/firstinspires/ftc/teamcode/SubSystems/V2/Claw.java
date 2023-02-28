@@ -1,42 +1,29 @@
 package org.firstinspires.ftc.teamcode.SubSystems.V2;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoControllerEx;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
+@Config
 public class Claw {
+    public static boolean isClosed;
     public Servo clawLeft;
-    Servo clawRight;
     public Servo pivotSecondary, pivotMain;
 
-    public double LEFT_OPEN = 1.0;
-    public double LEFT_CLOSED = 0.95;
-    public double RIGHT_OPEN = 0.0;
-    public double RIGHT_CLOSED = 0.05;
-    public double PIVOT_SECONDARY_DOWN = 0.09;
-    public double PIVOT_SECONDARY_UP = 0.165;
-    public double PIVOT_SECONDARY_INIT = 0.075;
-    public double PIVOT_MAIN_DOWN = 0.15;
-    public double PIVOT_MAIN_UP = 0.05;
-    public double PIVOT_MAIN_INIT = 0.0;
-    public double PIVOT_MAIN_DROP = 0.075;
-
-    public static boolean isClosed;
-    public enum clawStates {
-        OPEN,
-        CLOSED,
-    }
-    public enum pivotPositions {
-        INIT,
-        DOWN,
-        UP
-    }
-
-    public enum subsystemStates{
-        READY,
-        COLLECTED,
-        RETRACTED,
-        DROP
-    }
+    public static double LEFT_OPEN = 1.0;
+    public static double LEFT_CLOSED = 0.95;
+    public static double RIGHT_OPEN = 0.0;
+    public static double RIGHT_CLOSED = 0.05;
+    public static double PIVOT_SECONDARY_DOWN = 0.09;
+    public static double PIVOT_SECONDARY_UP = 0.14;
+    public static double PIVOT_SECONDARY_INIT = 0.09;
+    public static double PIVOT_MAIN_DOWN = 0.8;
+    public static double PIVOT_MAIN_UP = 0.3;
+    public static double PIVOT_MAIN_INIT = 0.0;
+    public static double PIVOT_MAIN_DROP = 0.7;
+    Servo clawRight;
 
     public Claw(LinearOpMode opMode) {
         clawLeft = opMode.hardwareMap.get(Servo.class, "ClawLeft");
@@ -56,8 +43,9 @@ public class Claw {
             clawLeft.setPosition(LEFT_CLOSED);
         }
     }
+
     public void setPivotPosition(pivotPositions position) {
-        switch(position){
+        switch (position) {
             case INIT:
                 pivotMain.setPosition(PIVOT_MAIN_INIT);
                 pivotSecondary.setPosition(PIVOT_SECONDARY_INIT);
@@ -73,8 +61,8 @@ public class Claw {
         }
     }
 
-    public void setSubsystemState(subsystemStates state){
-        switch(state){
+    public void setSubsystemState(subsystemStates state) {
+        switch (state) {
             case READY:
                 setClawState(clawStates.OPEN);
                 setPivotPosition(pivotPositions.DOWN);
@@ -92,6 +80,7 @@ public class Claw {
                 setClawState(clawStates.OPEN);
         }
     }
+
     public void toggle() {
         isClosed = !isClosed;
         if (!isClosed) {
@@ -103,5 +92,17 @@ public class Claw {
             clawRight.setPosition(RIGHT_CLOSED);
             clawLeft.setPosition(LEFT_CLOSED);
         }
+    }
+
+    public enum clawStates {
+        OPEN, CLOSED,
+    }
+
+    public enum pivotPositions {
+        INIT, DOWN, UP
+    }
+
+    public enum subsystemStates {
+        READY, COLLECTED, RETRACTED, DROP
     }
 }
