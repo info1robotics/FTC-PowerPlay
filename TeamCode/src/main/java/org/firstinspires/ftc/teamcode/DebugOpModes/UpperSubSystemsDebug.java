@@ -21,29 +21,23 @@ public class UpperSubSystemsDebug extends LinearOpMode {
         Claw claw = new Claw(this);
 
 //        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
-        claw.setSubsystemState(Claw.subsystemStates.COLLECTED);
-
+claw.setSubsystemState(Claw.subsystemStates.COLLECTED);
         telemetry.addLine("Warning! This OpMode resets all motor encoders after start is pressed!");
         telemetry.addLine("Claw is open during INIT and closed after start.");
         telemetry.update();
-
         waitForStart();
 
         telemetry.clear();
-//        linkage.resetEncoders();
-//        turret.resetEncoder();
+        linkage.resetEncoders();
+        turret.resetEncoder();
 
         while(opModeIsActive()){
-            claw.setPivotPosition(Claw.pivotPositions.DOWN);
-
-//            telemetry.addData("Left Motor Tick Count ", linkage.linkageLeft.getCurrentPosition());
-//            telemetry.addData("Right Motor Tick Count ", linkage.linkageRight.getCurrentPosition());
-
+            claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY);
+            telemetry.addData("Left Motor Tick Count ", linkage.linkageLeft.getCurrentPosition());
+            telemetry.addData("Right Motor Tick Count ", linkage.linkageRight.getCurrentPosition());
             telemetry.addLine();
-
-//            telemetry.addData("Turret's Current Angle Heading ", turret.getCurrentAngleHeading());
-//            telemetry.addData("Turret's Current Tick Count ", turret.turretMotor.getCurrentPosition());
-
+            telemetry.addData("Turret's Current Angle Heading ", turret.getCurrentAngleHeading());
+            telemetry.addData("Turret's Current Tick Count ", turret.turretMotor.getCurrentPosition());
             telemetry.addLine();
             telemetry.update();
         }

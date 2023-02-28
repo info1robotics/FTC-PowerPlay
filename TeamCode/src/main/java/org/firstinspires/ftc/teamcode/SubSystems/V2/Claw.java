@@ -17,12 +17,16 @@ public class Claw {
     public static double RIGHT_OPEN = 0.0;
     public static double RIGHT_CLOSED = 0.05;
     public static double PIVOT_SECONDARY_DOWN = 0.09;
-    public static double PIVOT_SECONDARY_UP = 0.14;
+    public static double PIVOT_SECONDARY_UP = 0.16;
     public static double PIVOT_SECONDARY_INIT = 0.09;
     public static double PIVOT_MAIN_DOWN = 0.8;
     public static double PIVOT_MAIN_UP = 0.3;
     public static double PIVOT_MAIN_INIT = 0.0;
     public static double PIVOT_MAIN_DROP = 0.7;
+    public static double PIVOT_MAIN_VERTICAL = 0.3;
+    public static double PIVOT_SECONDARY_VERTICAL = 0.06;
+    public static double PIVOT_MAIN_AUTODROP = 0.45;
+    public static double PIVOT_SECONDARY_INTERMEDIARY = 0.0;
     Servo clawRight;
 
     public Claw(LinearOpMode opMode) {
@@ -58,6 +62,17 @@ public class Claw {
                 pivotSecondary.setPosition(PIVOT_SECONDARY_UP);
                 pivotMain.setPosition(PIVOT_MAIN_DOWN);
                 break;
+            case RIGHT:
+                pivotSecondary.setPosition(PIVOT_SECONDARY_VERTICAL);
+                pivotMain.setPosition(PIVOT_MAIN_VERTICAL);
+                break;
+            case AUTODROP:
+                pivotMain.setPosition(PIVOT_MAIN_AUTODROP);
+                break;
+            case INTERMEDIARY:
+                pivotMain.setPosition(PIVOT_MAIN_UP);
+                pivotSecondary.setPosition(PIVOT_SECONDARY_INTERMEDIARY);
+                break;
         }
     }
 
@@ -78,6 +93,9 @@ public class Claw {
             case DROP:
                 pivotMain.setPosition(PIVOT_MAIN_DROP);
                 setClawState(clawStates.OPEN);
+            case VERTICAL:
+                setPivotPosition(pivotPositions.RIGHT);
+                setClawState(clawStates.CLOSED);
         }
     }
 
@@ -99,10 +117,10 @@ public class Claw {
     }
 
     public enum pivotPositions {
-        INIT, DOWN, UP
+        INIT, DOWN, UP, RIGHT, AUTODROP, INTERMEDIARY
     }
 
     public enum subsystemStates {
-        READY, COLLECTED, RETRACTED, DROP
+        READY, COLLECTED, RETRACTED, DROP, VERTICAL
     }
 }

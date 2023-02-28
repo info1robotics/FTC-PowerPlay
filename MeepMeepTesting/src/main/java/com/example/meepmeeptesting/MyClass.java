@@ -19,11 +19,13 @@ public class MyClass {
                 .setConstraints(50, 30, Math.toRadians(180), Math.toRadians(180), 12)
                 .followTrajectorySequence(drive ->
                 drive.trajectorySequenceBuilder(new Pose2d(-35, -62, Math.toRadians(90)))
-                        .lineToLinearHeading(new Pose2d(-35, -10, Math.toRadians(45)))
+                        .lineToLinearHeading(new Pose2d(-35, -12, Math.toRadians(0)))
                         .setReversed(true)
                         .lineToLinearHeading(new Pose2d(-55, -12))
                         .setReversed(false)
-                        .lineToLinearHeading(new Pose2d(-38, -12))
+                        .lineToLinearHeading(new Pose2d(-35, -12))
+                        .setReversed(true)
+                        .lineToLinearHeading(new Pose2d(-35, -12, Math.toRadians(0)))
                         .build()
         );
 
