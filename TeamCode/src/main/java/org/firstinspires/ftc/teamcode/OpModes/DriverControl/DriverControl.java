@@ -11,12 +11,13 @@ import org.firstinspires.ftc.teamcode.SubSystems.V2.Turret;
 
 @TeleOp(name = "TeleOp")
 public class DriverControl extends LinearOpMode {
-    GamepadEx gamepad_2;
+    GamepadEx gamepad_2, gamepad_1;
     public double targetAngle, turretVelocity, linkageVelocity, angleThreshold, autoTurretVelocity, autoLinkageVelocity;
     public int targetHeight, heightThreshold;
     public double upperAngleLimit = 360, lowerAngleLimit = -360;
     public int upperLinkageLimit = 440, lowerLinkageLimit = -50;
     public int confirmIncrement = 0;
+    public int driver1confirmIncrement = 0;
     public boolean changed;
 
     @Override
@@ -26,7 +27,7 @@ public class DriverControl extends LinearOpMode {
         Drivetrain drive = new Drivetrain(this.hardwareMap);
         Claw claw = new Claw(this);
         gamepad_2 = new GamepadEx(gamepad2);
-
+        gamepad_1 = new GamepadEx(gamepad1);
         claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
 
         targetAngle = 0.0;
@@ -69,6 +70,18 @@ public class DriverControl extends LinearOpMode {
                 }
             }
 
+//            if (gamepad_1.getButtonDown("y")) {
+//                if(driver1confirmIncrement == 0){
+//                    claw.setPivotPosition(Claw.pivotPositions.DOWN);
+//                    claw.setClawState(Claw.clawStates.CLOSED);
+//                    driver1confirmIncrement++;
+//                } else {
+//                    claw.setPivotPosition(Claw.pivotPositions.DOWN);
+//                    claw.setClawState(Claw.clawStates.OPEN);
+//                    driver1confirmIncrement = 0;
+//                }
+//            }
+            
             if (gamepad2.right_stick_button) {
                 targetAngle = -180;
             }
