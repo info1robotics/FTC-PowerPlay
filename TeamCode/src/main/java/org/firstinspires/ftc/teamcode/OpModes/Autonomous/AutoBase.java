@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.EOCV.f41h12.AprilTagDetection_41h12;
@@ -20,22 +22,25 @@ public abstract class AutoBase extends LinearOpMode {
     public AprilTagDetection_41h12 atag;
     @Override
     public final void runOpMode() throws InterruptedException {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         claw = new Claw(this);
         turret = new Turret(this);
         linkage = new Linkage(this);
         drive = new SampleMecanumDrive(hardwareMap);
-        atag = new AprilTagDetection_41h12(this);
+//        atag = new AprilTagDetection_41h12(this);
 
         turret.resetEncoder();
         linkage.resetEncoders();
-        turret.setTurretVelocity(1.0);
+        turret.setTurretVelocity(1);
         turret.setTargetAngle(0.0);
         claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
 
+
+
         onInit();
-        while (!isStarted()) {
-            atag.detectZone();
-            preferredZone = atag.getZone();
+        while (!isStarted() && !isStopRequested()) {
+//            atag.detectZone();
+//            preferredZone = atag.getZone();
             telemetry.update();
         }
 
@@ -47,6 +52,8 @@ public abstract class AutoBase extends LinearOpMode {
             telemetry.update();
             task.tick();
         }
+//        atag.getCamera().closeCameraDevice();           | ideea e ca tre sa opresti si camera la final, d-aia nu se oprea instant
+//        atag.getAprilTagDetectionPipeline().finalize(); | opmodeul. vezi care e ok
     }
 
     public void onInit() {};

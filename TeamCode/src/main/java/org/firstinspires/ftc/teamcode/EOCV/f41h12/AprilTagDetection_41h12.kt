@@ -19,7 +19,7 @@ open class AprilTagDetection_41h12(var opMode: LinearOpMode) {
     private var tagInView = 0
     private var parkZone = ""
     public val camera: OpenCvCamera
-    private val aprilTagDetectionPipeline: AprilTagDetectionPipeline_41h12
+    val aprilTagDetectionPipeline: AprilTagDetectionPipeline_41h12
 
     init {
         val cameraMonitorViewId = opMode.hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.packageName)

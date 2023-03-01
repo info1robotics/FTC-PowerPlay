@@ -13,9 +13,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
 import java.util.Arrays;
 
 //@Disabled
-@Autonomous(name = "Auto High")
+@Autonomous(name = "Auto High Right")
 @Config
-public class AutoHigh extends AutoBase {
+public class AutoHighRight extends AutoBase {
     public Pose2d startPoseLeft;
     public TrajectorySequence preload_high, preload_to_stack;
     public TrajectorySequence cycle1_high, cycle2_high, cycle3_high, cycle4_high, cycle5_high;
@@ -35,89 +35,89 @@ public class AutoHigh extends AutoBase {
 
     @Override
     public void onInit() {
-        startPoseLeft = new Pose2d(-35, -62, Math.toRadians(90));
+        startPoseLeft = new Pose2d(35, -62, Math.toRadians(90));
         drive.setPoseEstimate(startPoseLeft);
 
         preload_high = drive.trajectorySequenceBuilder(startPoseLeft)
-                .lineToLinearHeading(new Pose2d(-35.1, -6.5, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(35.1, -5.1, Math.toRadians(135)))
                 .build();
 
         preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-55.5, -8.15))
+                .lineToLinearHeading(new Pose2d(55.5, -10.6))
                 .build();
 
         cycle1_high = drive.trajectorySequenceBuilder(preload_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-29.3, -12.3))
+                .lineToLinearHeading(new Pose2d(33.4, -6.9))
                 .resetConstraints()
                 .build();
 
         cycle1_stack = drive.trajectorySequenceBuilder(cycle1_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-56, -8.25))
+                .lineToLinearHeading(new Pose2d(56, -11))
                 .build();
 
         cycle2_high = drive.trajectorySequenceBuilder(cycle1_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -12.2))
+                .lineToLinearHeading(new Pose2d(33.4, -6.9))
                 .resetConstraints()
                 .build();
 
         cycle2_stack = drive.trajectorySequenceBuilder(cycle2_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-56, -9.50))
+                .lineToLinearHeading(new Pose2d(56, -10.6))
                 .build();
 
         cycle3_high = drive.trajectorySequenceBuilder(cycle2_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -12.2))
+                .lineToLinearHeading(new Pose2d(33.4, -7))
                 .resetConstraints()
                 .build();
 
         cycle3_stack = drive.trajectorySequenceBuilder(cycle3_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-55.6, -9.50))
+                .lineToLinearHeading(new Pose2d(56, -10.6))
                 .build();
 
         cycle4_high = drive.trajectorySequenceBuilder(cycle3_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -13.2))
+                .lineToLinearHeading(new Pose2d(33.5, -7))
                 .resetConstraints()
                 .build();
 
         cycle4_stack = drive.trajectorySequenceBuilder(cycle4_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-53, -9.55))
+                .lineToLinearHeading(new Pose2d(56, -10.8))
                 .build();
 
 
         cycle5_high = drive.trajectorySequenceBuilder(cycle4_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -13.2))
+                .lineToLinearHeading(new Pose2d(33.5, -7))
                 .resetConstraints()
                 .build();
 
         zone1 = drive.trajectorySequenceBuilder(cycle5_high.end())
-                .lineToLinearHeading(new Pose2d(-56.25, -10))
+                .lineToLinearHeading(new Pose2d(56.25, -10))
                 .build();
 
         zone2 = drive.trajectorySequenceBuilder(cycle5_high.end())
-                .lineToLinearHeading(new Pose2d(-30, -10))
+                .lineToLinearHeading(new Pose2d(30, -10))
                 .build();
 
         zone3 = drive.trajectorySequenceBuilder(cycle5_high.end())
-                .lineToLinearHeading(new Pose2d(-10, -10))
+                .lineToLinearHeading(new Pose2d(10, -10))
                 .build();
 
         task = serial(
@@ -141,7 +141,7 @@ public class AutoHigh extends AutoBase {
                         ),
                         serial(
                                 sleepms(40),
-                                execute(() -> turret.setTargetAngle(-180)),
+                                execute(() -> turret.setTargetAngle(0)),
                                 execute(() -> claw.setSubsystemState(Claw.subsystemStates.READY)),
                                 sleepms(100),
                                 execute(() -> targetHeight = 64)
@@ -158,7 +158,7 @@ public class AutoHigh extends AutoBase {
                 parallel(
                         execute((() -> targetHeight = 400)),
                         trajectorySequence(cycle1_high),
-                        execute(() -> turret.setTargetAngle(-67))
+                        execute(() -> turret.setTargetAngle(-134))
                 ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
                 sleepms(300),
@@ -179,7 +179,7 @@ public class AutoHigh extends AutoBase {
                         serial(
                                 sleepms(0),
                                 execute((() -> targetHeight = 45)),
-                                execute((() -> turret.setTargetAngle(-180))),
+                                execute((() -> turret.setTargetAngle(0))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
                 ),
@@ -193,7 +193,7 @@ public class AutoHigh extends AutoBase {
                 parallel(
                         trajectorySequence(cycle2_high),
                         execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-67)))
+                        execute((() -> turret.setTargetAngle(-134)))
                 ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
                 sleepms(300),
@@ -211,7 +211,7 @@ public class AutoHigh extends AutoBase {
                         serial(
                                 sleepms(0),
                                 execute((() -> targetHeight = 30)),
-                                execute((() -> turret.setTargetAngle(-180))),
+                                execute((() -> turret.setTargetAngle(0))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
                 ),
@@ -225,8 +225,8 @@ public class AutoHigh extends AutoBase {
                 parallel(
                         trajectorySequence(cycle3_high),
                         execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-67))
-                )),
+                        execute((() -> turret.setTargetAngle(-134))
+                        )),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
                 sleepms(300),
                 execute((() -> targetHeight = 300)),
@@ -243,7 +243,7 @@ public class AutoHigh extends AutoBase {
                         serial(
                                 sleepms(0),
                                 execute((() -> targetHeight = 5)),
-                                execute((() -> turret.setTargetAngle(-180))),
+                                execute((() -> turret.setTargetAngle(0))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
                 ),
@@ -257,7 +257,7 @@ public class AutoHigh extends AutoBase {
                 parallel(
                         trajectorySequence(cycle4_high),
                         execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-67)))
+                        execute((() -> turret.setTargetAngle(-134)))
                 ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
                 sleepms(300),
@@ -275,7 +275,7 @@ public class AutoHigh extends AutoBase {
                         serial(
                                 sleepms(0),
                                 execute((() -> targetHeight = 0)),
-                                execute((() -> turret.setTargetAngle(-180))),
+                                execute((() -> turret.setTargetAngle(0))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
                 ),
@@ -290,9 +290,9 @@ public class AutoHigh extends AutoBase {
                         trajectorySequence(cycle5_high),
                         serial(
                                 sleepms(200),
-                        execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-67)))
-                )),
+                                execute((() -> targetHeight = 400)),
+                                execute((() -> turret.setTargetAngle(-134)))
+                        )),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
                 sleepms(300),
                 execute((() -> targetHeight = 300)),
@@ -319,6 +319,6 @@ public class AutoHigh extends AutoBase {
                             break;
                     }
                 })
-                );
+        );
     }
 }
