@@ -21,9 +21,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
 import java.util.Arrays;
 
 //@Disabled
-@Autonomous(name = "Auto Mid")
+@Autonomous(name = "Auto MID Left")
 @Config
-public class AutoMid extends AutoBase {
+public class AutoMidLeft extends AutoBase {
     public Pose2d startPoseLeft;
     public TrajectorySequence preload_mid, preload_to_stack;
     public TrajectorySequence cycle1_mid, cycle2_mid, cycle3_mid, cycle4_mid, cycle5_mid;

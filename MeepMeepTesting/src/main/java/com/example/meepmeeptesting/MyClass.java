@@ -18,14 +18,11 @@ public class MyClass {
                 .setColorScheme(new ColorSchemeRedDark())
                 .setConstraints(50, 30, Math.toRadians(180), Math.toRadians(180), 12)
                 .followTrajectorySequence(drive ->
-                drive.trajectorySequenceBuilder(new Pose2d(-35, -62, Math.toRadians(90)))
-                        .lineToLinearHeading(new Pose2d(-35, -12, Math.toRadians(0)))
-                        .setReversed(true)
-                        .lineToLinearHeading(new Pose2d(-55, -12))
-                        .setReversed(false)
-                        .lineToLinearHeading(new Pose2d(-35, -12))
-                        .setReversed(true)
-                        .lineToLinearHeading(new Pose2d(-35, -12, Math.toRadians(0)))
+                drive.trajectorySequenceBuilder(new Pose2d(35, -62, Math.toRadians(90)))
+                        .lineToLinearHeading(new Pose2d(37.5, -3.5, Math.toRadians(135)))
+                        .lineToLinearHeading(new Pose2d(57, -10, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(30, -10, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(57, -10, Math.toRadians(180)))
                         .build()
         );
 

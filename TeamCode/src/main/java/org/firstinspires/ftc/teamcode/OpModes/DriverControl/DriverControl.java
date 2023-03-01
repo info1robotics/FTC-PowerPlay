@@ -89,6 +89,7 @@ public class DriverControl extends LinearOpMode {
             }
             if  (gamepad1.cross){
                 turret.hardReset();
+                targetAngle = 0;
             }
 
 

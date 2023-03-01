@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Linkage;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Turret;
 import org.firstinspires.ftc.teamcode.Tasks.Task;
+import org.openftc.easyopencv.OpenCvCamera;
 
 public abstract class AutoBase extends LinearOpMode {
     public Task task;
@@ -27,7 +28,7 @@ public abstract class AutoBase extends LinearOpMode {
         turret = new Turret(this);
         linkage = new Linkage(this);
         drive = new SampleMecanumDrive(hardwareMap);
-//        atag = new AprilTagDetection_41h12(this);
+        atag = new AprilTagDetection_41h12(this);
 
         turret.resetEncoder();
         linkage.resetEncoders();
@@ -39,11 +40,11 @@ public abstract class AutoBase extends LinearOpMode {
 
         onInit();
         while (!isStarted() && !isStopRequested()) {
-//            atag.detectZone();
-//            preferredZone = atag.getZone();
+            atag.detectZone();
+            preferredZone = atag.getZone();
             telemetry.update();
         }
-
+        atag.getCamera().setPipeline(null);
         task.start(this);
         while(opModeIsActive() && task.isRunning()) {
             onLoop();
@@ -52,8 +53,6 @@ public abstract class AutoBase extends LinearOpMode {
             telemetry.update();
             task.tick();
         }
-//        atag.getCamera().closeCameraDevice();           | ideea e ca tre sa opresti si camera la final, d-aia nu se oprea instant
-//        atag.getAprilTagDetectionPipeline().finalize(); | opmodeul. vezi care e ok
     }
 
     public void onInit() {};

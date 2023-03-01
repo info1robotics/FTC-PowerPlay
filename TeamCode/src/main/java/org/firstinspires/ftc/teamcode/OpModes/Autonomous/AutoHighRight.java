@@ -1,11 +1,19 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
-import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.*;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.execute;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.parallel;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.serial;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.sleepms;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.trajectorySequence;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.acmerobotics.roadrunner.geometry.*;
-import com.acmerobotics.roadrunner.trajectory.constraints.*;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
@@ -13,7 +21,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
 import java.util.Arrays;
 
 //@Disabled
-@Autonomous(name = "Auto High Right")
+@Autonomous(name = "Auto HIGH Right")
 @Config
 public class AutoHighRight extends AutoBase {
     public Pose2d startPoseLeft;
@@ -27,11 +35,11 @@ public class AutoHighRight extends AutoBase {
 
 
     TrajectoryVelocityConstraint fastConstraint = new MinVelocityConstraint(Arrays.asList(
-            new TranslationalVelocityConstraint(80)
+            new TranslationalVelocityConstraint(70)
     ));
 
     TrajectoryAccelerationConstraint accelConstraint = new ProfileAccelerationConstraint(35);
-    TrajectoryAccelerationConstraint fastAccelConstraint = new ProfileAccelerationConstraint(80);
+    TrajectoryAccelerationConstraint fastAccelConstraint = new ProfileAccelerationConstraint(60);
 
     @Override
     public void onInit() {
@@ -39,85 +47,98 @@ public class AutoHighRight extends AutoBase {
         drive.setPoseEstimate(startPoseLeft);
 
         preload_high = drive.trajectorySequenceBuilder(startPoseLeft)
-                .lineToLinearHeading(new Pose2d(35.1, -5.1, Math.toRadians(135)))
+                .setAccelConstraint(fastAccelConstraint)
+                .setVelConstraint(fastConstraint)
+                .lineToLinearHeading(new Pose2d(35, -7.5, Math.toRadians(135)))
+                .resetConstraints()
                 .build();
 
         preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(55.5, -10.6))
+                .lineToLinearHeading(new Pose2d(56.3, -9, Math.toRadians(180)))
+                .resetConstraints()
                 .build();
 
         cycle1_high = drive.trajectorySequenceBuilder(preload_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(33.4, -6.9))
+                .lineToLinearHeading(new Pose2d(32, -9, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle1_stack = drive.trajectorySequenceBuilder(cycle1_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(56, -11))
+                .lineToLinearHeading(new Pose2d(56.5, -9, Math.toRadians(180)))
                 .build();
 
         cycle2_high = drive.trajectorySequenceBuilder(cycle1_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(33.4, -6.9))
+                .lineToLinearHeading(new Pose2d(32, -9, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle2_stack = drive.trajectorySequenceBuilder(cycle2_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(56, -10.6))
+                .lineToLinearHeading(new Pose2d(56.5, -9, Math.toRadians(180)))
                 .build();
 
         cycle3_high = drive.trajectorySequenceBuilder(cycle2_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(33.4, -7))
+                .lineToLinearHeading(new Pose2d(32, -9, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle3_stack = drive.trajectorySequenceBuilder(cycle3_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(56, -10.6))
+                .lineToLinearHeading(new Pose2d(56.5, -9, Math.toRadians(180)))
                 .build();
 
         cycle4_high = drive.trajectorySequenceBuilder(cycle3_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(33.5, -7))
+                .lineToLinearHeading(new Pose2d(32, -9, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle4_stack = drive.trajectorySequenceBuilder(cycle4_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(56, -10.8))
+                .lineToLinearHeading(new Pose2d(56, -9, Math.toRadians(180)))
                 .build();
 
 
         cycle5_high = drive.trajectorySequenceBuilder(cycle4_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(33.5, -7))
+                .lineToLinearHeading(new Pose2d(32, -9, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         zone1 = drive.trajectorySequenceBuilder(cycle5_high.end())
-                .lineToLinearHeading(new Pose2d(56.25, -10))
+                .setAccelConstraint(fastAccelConstraint)
+                .setVelConstraint(fastConstraint)
+                .lineToLinearHeading(new Pose2d(10, -13, Math.toRadians(-90)))
+                .resetConstraints()
                 .build();
 
         zone2 = drive.trajectorySequenceBuilder(cycle5_high.end())
-                .lineToLinearHeading(new Pose2d(30, -10))
+                .setAccelConstraint(fastAccelConstraint)
+                .setVelConstraint(fastConstraint)
+                .lineToLinearHeading(new Pose2d(37, -10, Math.toRadians(-90)))
+                .resetConstraints()
                 .build();
 
         zone3 = drive.trajectorySequenceBuilder(cycle5_high.end())
-                .lineToLinearHeading(new Pose2d(10, -10))
+                .setAccelConstraint(fastAccelConstraint)
+                .setVelConstraint(fastConstraint)
+                .lineToLinearHeading(new Pose2d(65, -10, Math.toRadians(-90)))
+                .resetConstraints()
                 .build();
 
         task = serial(
@@ -127,198 +148,195 @@ public class AutoHighRight extends AutoBase {
                         execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED)))
                 ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
-                sleepms(300),
+                sleepms(200),
                 execute((() -> targetHeight = 300)),
-                sleepms(300),
-                execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
-//                sleepms(250),
-//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
-//                sleepms(250),
-                sleepms(300),
-                parallel(
-                        serial(
-                                trajectorySequence(preload_to_stack)
-                        ),
-                        serial(
-                                sleepms(40),
-                                execute(() -> turret.setTargetAngle(0)),
-                                execute(() -> claw.setSubsystemState(Claw.subsystemStates.READY)),
-                                sleepms(100),
-                                execute(() -> targetHeight = 64)
-                        )
-                ),
                 sleepms(100),
-                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
-                sleepms(400),
+                execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
+                sleepms(100),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
+                sleepms(200),
+//                sleepms(300),
+                parallel(
+                                trajectorySequence(preload_to_stack),
+                                execute(() -> turret.setTargetAngle(180)),
+                                execute(() -> claw.setSubsystemState(Claw.subsystemStates.READY)),
+                                execute(() -> targetHeight = 70)
+                ),
+                execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
+                sleepms(200),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+//                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
+//                sleepms(300),
                 execute((() -> targetHeight = 150)),
                 sleepms(200),
-
+                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
                 // cycle 1
 
                 parallel(
                         execute((() -> targetHeight = 400)),
                         trajectorySequence(cycle1_high),
-                        execute(() -> turret.setTargetAngle(-134))
+                        execute(() -> turret.setTargetAngle(55))
                 ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
-                sleepms(300),
+                sleepms(200),
                 execute((() -> targetHeight = 300)),
-                sleepms(300),
+                sleepms(100),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
-//                sleepms(200),
-//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
-//                sleepms(300),
-                sleepms(250),
+                sleepms(100),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
+                sleepms(200),
+//                sleepms(250),
                 // high to stack
 
                 parallel(
                         serial(
-                                sleepms(40),
+                                sleepms(50),
                                 trajectorySequence(cycle1_stack)
                         ),
                         serial(
-                                sleepms(0),
-                                execute((() -> targetHeight = 45)),
-                                execute((() -> turret.setTargetAngle(0))),
+                                execute((() -> targetHeight = 55)),
+                                execute((() -> turret.setTargetAngle(180))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
                 ),
-                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
-                sleepms(400),
+                execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
+                sleepms(200),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+//                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
+//                sleepms(300),
                 execute((() -> targetHeight = 150)),
                 sleepms(200),
-
+                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
                 // cycle 2
 
                 parallel(
                         trajectorySequence(cycle2_high),
                         execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-134)))
+                        execute((() -> turret.setTargetAngle(55)))
                 ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
-                sleepms(300),
+                sleepms(200),
                 execute((() -> targetHeight = 300)),
-                sleepms(300),
+                sleepms(100),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
-//                sleepms(200),
-//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
-//                sleepms(300),
-                sleepms(250),
+                sleepms(100),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
+                sleepms(200),
+//                sleepms(250),
                 // high to stack
 
                 parallel(
                         trajectorySequence(cycle2_stack),
-                        serial(
-                                sleepms(0),
-                                execute((() -> targetHeight = 30)),
-                                execute((() -> turret.setTargetAngle(0))),
-                                execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
-                        )
+                        execute((() -> targetHeight = 40)),
+                        execute((() -> turret.setTargetAngle(180))),
+                        execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                 ),
-                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
-                sleepms(400),
+                execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
+                sleepms(300),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+//                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
+//                sleepms(300),
                 execute((() -> targetHeight = 150)),
                 sleepms(200),
+                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 
                 // cycle 3
 
                 parallel(
                         trajectorySequence(cycle3_high),
                         execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-134))
-                        )),
+                        execute((() -> turret.setTargetAngle(55)))
+                ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
-                sleepms(300),
+                sleepms(200),
                 execute((() -> targetHeight = 300)),
-                sleepms(300),
+                sleepms(100),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
-//                sleepms(200),
-//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
-//                sleepms(300),
-                sleepms(250),
+                sleepms(100),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
+                sleepms(200),
+//                sleepms(250),
                 // high to stack
 
                 parallel(
                         trajectorySequence(cycle3_stack),
-                        serial(
-                                sleepms(0),
-                                execute((() -> targetHeight = 5)),
-                                execute((() -> turret.setTargetAngle(0))),
-                                execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
-                        )
+                        execute((() -> targetHeight = 0)),
+                        execute((() -> turret.setTargetAngle(180))),
+                        execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                 ),
-                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
-                sleepms(400),
+                execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
+                sleepms(300),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+//                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
+//                sleepms(300),
                 execute((() -> targetHeight = 150)),
                 sleepms(200),
+                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 
                 // cycle 4
 
                 parallel(
                         trajectorySequence(cycle4_high),
                         execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-134)))
+                        execute((() -> turret.setTargetAngle(55)))
                 ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
-                sleepms(300),
+                sleepms(200),
                 execute((() -> targetHeight = 300)),
-                sleepms(300),
+                sleepms(100),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
-//                sleepms(200),
-//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
-//                sleepms(300),
-                sleepms(250),
+                sleepms(100),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
+                sleepms(200),
+//                sleepms(250),
                 // high to stack
 
                 parallel(
                         trajectorySequence(cycle4_stack),
-                        serial(
-                                sleepms(0),
-                                execute((() -> targetHeight = 0)),
-                                execute((() -> turret.setTargetAngle(0))),
+                                execute((() -> targetHeight = -10)),
+                                execute((() -> turret.setTargetAngle(180))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
-                        )
                 ),
-                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
-                sleepms(400),
+                execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
+                sleepms(300),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+//                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
+//                sleepms(300),
                 execute((() -> targetHeight = 150)),
                 sleepms(200),
+                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 
                 // cycle 5
 
                 parallel(
                         trajectorySequence(cycle5_high),
-                        serial(
-                                sleepms(200),
-                                execute((() -> targetHeight = 400)),
-                                execute((() -> turret.setTargetAngle(-134)))
-                        )),
+                        execute((() -> targetHeight = 400)),
+                        execute((() -> turret.setTargetAngle(55)))
+                ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
-                sleepms(300),
+                sleepms(200),
                 execute((() -> targetHeight = 300)),
+                sleepms(100),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
+                sleepms(100),
                 execute(() -> {
-                    switch(preferredZone){
-                        case 1:
-                            claw.setSubsystemState(Claw.subsystemStates.READY);
-                            turret.setTargetAngle(0.0);
-                            targetHeight = 0;
-                            drive.followTrajectorySequence(zone1);
-                            break;
-                        case 2:
-                            claw.setSubsystemState(Claw.subsystemStates.READY);
-                            turret.setTargetAngle(0.0);
-                            targetHeight = 0;
-                            drive.followTrajectorySequence(zone2);
-                            break;
-                        case 3:
-                            claw.setSubsystemState(Claw.subsystemStates.READY);
-                            turret.setTargetAngle(0.0);
-                            targetHeight = 0;
-                            drive.followTrajectorySequence(zone3);
-                            break;
+                    if (preferredZone == 1) {
+                        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
+                        turret.setTargetAngle(0.0);
+                        targetHeight = 0;
+                        drive.followTrajectorySequence(zone1);
+                    } else if (preferredZone == 2){
+                        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
+                        turret.setTargetAngle(0.0);
+                        targetHeight = 0;
+                        drive.followTrajectorySequence(zone2);
+                    } else {
+                        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
+                        turret.setTargetAngle(0.0);
+                        targetHeight = 0;
+                        drive.followTrajectorySequence(zone3);
                     }
                 })
-        );
+                );
     }
 }
