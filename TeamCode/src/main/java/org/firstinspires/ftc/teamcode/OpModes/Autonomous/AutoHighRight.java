@@ -49,74 +49,74 @@ public class AutoHighRight extends AutoBase {
         preload_high = drive.trajectorySequenceBuilder(startPoseLeft)
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
-                .lineToLinearHeading(new Pose2d(35, -7.5, Math.toRadians(135)))
+                .lineToLinearHeading(new Pose2d(35, -8.5, Math.toRadians(135)))
                 .resetConstraints()
                 .build();
 
         preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(56.3, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(57.5, -9, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle1_high = drive.trajectorySequenceBuilder(preload_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(32, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(32, -10, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle1_stack = drive.trajectorySequenceBuilder(cycle1_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(56.5, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(57.5, -9, Math.toRadians(180)))
                 .build();
 
         cycle2_high = drive.trajectorySequenceBuilder(cycle1_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(32, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(32, -10, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle2_stack = drive.trajectorySequenceBuilder(cycle2_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(56.5, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(57.5, -9, Math.toRadians(180)))
                 .build();
 
         cycle3_high = drive.trajectorySequenceBuilder(cycle2_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(32, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(32, -10, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle3_stack = drive.trajectorySequenceBuilder(cycle3_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(56.5, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(57.5, -9, Math.toRadians(180)))
                 .build();
 
         cycle4_high = drive.trajectorySequenceBuilder(cycle3_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(32, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(32, -10, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle4_stack = drive.trajectorySequenceBuilder(cycle4_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(56, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(57.5, -9, Math.toRadians(180)))
                 .build();
 
 
         cycle5_high = drive.trajectorySequenceBuilder(cycle4_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(32, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(32, -10, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
@@ -164,7 +164,7 @@ public class AutoHighRight extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
@@ -201,7 +201,7 @@ public class AutoHighRight extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
@@ -233,7 +233,7 @@ public class AutoHighRight extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(300),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
@@ -266,7 +266,7 @@ public class AutoHighRight extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(300),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
@@ -299,7 +299,7 @@ public class AutoHighRight extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(300),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),

@@ -48,59 +48,59 @@ public class AutoHighLeft extends AutoBase {
         preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-54.25, -10))
+                .lineToLinearHeading(new Pose2d(-55, -10))
                 .build();
 
         cycle1_high = drive.trajectorySequenceBuilder(preload_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-28, -12.3))
+                .lineToLinearHeading(new Pose2d(-30, -10))
                 .resetConstraints()
                 .build();
 
         cycle1_stack = drive.trajectorySequenceBuilder(cycle1_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-54.25, -10))
+                .lineToLinearHeading(new Pose2d(-55, -10))
                 .build();
 
         cycle2_high = drive.trajectorySequenceBuilder(cycle1_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-28, -12.2))
+                .lineToLinearHeading(new Pose2d(-29.5, -9.5))
                 .resetConstraints()
                 .build();
 
         cycle2_stack = drive.trajectorySequenceBuilder(cycle2_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-54.25, -10))
+                .lineToLinearHeading(new Pose2d(-55, -10))
                 .build();
 
         cycle3_high = drive.trajectorySequenceBuilder(cycle2_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-28, -12.2))
+                .lineToLinearHeading(new Pose2d(-30, -10))
                 .resetConstraints()
                 .build();
 
         cycle3_stack = drive.trajectorySequenceBuilder(cycle3_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-54.25, -10))
+                .lineToLinearHeading(new Pose2d(-55, -10))
                 .build();
 
         cycle4_high = drive.trajectorySequenceBuilder(cycle3_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-27.75, -13))
+                .lineToLinearHeading(new Pose2d(-30, -10.5))
                 .resetConstraints()
                 .build();
 
         cycle4_stack = drive.trajectorySequenceBuilder(cycle4_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-54, -10))
+                .lineToLinearHeading(new Pose2d(-55.5, -10))
                 .resetConstraints()
                 .build();
 
@@ -108,7 +108,7 @@ public class AutoHighLeft extends AutoBase {
         cycle5_high = drive.trajectorySequenceBuilder(cycle4_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-28, -13.2))
+                .lineToLinearHeading(new Pose2d(-30, -10.5))
                 .resetConstraints()
                 .build();
 
@@ -139,7 +139,7 @@ public class AutoHighLeft extends AutoBase {
                         execute((() -> targetHeight = 400)),
                         execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED)))
                 ),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(200),
                 execute((() -> targetHeight = 300)),
                 sleepms(100),
@@ -152,12 +152,12 @@ public class AutoHighLeft extends AutoBase {
                                 trajectorySequence(preload_to_stack),
                                 execute(() -> turret.setTargetAngle(-180)),
                                 execute(() -> claw.setSubsystemState(Claw.subsystemStates.READY)),
-                                execute(() -> targetHeight = 100)
+                                execute(() -> targetHeight = 90)
 
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
@@ -170,7 +170,7 @@ public class AutoHighLeft extends AutoBase {
                         trajectorySequence(cycle1_high),
                         execute(() -> turret.setTargetAngle(-67))
                 ),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(200),
                 execute((() -> targetHeight = 300)),
                 sleepms(100),
@@ -194,7 +194,7 @@ public class AutoHighLeft extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
@@ -207,7 +207,7 @@ public class AutoHighLeft extends AutoBase {
                         execute((() -> targetHeight = 400)),
                         execute((() -> turret.setTargetAngle(-67)))
                 ),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(200),
                 execute((() -> targetHeight = 300)),
                 sleepms(100),
@@ -226,7 +226,7 @@ public class AutoHighLeft extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(300),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
@@ -240,7 +240,7 @@ public class AutoHighLeft extends AutoBase {
                         execute((() -> targetHeight = 400)),
                         execute((() -> turret.setTargetAngle(-67)))
                 ),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(200),
                 execute((() -> targetHeight = 300)),
                 sleepms(100),
@@ -259,7 +259,7 @@ public class AutoHighLeft extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(300),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
@@ -273,7 +273,7 @@ public class AutoHighLeft extends AutoBase {
                         execute((() -> targetHeight = 400)),
                         execute((() -> turret.setTargetAngle(-67)))
                 ),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(200),
                 execute((() -> targetHeight = 300)),
                 sleepms(100),
@@ -286,13 +286,13 @@ public class AutoHighLeft extends AutoBase {
 
                 parallel(
                         trajectorySequence(cycle4_stack),
-                                execute((() -> targetHeight = 10)),
+                                execute((() -> targetHeight = -15)),
                                 execute((() -> turret.setTargetAngle(-180))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(300),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
@@ -306,7 +306,7 @@ public class AutoHighLeft extends AutoBase {
                         execute((() -> targetHeight = 400)),
                         execute((() -> turret.setTargetAngle(-67)))
                 ),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(200),
                 execute((() -> targetHeight = 300)),
                 sleepms(100),

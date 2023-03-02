@@ -23,7 +23,7 @@ public class Turret {
 
     public Turret(LinearOpMode opMode) {
         turretMotor = opMode.hardwareMap.get(DcMotorEx.class, "TurretMotor");
-        distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "DistanceSensor");
+//        distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "DistanceSensor");
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
@@ -39,7 +39,6 @@ public class Turret {
     }
 
     public void setTargetDistance(double distance){ DISTANCE_THRESHOLD = distance; }
-    public void setSensorState(boolean state){ useSensor = state; }
     public void setTargetAngle(double angle){ targetAngle = angle; }
     public void setTurretVelocity(double velocity){ turretVelocity = velocity; }
     public void hardReset(){

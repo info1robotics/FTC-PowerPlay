@@ -51,44 +51,44 @@ public class AutoMidLeft extends AutoBase {
                 .build();
 
         preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
-                .lineToLinearHeading(new Pose2d(-54.25, -10))
+                .lineToLinearHeading(new Pose2d(-55.5, -11))
                 .build();
 
         cycle1_mid = drive.trajectorySequenceBuilder(preload_to_stack.end())
-                .lineToLinearHeading(new Pose2d(-21.25, -9.25))
+                .lineToLinearHeading(new Pose2d(-21.5, -10))
                 .build();
 
         cycle1_stack = drive.trajectorySequenceBuilder(cycle1_mid.end())
-                .lineToLinearHeading(new Pose2d(-54.25, -10))
+                .lineToLinearHeading(new Pose2d(-55, -11))
                 .build();
 
         cycle2_mid = drive.trajectorySequenceBuilder(cycle1_stack.end())
-                .lineToLinearHeading(new Pose2d(-21.25, -9.25))
+                .lineToLinearHeading(new Pose2d(-21.5, -10))
                 .build();
 
         cycle2_stack = drive.trajectorySequenceBuilder(cycle2_mid.end())
-                .lineToLinearHeading(new Pose2d(-54.25, -10))
+                .lineToLinearHeading(new Pose2d(-55, -11))
                 .build();
 
         cycle3_mid = drive.trajectorySequenceBuilder(cycle2_stack.end())
-                .lineToLinearHeading(new Pose2d(-21.25, -9.25))
+                .lineToLinearHeading(new Pose2d(-21.5, -10))
                 .build();
 
         cycle3_stack = drive.trajectorySequenceBuilder(cycle3_mid.end())
-                .lineToLinearHeading(new Pose2d(-54.25, -10))
+                .lineToLinearHeading(new Pose2d(-55, -11))
                 .build();
 
         cycle4_mid = drive.trajectorySequenceBuilder(cycle3_stack.end())
-                .lineToLinearHeading(new Pose2d(-21.25, -9.5))
+                .lineToLinearHeading(new Pose2d(-21.75, -10.5))
                 .build();
 
         cycle4_stack = drive.trajectorySequenceBuilder(cycle4_mid.end())
-                .lineToLinearHeading(new Pose2d(-54.5, -10))
+                .lineToLinearHeading(new Pose2d(-55, -11))
                 .build();
 
 
         cycle5_mid = drive.trajectorySequenceBuilder(cycle4_stack.end())
-                .lineToLinearHeading(new Pose2d(-21.25, -9.25))
+                .lineToLinearHeading(new Pose2d(-21.75, -10.5))
                 .build();
 
 

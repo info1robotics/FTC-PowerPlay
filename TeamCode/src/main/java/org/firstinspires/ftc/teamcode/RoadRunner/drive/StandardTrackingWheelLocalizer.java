@@ -76,11 +76,11 @@ public class StandardTrackingWheelLocalizer extends TwoTrackingWheelLocalizer {
     @NonNull
     @Override
     public List<Double> getWheelVelocities() {
-        System.out.println("WHEEL VELOCITIES");
-        System.out.println((parallelEncoder.getCorrectedVelocity()) * X_MULTIPLIER);
-        System.out.println((perpendicularEncoder.getCorrectedVelocity()) * Y_MULTIPLIER);
-        System.out.println(encoderTicksToInches((int) parallelEncoder.getCorrectedVelocity()) * X_MULTIPLIER);
-        System.out.println(encoderTicksToInches((int) perpendicularEncoder.getCorrectedVelocity()) * Y_MULTIPLIER);
+//        System.out.println("WHEEL VELOCITIES");
+//        System.out.println((parallelEncoder.getCorrectedVelocity()) * X_MULTIPLIER);
+//        System.out.println((perpendicularEncoder.getCorrectedVelocity()) * Y_MULTIPLIER);
+//        System.out.println(encoderTicksToInches((int) parallelEncoder.getCorrectedVelocity()) * X_MULTIPLIER);
+//        System.out.println(encoderTicksToInches((int) perpendicularEncoder.getCorrectedVelocity()) * Y_MULTIPLIER);
 
         parallelEncoder.getCurrentPosition();      // needed in order to get the proper corrected velocity
         perpendicularEncoder.getCurrentPosition(); // see docs
