@@ -123,7 +123,7 @@ public class AutoMidLeft extends AutoBase {
                 // cycle 1
 
                 parallel(
-                        execute((() -> targetHeight = 275)),
+                        execute((() -> targetHeight = 300)),
                         trajectorySequence(cycle1_mid),
                         execute(() -> turret.setTargetAngle(-270))
                 ),
@@ -159,7 +159,7 @@ public class AutoMidLeft extends AutoBase {
 
                 parallel(
                         trajectorySequence(cycle2_mid),
-                        execute((() -> targetHeight = 275)),
+                        execute((() -> targetHeight = 300)),
                         execute((() -> turret.setTargetAngle(-270)))
                 ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
@@ -194,7 +194,7 @@ public class AutoMidLeft extends AutoBase {
 
                 parallel(
                         trajectorySequence(cycle3_mid),
-                        execute((() -> targetHeight = 275)),
+                        execute((() -> targetHeight = 300)),
                         execute((() -> turret.setTargetAngle(-270))
                 )),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
@@ -229,7 +229,7 @@ public class AutoMidLeft extends AutoBase {
 
                 parallel(
                         trajectorySequence(cycle4_mid),
-                        execute((() -> targetHeight = 275)),
+                        execute((() -> targetHeight = 300)),
                         execute((() -> turret.setTargetAngle(-270)))
                 ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
@@ -266,7 +266,7 @@ public class AutoMidLeft extends AutoBase {
                         trajectorySequence(cycle5_mid),
                         serial(
                                 sleepms(200),
-                        execute((() -> targetHeight = 275)),
+                        execute((() -> targetHeight = 300)),
                         execute((() -> turret.setTargetAngle(-270)))
                 )),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),

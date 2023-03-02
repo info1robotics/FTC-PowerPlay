@@ -49,47 +49,47 @@ public class AutoHighRight extends AutoBase {
         preload_high = drive.trajectorySequenceBuilder(startPoseLeft)
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
-                .lineToLinearHeading(new Pose2d(35, -8.5, Math.toRadians(135)))
+                .lineToLinearHeading(new Pose2d(34.25, -7.75, Math.toRadians(135)))
                 .resetConstraints()
                 .build();
 
         preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(57.5, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(56.5, -9, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle1_high = drive.trajectorySequenceBuilder(preload_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(32, -10, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(33, -10, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle1_stack = drive.trajectorySequenceBuilder(cycle1_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(57.5, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(57.0, -9, Math.toRadians(180)))
                 .build();
 
         cycle2_high = drive.trajectorySequenceBuilder(cycle1_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(32, -10, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(33, -9.75, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
         cycle2_stack = drive.trajectorySequenceBuilder(cycle2_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(57.5, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(57.0, -9, Math.toRadians(180)))
                 .build();
 
         cycle3_high = drive.trajectorySequenceBuilder(cycle2_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(32, -10, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(33, -9.75, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
@@ -102,7 +102,7 @@ public class AutoHighRight extends AutoBase {
         cycle4_high = drive.trajectorySequenceBuilder(cycle3_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(32, -10, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(32.5, -10, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
