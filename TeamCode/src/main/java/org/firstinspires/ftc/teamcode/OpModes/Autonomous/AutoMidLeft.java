@@ -25,7 +25,7 @@ import java.util.Arrays;
 @Config
 public class AutoMidLeft extends AutoBase {
     public Pose2d startPoseLeft;
-    public TrajectorySequence preload_mid, preload_to_stack;
+    public TrajectorySequence preload_high, preload_to_stack;
     public TrajectorySequence cycle1_mid, cycle2_mid, cycle3_mid, cycle4_mid, cycle5_mid;
     public TrajectorySequence cycle1_stack, cycle2_stack, cycle3_stack, cycle4_stack;
     public TrajectorySequence zone1, zone2, zone3;
@@ -45,91 +45,64 @@ public class AutoMidLeft extends AutoBase {
     public void onInit() {
         startPoseLeft = new Pose2d(-35, -62, Math.toRadians(90));
         drive.setPoseEstimate(startPoseLeft);
-        preload_mid = drive.trajectorySequenceBuilder(startPoseLeft)
-                .lineToLinearHeading(new Pose2d(-35, -12, Math.toRadians(0)))
+
+        preload_high = drive.trajectorySequenceBuilder(startPoseLeft)
+                .lineToLinearHeading(new Pose2d(-34.5, -6.5, Math.toRadians(45)))
                 .build();
 
-        preload_to_stack = drive.trajectorySequenceBuilder(preload_mid.end())
-                .setAccelConstraint(accelConstraint)
-                .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-56, -8.75))
+        preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
+                .lineToLinearHeading(new Pose2d(-54.25, -10))
                 .build();
 
         cycle1_mid = drive.trajectorySequenceBuilder(preload_to_stack.end())
-                .setAccelConstraint(accelConstraint)
-                .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -12.5))
-                .resetConstraints()
+                .lineToLinearHeading(new Pose2d(-21.25, -9.25))
                 .build();
 
         cycle1_stack = drive.trajectorySequenceBuilder(cycle1_mid.end())
-                .setAccelConstraint(accelConstraint)
-                .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-56, -8.75))
+                .lineToLinearHeading(new Pose2d(-54.25, -10))
                 .build();
 
         cycle2_mid = drive.trajectorySequenceBuilder(cycle1_stack.end())
-                .setAccelConstraint(accelConstraint)
-                .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -12.5))
-                .resetConstraints()
+                .lineToLinearHeading(new Pose2d(-21.25, -9.25))
                 .build();
 
         cycle2_stack = drive.trajectorySequenceBuilder(cycle2_mid.end())
-                .setAccelConstraint(accelConstraint)
-                .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-56.25, -9.25))
+                .lineToLinearHeading(new Pose2d(-54.25, -10))
                 .build();
 
         cycle3_mid = drive.trajectorySequenceBuilder(cycle2_stack.end())
-                .setAccelConstraint(accelConstraint)
-                .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -12.5))
-                .resetConstraints()
+                .lineToLinearHeading(new Pose2d(-21.25, -9.25))
                 .build();
 
         cycle3_stack = drive.trajectorySequenceBuilder(cycle3_mid.end())
-                .setAccelConstraint(accelConstraint)
-                .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-56.25, -9.75))
+                .lineToLinearHeading(new Pose2d(-54.25, -10))
                 .build();
 
         cycle4_mid = drive.trajectorySequenceBuilder(cycle3_stack.end())
-                .setAccelConstraint(accelConstraint)
-                .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -13.2))
-                .resetConstraints()
+                .lineToLinearHeading(new Pose2d(-21.25, -9.5))
                 .build();
 
         cycle4_stack = drive.trajectorySequenceBuilder(cycle4_mid.end())
-                .setAccelConstraint(accelConstraint)
-                .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-56.25, -9.75))
+                .lineToLinearHeading(new Pose2d(-54.5, -10))
                 .build();
 
 
         cycle5_mid = drive.trajectorySequenceBuilder(cycle4_stack.end())
-                .setAccelConstraint(accelConstraint)
-                .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -13.2))
-                .resetConstraints()
+                .lineToLinearHeading(new Pose2d(-21.25, -9.25))
                 .build();
 
 
         task = serial(
                 parallel(
-                        trajectorySequence(preload_mid),
+                        trajectorySequence(preload_high),
                         execute((() -> targetHeight = 400)),
                         execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED)))
                 ),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(300),
                 execute((() -> targetHeight = 300)),
                 sleepms(300),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
-//                sleepms(250),
-//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
-//                sleepms(250),
                 sleepms(300),
                 parallel(
                         trajectorySequence(preload_to_stack),
@@ -139,27 +112,30 @@ public class AutoMidLeft extends AutoBase {
                                 execute(() -> claw.setSubsystemState(Claw.subsystemStates.READY))
                         )
                 ),
-                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
-                sleepms(400),
-                execute((() -> targetHeight = 150)),
+                execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
+//                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
+//                sleepms(300),
+                execute((() -> targetHeight = 150)),
+                sleepms(400),
 
                 // cycle 1
 
                 parallel(
-                        execute((() -> targetHeight = 400)),
+                        execute((() -> targetHeight = 275)),
                         trajectorySequence(cycle1_mid),
-                        execute(() -> turret.setTargetAngle(-67))
+                        execute(() -> turret.setTargetAngle(-270))
                 ),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(300),
-                execute((() -> targetHeight = 300)),
+                execute((() -> targetHeight = 150)),
                 sleepms(300),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
 //                sleepms(200),
 //                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
 //                sleepms(300),
-                sleepms(250),
+                sleepms(275),
                 // high to stack
 
                 parallel(
@@ -171,27 +147,30 @@ public class AutoMidLeft extends AutoBase {
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
                 ),
-                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
-                sleepms(400),
-                execute((() -> targetHeight = 150)),
+                execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
+//                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
+//                sleepms(300),
+                execute((() -> targetHeight = 150)),
+                sleepms(400),
 
                 // cycle 2
 
                 parallel(
                         trajectorySequence(cycle2_mid),
-                        execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-67)))
+                        execute((() -> targetHeight = 275)),
+                        execute((() -> turret.setTargetAngle(-270)))
                 ),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(300),
-                execute((() -> targetHeight = 300)),
+                execute((() -> targetHeight = 150)),
                 sleepms(300),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
 //                sleepms(200),
 //                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
 //                sleepms(300),
-                sleepms(250),
+                sleepms(275),
                 // high to stack
 
                 parallel(
@@ -203,27 +182,30 @@ public class AutoMidLeft extends AutoBase {
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
                 ),
-                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
-                sleepms(400),
-                execute((() -> targetHeight = 150)),
+                execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
+//                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
+//                sleepms(300),
+                execute((() -> targetHeight = 150)),
+                sleepms(400),
 
                 // cycle 3
 
                 parallel(
                         trajectorySequence(cycle3_mid),
-                        execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-67))
+                        execute((() -> targetHeight = 275)),
+                        execute((() -> turret.setTargetAngle(-270))
                 )),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(300),
-                execute((() -> targetHeight = 300)),
+                execute((() -> targetHeight = 150)),
                 sleepms(300),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
 //                sleepms(200),
 //                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
 //                sleepms(300),
-                sleepms(250),
+                sleepms(275),
                 // high to stack
 
                 parallel(
@@ -235,27 +217,30 @@ public class AutoMidLeft extends AutoBase {
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
                 ),
-                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
-                sleepms(400),
-                execute((() -> targetHeight = 150)),
+                execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
+//                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
+//                sleepms(300),
+                execute((() -> targetHeight = 150)),
+                sleepms(400),
 
                 // cycle 4
 
                 parallel(
                         trajectorySequence(cycle4_mid),
-                        execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-67)))
+                        execute((() -> targetHeight = 275)),
+                        execute((() -> turret.setTargetAngle(-270)))
                 ),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(300),
-                execute((() -> targetHeight = 300)),
+                execute((() -> targetHeight = 150)),
                 sleepms(300),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
 //                sleepms(200),
 //                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INIT))),
 //                sleepms(300),
-                sleepms(250),
+                sleepms(275),
                 // high to stack
 
                 parallel(
@@ -267,10 +252,13 @@ public class AutoMidLeft extends AutoBase {
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
                 ),
-                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
-                sleepms(400),
-                execute((() -> targetHeight = 150)),
+                execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
+//                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
+//                sleepms(300),
+                execute((() -> targetHeight = 150)),
+                sleepms(400),
 
                 // cycle 5
 
@@ -278,12 +266,12 @@ public class AutoMidLeft extends AutoBase {
                         trajectorySequence(cycle5_mid),
                         serial(
                                 sleepms(200),
-                        execute((() -> targetHeight = 400)),
-                        execute((() -> turret.setTargetAngle(-67)))
+                        execute((() -> targetHeight = 275)),
+                        execute((() -> turret.setTargetAngle(-270)))
                 )),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.AUTODROP))),
+                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(500),
-                execute((() -> targetHeight = 300)),
+                execute((() -> targetHeight = 150)),
                 execute((() -> claw.setClawState(Claw.clawStates.OPEN))),
                 sleepms(1000)
                 );

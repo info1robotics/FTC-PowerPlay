@@ -32,11 +32,9 @@ public abstract class AutoBase extends LinearOpMode {
 
         turret.resetEncoder();
         linkage.resetEncoders();
-        turret.setTurretVelocity(1);
+        turret.setTurretVelocity(1.0);
         turret.setTargetAngle(0.0);
         claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
-
-
 
         onInit();
         while (!isStarted() && !isStopRequested()) {
@@ -44,14 +42,17 @@ public abstract class AutoBase extends LinearOpMode {
             preferredZone = atag.getZone();
             telemetry.update();
         }
-        atag.getCamera().setPipeline(null);
+
+//        atag.getCamera().setPipeline(null);
+
         task.start(this);
-        while(opModeIsActive() && task.isRunning()) {
-            onLoop();
+
+        while(opModeIsActive()) {
+            if(isStopRequested()) break;
+            task.tick();
             turret.update();
             linkage.setHeight(targetHeight, linkageVelocity);
             telemetry.update();
-            task.tick();
         }
     }
 

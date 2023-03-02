@@ -81,7 +81,7 @@ public class DriverControl extends LinearOpMode {
 //                    driver1confirmIncrement = 0;
 //                }
 //            }
-            
+
             if (gamepad2.right_stick_button) {
                 targetAngle = -180;
             }
