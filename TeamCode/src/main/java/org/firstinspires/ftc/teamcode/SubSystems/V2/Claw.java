@@ -21,7 +21,7 @@ public class Claw {
     public static double PIVOT_SECONDARY_INIT = 0.19;
     public static double PIVOT_MAIN_DOWN = 0.815;
     public static double PIVOT_MAIN_UP = 0.3;
-    public static double PIVOT_MAIN_INIT = 0.1;
+    public static double PIVOT_MAIN_INIT = 0.0;
     public static double PIVOT_MAIN_DROP = 0.7;
     public static double PIVOT_MAIN_VERTICAL = 0.3;
     public static double PIVOT_SECONDARY_VERTICAL = 0.06;
