@@ -129,7 +129,7 @@ public class AutoHighLeft extends AutoBase {
         zone3 = drive.trajectorySequenceBuilder(cycle5_high.end())
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
-                .lineToLinearHeading(new Pose2d(-10, -12, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-10, -12, Math.toRadians(-85)))
                 .resetConstraints()
                 .build();
 
