@@ -41,66 +41,66 @@ public class AutoHighLeft extends AutoBase {
         preload_high = drive.trajectorySequenceBuilder(startPoseLeft)
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
-                .lineToLinearHeading(new Pose2d(-34.5, -6.5, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(-34.75, -5.25, Math.toRadians(45)))
                 .resetConstraints()
                 .build();
 
         preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-55, -10))
+                .lineToLinearHeading(new Pose2d(-56.1, -10.5))
                 .build();
 
         cycle1_high = drive.trajectorySequenceBuilder(preload_to_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -10))
+                .lineToLinearHeading(new Pose2d(-29.75, -10.75))
                 .resetConstraints()
                 .build();
 
         cycle1_stack = drive.trajectorySequenceBuilder(cycle1_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-55, -10))
+                .lineToLinearHeading(new Pose2d(-56, -10.5))
                 .build();
 
         cycle2_high = drive.trajectorySequenceBuilder(cycle1_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-29.5, -9.5))
+                .lineToLinearHeading(new Pose2d(-30.75, -10.75))
                 .resetConstraints()
                 .build();
 
         cycle2_stack = drive.trajectorySequenceBuilder(cycle2_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-55, -10))
+                .lineToLinearHeading(new Pose2d(-55.5, -10.5))
                 .build();
 
         cycle3_high = drive.trajectorySequenceBuilder(cycle2_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -10))
+                .lineToLinearHeading(new Pose2d(-30.25, -10.5))
                 .resetConstraints()
                 .build();
 
         cycle3_stack = drive.trajectorySequenceBuilder(cycle3_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-55, -10))
+                .lineToLinearHeading(new Pose2d(-56, -10.5))
                 .build();
 
         cycle4_high = drive.trajectorySequenceBuilder(cycle3_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -10.5))
+                .lineToLinearHeading(new Pose2d(-30.25, -11))
                 .resetConstraints()
                 .build();
 
         cycle4_stack = drive.trajectorySequenceBuilder(cycle4_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-55.5, -10))
+                .lineToLinearHeading(new Pose2d(-56, -10.5))
                 .resetConstraints()
                 .build();
 
@@ -108,28 +108,28 @@ public class AutoHighLeft extends AutoBase {
         cycle5_high = drive.trajectorySequenceBuilder(cycle4_stack.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-30, -10.5))
+                .lineToLinearHeading(new Pose2d(-30.75, -11))
                 .resetConstraints()
                 .build();
 
         zone1 = drive.trajectorySequenceBuilder(cycle5_high.end())
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
-                .lineToLinearHeading(new Pose2d(-63, -13, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-66, -13, Math.toRadians(-90)))
                 .resetConstraints()
                 .build();
 
         zone2 = drive.trajectorySequenceBuilder(cycle5_high.end())
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
-                .lineToLinearHeading(new Pose2d(-33, -10, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-37, -14, Math.toRadians(-90)))
                 .resetConstraints()
                 .build();
 
         zone3 = drive.trajectorySequenceBuilder(cycle5_high.end())
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
-                .lineToLinearHeading(new Pose2d(-7, -10, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-12, -12, Math.toRadians(-90)))
                 .resetConstraints()
                 .build();
 
@@ -157,7 +157,7 @@ public class AutoHighLeft extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
+//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
@@ -194,11 +194,11 @@ public class AutoHighLeft extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
+//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
-                sleepms(400),
+                sleepms(300),
                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
                 // cycle 2
 
@@ -226,11 +226,11 @@ public class AutoHighLeft extends AutoBase {
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(300),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
+//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
-                sleepms(400),
+                sleepms(300),
                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 
                 // cycle 3
@@ -253,17 +253,17 @@ public class AutoHighLeft extends AutoBase {
 
                 parallel(
                         trajectorySequence(cycle3_stack),
-                        execute((() -> targetHeight = 40)),
+                        execute((() -> targetHeight = 30)),
                         execute((() -> turret.setTargetAngle(-180))),
                         execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
-                sleepms(300),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
+                sleepms(200),
+//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
-                sleepms(400),
+                sleepms(300),
                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 
                 // cycle 4
@@ -291,12 +291,12 @@ public class AutoHighLeft extends AutoBase {
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
-                sleepms(300),
-                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
+                sleepms(200),
+//                execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
-                sleepms(400),
+                sleepms(300),
                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 
                 // cycle 5

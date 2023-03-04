@@ -46,7 +46,7 @@ public class DriverControl extends LinearOpMode {
         while (opModeIsActive()) {
             drive.vectorMove(-gamepad1.left_stick_x, -gamepad1.left_stick_y, -gamepad1.right_stick_x + (gamepad1.left_trigger - gamepad1.right_trigger),
 //                    gamepad1.right_stick_x,
-                    gamepad1.right_bumper ? 0.75 : 1.0);
+                    gamepad1.right_bumper ? 0.6 : 0.8);
 
             if (gamepad2.cross) {
                 claw.setSubsystemState(Claw.subsystemStates.READY);

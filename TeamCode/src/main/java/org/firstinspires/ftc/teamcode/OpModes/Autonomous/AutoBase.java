@@ -39,12 +39,12 @@ public abstract class AutoBase extends LinearOpMode {
         onInit();
         while (!isStarted() && !isStopRequested()) {
             atag.detectZone();
-//            preferredZone = atag.getZone();
-            preferredZone = 1;
+            preferredZone = atag.getZone();
+//            preferredZone = 1;
             telemetry.update();
         }
 
-        atag.getAprilTagDetectionPipeline().finalize();
+//        atag.getAprilTagDetectionPipeline().finalize();
 //        atag.getCamera().setPipeline(null);
         atag.getCamera().closeCameraDeviceAsync(() -> {
 
