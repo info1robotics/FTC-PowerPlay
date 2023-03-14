@@ -18,6 +18,7 @@ public class Claw {
     public static double RIGHT_CLOSED = 0.05;
     public static double PIVOT_SECONDARY_DOWN = 0.15;
     public static double PIVOT_SECONDARY_UP = 0.19;
+    public static double PIVOT_SECONDARY_UP_TELEOP = 0.20;
     public static double PIVOT_SECONDARY_INIT = 0.19;
     public static double PIVOT_MAIN_DOWN = 0.815;
     public static double PIVOT_MAIN_UP = 0.3;
@@ -73,6 +74,10 @@ public class Claw {
                 pivotMain.setPosition(PIVOT_MAIN_UP);
                 pivotSecondary.setPosition(PIVOT_SECONDARY_INTERMEDIARY);
                 break;
+            case DOWNTELEOP:
+                pivotSecondary.setPosition(PIVOT_SECONDARY_UP_TELEOP);
+                pivotMain.setPosition(PIVOT_MAIN_DOWN);
+                break;
         }
     }
 
@@ -96,6 +101,10 @@ public class Claw {
             case VERTICAL:
                 setPivotPosition(pivotPositions.RIGHT);
                 setClawState(clawStates.CLOSED);
+            case READY_TELEOP:
+                setClawState(clawStates.OPEN);
+                setPivotPosition(pivotPositions.DOWNTELEOP);
+                break;
         }
     }
 
@@ -117,10 +126,10 @@ public class Claw {
     }
 
     public enum pivotPositions {
-        INIT, DOWN, UP, RIGHT, AUTODROP, INTERMEDIARY
+        INIT, DOWN, UP, RIGHT, AUTODROP, INTERMEDIARY, DOWNTELEOP
     }
 
     public enum subsystemStates {
-        READY, COLLECTED, RETRACTED, DROP, VERTICAL
+        READY, COLLECTED, RETRACTED, DROP, VERTICAL, READY_TELEOP
     }
 }

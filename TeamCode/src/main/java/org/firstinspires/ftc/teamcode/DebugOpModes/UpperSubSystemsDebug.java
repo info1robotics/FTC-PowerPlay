@@ -21,7 +21,7 @@ public class UpperSubSystemsDebug extends LinearOpMode {
         Claw claw = new Claw(this);
 
 //        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
-claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
+claw.setSubsystemState(Claw.subsystemStates.READY_TELEOP);
     telemetry.addLine("Warning! This OpMode resets all motor encoders after start is pressed!");
         telemetry.addLine("Claw is open during INIT and closed after start.");
         telemetry.update();

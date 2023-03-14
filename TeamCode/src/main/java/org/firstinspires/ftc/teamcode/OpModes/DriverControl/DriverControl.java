@@ -49,7 +49,7 @@ public class DriverControl extends LinearOpMode {
                     gamepad1.right_bumper ? 0.6 : 0.8);
 
             if (gamepad2.cross) {
-                claw.setSubsystemState(Claw.subsystemStates.READY);
+                claw.setSubsystemState(Claw.subsystemStates.READY_TELEOP);
                 confirmIncrement = 0;
 
             }

@@ -56,7 +56,7 @@ public class AutoHighRight extends AutoBase {
         preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(56.5, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(56.6, -9, Math.toRadians(180)))
                 .resetConstraints()
                 .build();
 
@@ -70,7 +70,7 @@ public class AutoHighRight extends AutoBase {
         cycle1_stack = drive.trajectorySequenceBuilder(cycle1_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(57.0, -9, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(57.1, -9, Math.toRadians(180)))
                 .build();
 
         cycle2_high = drive.trajectorySequenceBuilder(cycle1_stack.end())
@@ -83,7 +83,7 @@ public class AutoHighRight extends AutoBase {
         cycle2_stack = drive.trajectorySequenceBuilder(cycle2_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(57.0, -8.75, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(57.1, -8.75, Math.toRadians(180)))
                 .build();
 
         cycle3_high = drive.trajectorySequenceBuilder(cycle2_stack.end())
@@ -160,7 +160,7 @@ public class AutoHighRight extends AutoBase {
                                 trajectorySequence(preload_to_stack),
                                 execute(() -> turret.setTargetAngle(180)),
                                 execute(() -> claw.setSubsystemState(Claw.subsystemStates.READY)),
-                                execute(() -> targetHeight = 70)
+                                execute(() -> targetHeight = 90)
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
@@ -194,7 +194,7 @@ public class AutoHighRight extends AutoBase {
                                 trajectorySequence(cycle1_stack)
                         ),
                         serial(
-                                execute((() -> targetHeight = 55)),
+                                execute((() -> targetHeight = 70)),
                                 execute((() -> turret.setTargetAngle(180))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
@@ -227,7 +227,7 @@ public class AutoHighRight extends AutoBase {
 
                 parallel(
                         trajectorySequence(cycle2_stack),
-                        execute((() -> targetHeight = 40)),
+                        execute((() -> targetHeight = 55)),
                         execute((() -> turret.setTargetAngle(180))),
                         execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                 ),

@@ -52,7 +52,7 @@ public class AutoMidLeft extends AutoBase {
 
         preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-55.5, -11))
+                .lineToLinearHeading(new Pose2d(-55.4, -11))
                 .resetConstraints()
                 .build();
 
@@ -96,14 +96,14 @@ public class AutoMidLeft extends AutoBase {
         zone1 = drive.trajectorySequenceBuilder(cycle5_mid.end())
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
-                .lineToLinearHeading(new Pose2d(-63, -13, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-63, -13, Math.toRadians(-85)))
                 .resetConstraints()
                 .build();
 
         zone2 = drive.trajectorySequenceBuilder(cycle5_mid.end())
                 .setAccelConstraint(fastAccelConstraint)
                 .setVelConstraint(fastConstraint)
-                .lineToLinearHeading(new Pose2d(-38, -14, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-36, -14, Math.toRadians(-85)))
                 .resetConstraints()
                 .build();
 
@@ -129,11 +129,10 @@ public class AutoMidLeft extends AutoBase {
                 sleepms(50),
                 parallel(
                         trajectorySequence(preload_to_stack),
-                        serial(
-                                execute(() -> targetHeight = 80),
+                                execute(() -> targetHeight = 90),
                                 execute(() -> turret.setTargetAngle(-180)),
                                 execute(() -> claw.setSubsystemState(Claw.subsystemStates.READY))
-                        )
+
                 ),
                 execute((() -> claw.setClawState(Claw.clawStates.CLOSED))),
                 sleepms(200),
@@ -141,7 +140,7 @@ public class AutoMidLeft extends AutoBase {
 //                execute((() -> claw.setSubsystemState(Claw.subsystemStates.COLLECTED))),
 //                sleepms(300),
                 execute((() -> targetHeight = 150)),
-                sleepms(300),
+                sleepms(200),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
 
                 // cycle 1
@@ -149,7 +148,10 @@ public class AutoMidLeft extends AutoBase {
                 parallel(
                         execute((() -> targetHeight = 325)),
                         trajectorySequence(cycle1_mid),
+                        serial(
+                                sleepms(200),
                         execute(() -> turret.setTargetAngle(-270))
+                        )
                 ),
                 execute((() -> claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY))),
                 sleepms(300),
@@ -165,7 +167,7 @@ public class AutoMidLeft extends AutoBase {
                         trajectorySequence(cycle1_stack),
                         serial(
                                 sleepms(100),
-                                execute((() -> targetHeight = 55)),
+                                execute((() -> targetHeight = 70)),
                                 execute((() -> turret.setTargetAngle(-180))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
@@ -198,7 +200,7 @@ public class AutoMidLeft extends AutoBase {
                         trajectorySequence(cycle2_stack),
                         serial(
                                 sleepms(100),
-                                execute((() -> targetHeight = 30)),
+                                execute((() -> targetHeight = 55)),
                                 execute((() -> turret.setTargetAngle(-180))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )
@@ -233,7 +235,7 @@ public class AutoMidLeft extends AutoBase {
                         trajectorySequence(cycle3_stack),
                         serial(
                                 sleepms(100),
-                                execute((() -> targetHeight = 0)),
+                                execute((() -> targetHeight = 10)),
                                 execute((() -> turret.setTargetAngle(-180))),
                                 execute((() -> claw.setSubsystemState(Claw.subsystemStates.READY)))
                         )

@@ -18,11 +18,9 @@ public class MyClass {
                 .setColorScheme(new ColorSchemeRedDark())
                 .setConstraints(50, 30, Math.toRadians(180), Math.toRadians(180), 12)
                 .followTrajectorySequence(drive ->
-                drive.trajectorySequenceBuilder(new Pose2d(-35, -62, Math.toRadians(90)))
-                        .lineToLinearHeading(new Pose2d(-34.5, -6.5, Math.toRadians(45)))
-                        .lineToLinearHeading(new Pose2d(-54.25, -10))
-                        .lineToLinearHeading(new Pose2d(-24, -10))
-                        .lineToLinearHeading(new Pose2d(-54.25, -10))
+                drive.trajectorySequenceBuilder(new Pose2d(35, -62, Math.toRadians(90)))
+                        .lineToLinearHeading(new Pose2d(35, -22, Math.toRadians(90)))
+                        .splineToLinearHeading(new Pose2d(55.4, -11, Math.toRadians(0)), Math.toRadians(0))
                         .build()
         );
 
