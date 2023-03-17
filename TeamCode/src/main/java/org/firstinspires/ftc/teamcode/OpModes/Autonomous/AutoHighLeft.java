@@ -48,7 +48,7 @@ public class AutoHighLeft extends AutoBase {
         preload_to_stack = drive.trajectorySequenceBuilder(preload_high.end())
                 .setAccelConstraint(accelConstraint)
                 .setVelConstraint(slowConstraint)
-                .lineToLinearHeading(new Pose2d(-56.1, -10.5))
+                .lineToLinearHeading(new Pose2d(-56.5, -10.5))
                 .build();
 
         cycle1_high = drive.trajectorySequenceBuilder(preload_to_stack.end())
