@@ -44,7 +44,8 @@ public class DriverControl extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-            drive.vectorMove(-gamepad1.left_stick_x, -gamepad1.left_stick_y, -gamepad1.right_stick_x + (gamepad1.left_trigger - gamepad1.right_trigger),
+            drive.vectorMove(-gamepad1.left_stick_x, -gamepad1.left_stick_y,
+                    gamepad1.right_stick_x + (gamepad1.left_trigger - gamepad1.right_trigger),
 //                    gamepad1.right_stick_x,
                     gamepad1.right_bumper ? 0.6 : 0.8);
 
