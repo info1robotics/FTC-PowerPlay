@@ -6,14 +6,15 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.acmerobotics.roadrunner.geometry.*;
 import com.acmerobotics.roadrunner.trajectory.constraints.*;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
 
 import java.util.Arrays;
 
-//@Disabled
-@Autonomous(name = "Auto HIGH Left")
+@Disabled
+@Autonomous(name = "Auto HIGH Left Old")
 @Config
 public class AutoHighLeft extends AutoBase {
     public Pose2d startPoseLeft;
