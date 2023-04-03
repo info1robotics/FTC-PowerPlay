@@ -9,43 +9,51 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 @Config
 public class Claw {
     public static boolean isClosed;
-    public Servo clawLeft;
+    public Servo clawLeft, clawRight, loonyClaw;
     public Servo pivotSecondary, pivotMain;
-
-    public static double LEFT_OPEN = 1.0;
-    public static double LEFT_CLOSED = 0.95;
-    public static double RIGHT_OPEN = 0.0;
-    public static double RIGHT_CLOSED = 0.05;
-    public static double PIVOT_SECONDARY_DOWN = 0.15;
-    public static double PIVOT_SECONDARY_UP = 0.19;
-    public static double PIVOT_SECONDARY_UP_TELEOP = 0.20;
-    public static double PIVOT_SECONDARY_INIT = 0.19;
-    public static double PIVOT_MAIN_DOWN = 0.815;
-    public static double PIVOT_MAIN_UP = 0.3;
-    public static double PIVOT_MAIN_INIT = 0.0;
+    public static double LOONY_OPEN = 0.0; //calibrated
+    public static double LOONY_CLOSED = 0.58; //calibrated
+    public static double PIVOT_SECONDARY_DOWN = 0.12; //calibrated
+    public static double PIVOT_SECONDARY_UP = 0.2375; //calibrated
+    public static double PIVOT_SECONDARY_UP_TELEOP = 0.19; //calibrated
+    public static double PIVOT_SECONDARY_INIT = 0.225; //calibrated
+    public static double PIVOT_MAIN_DOWN = 0.925; //calibrated
+    public static double PIVOT_MAIN_UP = 0.19; //calibrated
+    public static double PIVOT_MAIN_INIT = 0.19; //calibrated
     public static double PIVOT_MAIN_DROP = 0.7;
-    public static double PIVOT_MAIN_VERTICAL = 0.3;
+    public static double PIVOT_MAIN_VERTICAL = 0.19; //calibrated
     public static double PIVOT_SECONDARY_VERTICAL = 0.06;
     public static double PIVOT_MAIN_AUTODROP = 0.45;
     public static double PIVOT_SECONDARY_INTERMEDIARY = 0.0;
-    Servo clawRight;
+
+    public static double PIVOT_SECONDARY_EXTENDED = 0.19; //calibrated
+    public static double PIVOT_SECONDARY_EXTENDED_DROP = 0.1625;
+    public static double PIVOT_MAIN_EXTENDED = 0.45; //calibrated
+
+//    public static double LEFT_OPEN = 1.0;
+//    public static double LEFT_CLOSED = 0.95;
+//    public static double RIGHT_OPEN = 0.0;
+//    public static double RIGHT_CLOSED = 0.05;
 
     public Claw(LinearOpMode opMode) {
-        clawLeft = opMode.hardwareMap.get(Servo.class, "ClawLeft");
-        clawRight = opMode.hardwareMap.get(Servo.class, "ClawRight");
+//        clawLeft = opMode.hardwareMap.get(Servo.class, "ClawLeft");
+//        clawRight = opMode.hardwareMap.get(Servo.class, "ClawRight");
         pivotSecondary = opMode.hardwareMap.get(Servo.class, "PivotSecondary");
         pivotMain = opMode.hardwareMap.get(Servo.class, "PivotMain");
+        loonyClaw = opMode.hardwareMap.get(Servo.class, "LoonyClaw");
     }
 
     public void setClawState(clawStates state) {
         if (state == clawStates.OPEN) {
             // Opens the Claw
-            clawRight.setPosition(RIGHT_OPEN);
-            clawLeft.setPosition(LEFT_OPEN);
+//            clawRight.setPosition(RIGHT_OPEN);
+//            clawLeft.setPosition(LEFT_OPEN);
+            loonyClaw.setPosition(LOONY_OPEN);
         } else if (state == clawStates.CLOSED) {
             // Closes the Claw
-            clawRight.setPosition(RIGHT_CLOSED);
-            clawLeft.setPosition(LEFT_CLOSED);
+//            clawRight.setPosition(RIGHT_CLOSED);
+//            clawLeft.setPosition(LEFT_CLOSED);
+            loonyClaw.setPosition(LOONY_CLOSED);
         }
     }
 
@@ -78,6 +86,14 @@ public class Claw {
                 pivotSecondary.setPosition(PIVOT_SECONDARY_UP_TELEOP);
                 pivotMain.setPosition(PIVOT_MAIN_DOWN);
                 break;
+            case ANGLE:
+                pivotSecondary.setPosition(PIVOT_SECONDARY_EXTENDED);
+                pivotMain.setPosition(PIVOT_MAIN_EXTENDED);
+                break;
+            case ANGLE_DROP:
+                pivotSecondary.setPosition(PIVOT_SECONDARY_EXTENDED_DROP);
+                pivotMain.setPosition(PIVOT_MAIN_EXTENDED);
+                break;
         }
     }
 
@@ -105,6 +121,14 @@ public class Claw {
                 setClawState(clawStates.OPEN);
                 setPivotPosition(pivotPositions.DOWNTELEOP);
                 break;
+            case EXTENDED:
+                setClawState(clawStates.CLOSED);
+                setPivotPosition(pivotPositions.ANGLE);
+                break;
+            case EXTENDED_DROP:
+                setClawState(clawStates.CLOSED);
+                setPivotPosition(pivotPositions.ANGLE_DROP);
+                break;
         }
     }
 
@@ -112,12 +136,14 @@ public class Claw {
         isClosed = !isClosed;
         if (!isClosed) {
             // Opens the Claw
-            clawRight.setPosition(RIGHT_OPEN);
-            clawLeft.setPosition(LEFT_OPEN);
+//            clawRight.setPosition(RIGHT_OPEN);
+//            clawLeft.setPosition(LEFT_OPEN);
+            loonyClaw.setPosition(LOONY_OPEN);
         } else {
             // Closes the Claw
-            clawRight.setPosition(RIGHT_CLOSED);
-            clawLeft.setPosition(LEFT_CLOSED);
+//            clawRight.setPosition(RIGHT_CLOSED);
+//            clawLeft.setPosition(LEFT_CLOSED);
+            loonyClaw.setPosition(LOONY_CLOSED);
         }
     }
 
@@ -126,10 +152,10 @@ public class Claw {
     }
 
     public enum pivotPositions {
-        INIT, DOWN, UP, RIGHT, AUTODROP, INTERMEDIARY, DOWNTELEOP
+        INIT, DOWN, UP, RIGHT, AUTODROP, INTERMEDIARY, DOWNTELEOP, ANGLE, ANGLE_DROP;
     }
 
     public enum subsystemStates {
-        READY, COLLECTED, RETRACTED, DROP, VERTICAL, READY_TELEOP
+        READY, COLLECTED, RETRACTED, DROP, VERTICAL, READY_TELEOP, EXTENDED, EXTENDED_DROP;
     }
 }

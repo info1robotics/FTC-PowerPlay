@@ -18,10 +18,10 @@ public class UpperSubSystemsDebug extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Linkage linkage = new Linkage(this);
         Turret turret = new Turret(this);
-        Claw claw = new Claw(this);
+//        Claw claw = new Claw(this);
 
 //        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
-claw.setSubsystemState(Claw.subsystemStates.READY_TELEOP);
+//claw.setSubsystemState(Claw.subsystemStates.READY_TELEOP);
     telemetry.addLine("Warning! This OpMode resets all motor encoders after start is pressed!");
         telemetry.addLine("Claw is open during INIT and closed after start.");
         telemetry.update();
@@ -32,7 +32,7 @@ claw.setSubsystemState(Claw.subsystemStates.READY_TELEOP);
         turret.resetEncoder();
 
         while(opModeIsActive()){
-            claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY);
+//            claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY);
             telemetry.addData("Left Motor Tick Count ", linkage.linkageLeft.getCurrentPosition());
             telemetry.addData("Right Motor Tick Count ", linkage.linkageRight.getCurrentPosition());
             telemetry.addLine();

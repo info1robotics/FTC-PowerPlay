@@ -28,7 +28,7 @@ public class DriverControl extends LinearOpMode {
         Claw claw = new Claw(this);
         gamepad_2 = new GamepadEx(gamepad2);
         gamepad_1 = new GamepadEx(gamepad1);
-        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
+//        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
 
         targetAngle = 0.0;
         targetHeight = 0;
@@ -49,27 +49,27 @@ public class DriverControl extends LinearOpMode {
 //                    gamepad1.right_stick_x,
                     gamepad1.right_bumper ? 0.6 : 0.9);
 
-            if (gamepad2.cross) {
-                claw.setSubsystemState(Claw.subsystemStates.READY_TELEOP);
-                confirmIncrement = 0;
-
-            }
-
-            if (gamepad2.triangle) {
-                claw.setSubsystemState(Claw.subsystemStates.COLLECTED);
-                confirmIncrement = 0;
-            }
-
-            if (gamepad_2.getButtonDown("x")) {
-                if(confirmIncrement == 0){
-                    claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY);
-                    confirmIncrement++;
-                } else {
-                    claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY);
-                    claw.setClawState(Claw.clawStates.OPEN);
-                    confirmIncrement = 0;
-                }
-            }
+//            if (gamepad2.cross) {
+//                claw.setSubsystemState(Claw.subsystemStates.READY_TELEOP);
+//                confirmIncrement = 0;
+//
+//            }
+//
+//            if (gamepad2.triangle) {
+//                claw.setSubsystemState(Claw.subsystemStates.COLLECTED);
+//                confirmIncrement = 0;
+//            }
+//
+//            if (gamepad_2.getButtonDown("x")) {
+//                if(confirmIncrement == 0){
+//                    claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY);
+//                    confirmIncrement++;
+//                } else {
+//                    claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY);
+//                    claw.setClawState(Claw.clawStates.OPEN);
+//                    confirmIncrement = 0;
+//                }
+//            }
 
 //            if (gamepad_1.getButtonDown("y")) {
 //                if(driver1confirmIncrement == 0){
@@ -93,7 +93,8 @@ public class DriverControl extends LinearOpMode {
                 targetAngle = 0;
             }
             if (gamepad2.dpad_up) {
-                targetHeight = 400;
+//                targetHeight = 400;
+                claw.setSubsystemState(Claw.subsystemStates.EXTENDED);
             }
             if (gamepad2.dpad_left) {
                 targetHeight = 275;

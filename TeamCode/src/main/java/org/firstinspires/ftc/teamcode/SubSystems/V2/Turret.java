@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Turret {
     public static final double THRESHOLD = 1f;
     private static final double GEAR_RATIO = 36.0 / 231.0;
-    private static final double TICKS_PER_REVOLUTION = 384.5;
+    private static final double TICKS_PER_REVOLUTION = 290.2;
     public DcMotorEx turretMotor;
     public DistanceSensor distanceSensor;
     public double LOWER_ANGLE_LIMIT = -360;
