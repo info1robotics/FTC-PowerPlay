@@ -114,9 +114,11 @@ public class Claw {
             case DROP:
                 pivotMain.setPosition(PIVOT_MAIN_DROP);
                 setClawState(clawStates.OPEN);
+                break;
             case VERTICAL:
                 setPivotPosition(pivotPositions.RIGHT);
                 setClawState(clawStates.CLOSED);
+                break;
             case READY_TELEOP:
                 setClawState(clawStates.OPEN);
                 setPivotPosition(pivotPositions.DOWNTELEOP);

@@ -15,7 +15,7 @@ public class DriverControl extends LinearOpMode {
     public double targetAngle, turretVelocity, linkageVelocity, angleThreshold, autoTurretVelocity, autoLinkageVelocity;
     public int targetHeight, heightThreshold;
     public double upperAngleLimit = 360, lowerAngleLimit = -360;
-    public int upperLinkageLimit = 440, lowerLinkageLimit = -50;
+    public int upperLinkageLimit = 470, lowerLinkageLimit = -50;
     public int confirmIncrement = 0;
     public int driver1confirmIncrement = 0;
     public boolean changed;
@@ -28,7 +28,6 @@ public class DriverControl extends LinearOpMode {
         Claw claw = new Claw(this);
         gamepad_2 = new GamepadEx(gamepad2);
         gamepad_1 = new GamepadEx(gamepad1);
-//        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
 
         targetAngle = 0.0;
         targetHeight = 0;
@@ -49,64 +48,83 @@ public class DriverControl extends LinearOpMode {
 //                    gamepad1.right_stick_x,
                     gamepad1.right_bumper ? 0.6 : 0.9);
 
-//            if (gamepad2.cross) {
-//                claw.setSubsystemState(Claw.subsystemStates.READY_TELEOP);
-//                confirmIncrement = 0;
-//
-//            }
-//
-//            if (gamepad2.triangle) {
-//                claw.setSubsystemState(Claw.subsystemStates.COLLECTED);
-//                confirmIncrement = 0;
-//            }
-//
-//            if (gamepad_2.getButtonDown("x")) {
-//                if(confirmIncrement == 0){
-//                    claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY);
-//                    confirmIncrement++;
-//                } else {
-//                    claw.setPivotPosition(Claw.pivotPositions.INTERMEDIARY);
-//                    claw.setClawState(Claw.clawStates.OPEN);
-//                    confirmIncrement = 0;
-//                }
-//            }
+            if (gamepad2.cross) {
+                claw.setSubsystemState(Claw.subsystemStates.READY);
+                confirmIncrement = 0;
+            }
 
-//            if (gamepad_1.getButtonDown("y")) {
-//                if(driver1confirmIncrement == 0){
-//                    claw.setPivotPosition(Claw.pivotPositions.DOWN);
-//                    claw.setClawState(Claw.clawStates.CLOSED);
-//                    driver1confirmIncrement++;
-//                } else {
-//                    claw.setPivotPosition(Claw.pivotPositions.DOWN);
-//                    claw.setClawState(Claw.clawStates.OPEN);
-//                    driver1confirmIncrement = 0;
-//                }
-//            }
+            if (gamepad2.triangle) {
+                claw.setClawState(Claw.clawStates.CLOSED);
+                confirmIncrement = 0;
+            }
 
+            if (gamepad_2.getButtonDown("x")) {
+                if (confirmIncrement == 0) {
+                    claw.setSubsystemState(Claw.subsystemStates.EXTENDED);
+                    confirmIncrement++;
+                } else {
+                    targetHeight -= 75;
+                    claw.setSubsystemState(Claw.subsystemStates.EXTENDED_DROP);
+                    claw.setClawState(Claw.clawStates.OPEN);
+                    confirmIncrement = 0;
+                }
+            }
             if (gamepad2.right_stick_button) {
-                targetAngle = -180;
+                targetAngle = 180;
             }
             if (gamepad2.left_stick_button) {
-                targetAngle = 180;
+                targetAngle = -180;
             }
             if (gamepad2.circle) {
                 targetAngle = 0;
             }
-            if (gamepad2.dpad_up) {
-//                targetHeight = 400;
-                claw.setSubsystemState(Claw.subsystemStates.EXTENDED);
-            }
-            if (gamepad2.dpad_left) {
-                targetHeight = 275;
-            }
-            if (gamepad2.dpad_down) {
-                targetHeight = 150;
-            }
-            if  (gamepad1.cross){
+            if (gamepad1.cross) {
                 turret.hardReset();
                 targetAngle = 0;
             }
 
+            // auto collect from substation
+
+            if (gamepad2.left_stick_y > 0.8) {
+                targetAngle = 0;
+                targetHeight = -50;
+                claw.setSubsystemState(Claw.subsystemStates.READY);
+            }
+
+            // auto align high
+
+            if (gamepad2.left_stick_y < -0.8) {
+                claw.setSubsystemState(Claw.subsystemStates.EXTENDED);
+                targetAngle = 180;
+                targetHeight = 430;
+                confirmIncrement = 1;
+            }
+
+            // auto align mid
+
+            if (gamepad2.right_stick_y < -0.8) {
+                claw.setSubsystemState(Claw.subsystemStates.EXTENDED);
+                targetAngle = 180;
+                targetHeight = 235;
+                confirmIncrement = 1;
+            }
+
+            // auto align low
+
+            if (gamepad2.dpad_up) {
+                targetHeight = 100;
+                claw.setSubsystemState(Claw.subsystemStates.EXTENDED);
+                confirmIncrement = 1;
+            }
+
+            // auto align ground
+
+            if (gamepad2.dpad_down) {
+                targetHeight = 30;
+                claw.setPivotPosition(Claw.pivotPositions.DOWN);
+                claw.setClawState(Claw.clawStates.CLOSED);
+                confirmIncrement = 1;
+            }
 
             if (gamepad2.left_bumper) targetHeight -= linkage.THRESHOLD;
             if (gamepad2.right_bumper) targetHeight += linkage.THRESHOLD;
@@ -124,6 +142,5 @@ public class DriverControl extends LinearOpMode {
             gamepad_2.update();
             telemetry.update();
         }
-
     }
 }
