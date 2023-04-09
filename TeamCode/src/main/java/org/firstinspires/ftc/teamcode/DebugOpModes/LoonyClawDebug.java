@@ -14,8 +14,9 @@ public class LoonyClawDebug extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Claw claw = new Claw(this);
-        claw.setSubsystemState(Claw.subsystemStates.EXTENDED_DROP);
+        claw.setClawState(Claw.clawStates.OPEN);
         waitForStart();
+
         while(opModeIsActive()){
             telemetry.update();
         }
