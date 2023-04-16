@@ -15,7 +15,7 @@ public class DriverControl extends LinearOpMode {
     public double targetAngle, turretVelocity, linkageVelocity, angleThreshold, autoTurretVelocity, autoLinkageVelocity;
     public int targetHeight, heightThreshold;
     public double upperAngleLimit = 360, lowerAngleLimit = -360;
-    public int upperLinkageLimit = 470, lowerLinkageLimit = -50;
+    public int upperLinkageLimit = 550, lowerLinkageLimit = -100;
     public int confirmIncrement = 0;
     public int driver1confirmIncrement = 0;
     public boolean changed;
@@ -28,6 +28,7 @@ public class DriverControl extends LinearOpMode {
         Claw claw = new Claw(this);
         gamepad_2 = new GamepadEx(gamepad2);
         gamepad_1 = new GamepadEx(gamepad1);
+
 
         targetAngle = 0.0;
         targetHeight = 0;
@@ -42,11 +43,16 @@ public class DriverControl extends LinearOpMode {
         angleThreshold = 1.0;
 
         waitForStart();
-        while (opModeIsActive()) {
-            drive.vectorMove(gamepad1.left_stick_x, -gamepad1.left_stick_y,
-                    gamepad1.right_stick_x + (gamepad1.left_trigger - gamepad1.right_trigger),
+        new Thread(() -> {
+            while (opModeIsActive()) {
+                drive.vectorMove(gamepad1.left_stick_x, -gamepad1.left_stick_y,
+                        gamepad1.right_stick_x + (gamepad1.left_trigger - gamepad1.right_trigger),
 //                    gamepad1.right_stick_x,
-                    gamepad1.right_bumper ? 0.6 : 0.9);
+                        gamepad1.right_bumper ? 0.6 : 1.0);
+                gamepad_1.update();
+            }
+        }).start();
+        while (opModeIsActive()) {
 
             if (gamepad2.cross) {
                 claw.setSubsystemState(Claw.subsystemStates.READY);
@@ -60,19 +66,18 @@ public class DriverControl extends LinearOpMode {
 
             if (gamepad_2.getButtonDown("x")) {
                 if (confirmIncrement == 0) {
-                    claw.setSubsystemState(Claw.subsystemStates.EXTENDED);
+                    claw.setSubsystemState(Claw.subsystemStates.VERTICAL);
                     confirmIncrement++;
                 } else {
                     targetHeight -= 75;
-                    claw.setSubsystemState(Claw.subsystemStates.EXTENDED_DROP);
                     claw.setClawState(Claw.clawStates.OPEN);
                     confirmIncrement = 0;
                 }
             }
-            if (gamepad2.right_stick_button) {
+            if (gamepad2.dpad_right) {
                 targetAngle = 180;
             }
-            if (gamepad2.left_stick_button) {
+            if (gamepad2.dpad_left) {
                 targetAngle = -180;
             }
             if (gamepad2.circle) {
@@ -87,33 +92,32 @@ public class DriverControl extends LinearOpMode {
 
             if (gamepad2.left_stick_y > 0.8) {
                 targetAngle = 0;
-                targetHeight = -50;
+                targetHeight = -10;
+                while(turret.turretMotor.isBusy()) claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
                 claw.setSubsystemState(Claw.subsystemStates.READY);
             }
 
             // auto align high
 
             if (gamepad2.left_stick_y < -0.8) {
-                claw.setSubsystemState(Claw.subsystemStates.EXTENDED);
-                targetAngle = 180;
-                targetHeight = 430;
+                targetHeight = 470;
                 confirmIncrement = 1;
+                claw.setSubsystemState(Claw.subsystemStates.VERTICAL);
             }
 
             // auto align mid
 
             if (gamepad2.right_stick_y < -0.8) {
-                claw.setSubsystemState(Claw.subsystemStates.EXTENDED);
-                targetAngle = 180;
-                targetHeight = 235;
+                targetHeight = 270;
+                claw.setSubsystemState(Claw.subsystemStates.VERTICAL);
                 confirmIncrement = 1;
             }
 
             // auto align low
 
             if (gamepad2.dpad_up) {
-                targetHeight = 100;
-                claw.setSubsystemState(Claw.subsystemStates.EXTENDED);
+                targetHeight = 140;
+                claw.setSubsystemState(Claw.subsystemStates.VERTICAL);
                 confirmIncrement = 1;
             }
 

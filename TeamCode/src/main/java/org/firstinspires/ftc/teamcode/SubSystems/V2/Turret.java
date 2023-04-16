@@ -19,7 +19,7 @@ public class Turret {
     public double HIGHER_ANGLE_LIMIT = 360;
     public double DISTANCE_THRESHOLD = 0.0;
     public boolean useSensor = false;
-    public static double targetAngle = 0.0, correctedAngle = 0.0, lastAngle = 0.0, turretVelocity = 0.0;
+    public static double targetAngle = 0.0, correctedAngle = 0.0, lastAngle = 0.0, turretVelocity = 1.0;
 
     public Turret(LinearOpMode opMode) {
         turretMotor = opMode.hardwareMap.get(DcMotorEx.class, "TurretMotor");
@@ -74,6 +74,6 @@ public class Turret {
     }
 
     public void update(){
-        setHeading(targetAngle, 1.0);
+        setHeading(targetAngle, turretVelocity);
     }
 }

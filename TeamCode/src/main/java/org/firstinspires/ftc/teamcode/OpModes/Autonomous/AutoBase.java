@@ -20,7 +20,7 @@ public abstract class AutoBase extends LinearOpMode {
     public Claw claw;
     public double linkageVelocity = 1.0;
     public int targetHeight = 0, preferredZone = 0;
-    public AprilTagDetection_41h12 atag;
+//    public AprilTagDetection_41h12 atag;
     @Override
     public final void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -28,27 +28,28 @@ public abstract class AutoBase extends LinearOpMode {
         turret = new Turret(this);
         linkage = new Linkage(this);
         drive = new SampleMecanumDrive(hardwareMap);
-        atag = new AprilTagDetection_41h12(this);
+//        atag = new AprilTagDetection_41h12(this);
 
         turret.resetEncoder();
         linkage.resetEncoders();
         turret.setTurretVelocity(1.0);
         turret.setTargetAngle(0.0);
-        claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
 
         onInit();
         while (!isStarted() && !isStopRequested()) {
-            atag.detectZone();
-            preferredZone = atag.getZone();
+            turret.update();
+            linkage.setHeight(50, linkageVelocity);
+//            atag.detectZone();
+//            preferredZone = atag.getZone();
 //            preferredZone = 1;
             telemetry.update();
         }
 
 //        atag.getAprilTagDetectionPipeline().finalize();
 //        atag.getCamera().setPipeline(null);
-        atag.getCamera().closeCameraDeviceAsync(() -> {
-
-        });
+//        atag.getCamera().closeCameraDeviceAsync(() -> {
+//
+//        });
 
         task.start(this);
 
