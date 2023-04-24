@@ -37,8 +37,11 @@ public abstract class AutoBase extends LinearOpMode {
 
         onInit();
         while (!isStarted() && !isStopRequested()) {
+            claw.pivotMain.setPosition(Claw.PIVOT_MAIN_VERTICAL);
+            claw.pivotSecondary.setPosition(Claw.PIVOT_SECONDARY_UP);
+            claw.setClawState(Claw.clawStates.CLOSED);
             turret.update();
-            linkage.setHeight(50, linkageVelocity);
+            linkage.setHeight(-50, linkageVelocity);
 //            atag.detectZone();
 //            preferredZone = atag.getZone();
 //            preferredZone = 1;

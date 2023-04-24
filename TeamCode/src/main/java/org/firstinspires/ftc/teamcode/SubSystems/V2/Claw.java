@@ -12,22 +12,22 @@ public class Claw {
     public Servo clawLeft, clawRight, loonyClaw;
     public Servo pivotSecondary, pivotMain;
     public static double LOONY_OPEN = 0.0; //calibrated
-    public static double LOONY_CLOSED = 0.04; //calibrated 0.58
+    public static double LOONY_CLOSED = 0.05; //calibrated 0.58
     public static double PIVOT_SECONDARY_DOWN = 0.12; //calibrated
-    public static double PIVOT_SECONDARY_UP = 0.4275; //calibrated
+    public static double PIVOT_SECONDARY_UP = 0.42; //calibrated
     public static double PIVOT_SECONDARY_UP_TELEOP = 0.19; //calibrated
     public static double PIVOT_SECONDARY_INIT = 0.225; //calibrated
-    public static double PIVOT_MAIN_DOWN = 0.999; //calibrated
+    public static double PIVOT_MAIN_DOWN = 0.96; //calibrated 975
     public static double PIVOT_MAIN_UP = 0.40; //calibrated
     public static double PIVOT_MAIN_INIT = 0.40; //calibrated
     public static double PIVOT_MAIN_DROP = 0.7;
-    public static double PIVOT_MAIN_VERTICAL = 0.35; //calibrated
-    public static double PIVOT_SECONDARY_VERTICAL = 0.20;
+    public static double PIVOT_MAIN_VERTICAL = 0.86; //calibrated 335
+    public static double PIVOT_SECONDARY_VERTICAL = 0.32;
     public static double PIVOT_MAIN_AUTODROP = 0.44;
     public static double PIVOT_SECONDARY_INTERMEDIARY = 0.0;
-    public static double PIVOT_SECONDARY_EXTENDED = 0.35; //calibrated
+    public static double PIVOT_SECONDARY_EXTENDED = 0.36; //calibrated
     public static double PIVOT_SECONDARY_EXTENDED_DROP = 0.335;
-    public static double PIVOT_MAIN_EXTENDED = 0.45; //calibrated
+    public static double PIVOT_MAIN_EXTENDED = 0.87; //calibrated
 
 //    public static double LEFT_OPEN = 1.0;
 //    public static double LEFT_CLOSED = 0.95;

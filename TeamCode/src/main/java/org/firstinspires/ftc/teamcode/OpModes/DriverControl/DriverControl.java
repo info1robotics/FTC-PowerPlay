@@ -93,7 +93,6 @@ public class DriverControl extends LinearOpMode {
             if (gamepad2.left_stick_y > 0.8) {
                 targetAngle = 0;
                 targetHeight = -10;
-                while(turret.turretMotor.isBusy()) claw.setSubsystemState(Claw.subsystemStates.RETRACTED);
                 claw.setSubsystemState(Claw.subsystemStates.READY);
             }
 
@@ -111,6 +110,16 @@ public class DriverControl extends LinearOpMode {
                 targetHeight = 270;
                 claw.setSubsystemState(Claw.subsystemStates.VERTICAL);
                 confirmIncrement = 1;
+            }
+
+            // 90 / - 90
+
+            if (gamepad2.right_stick_x < -0.8) {
+                targetAngle = -90;
+            }
+
+            if (gamepad2.right_stick_x > 0.8) {
+                targetAngle = 90;
             }
 
             // auto align low

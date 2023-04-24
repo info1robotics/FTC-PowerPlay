@@ -10,10 +10,11 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
-
+@Disabled
 @Autonomous(name = "AutoOwnership70")
 @Config
 public class AutoOwnership70 extends AutoBase {
@@ -27,7 +28,7 @@ public class AutoOwnership70 extends AutoBase {
         drive.setPoseEstimate(startPoseLeft);
 
         align_preload_high_left = drive.trajectorySequenceBuilder(startPoseLeft)
-                .lineToLinearHeading(new Pose2d(-33.5, -7.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-33.5, -6.5, Math.toRadians(0)))
                 .build();
 
         stack1 = drive.trajectoryBuilder(align_preload_high_left.end())
@@ -35,7 +36,7 @@ public class AutoOwnership70 extends AutoBase {
                 .build();
 
         cycle2_mid_left = drive.trajectoryBuilder(stack1.end())
-                .lineToLinearHeading(new Pose2d(-30.5, -10, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-29.5, -10, Math.toRadians(0)))
                 .build();
 
         stack2 = drive.trajectoryBuilder(cycle2_mid_left.end())
@@ -43,27 +44,27 @@ public class AutoOwnership70 extends AutoBase {
                 .build();
 
         cycle3_high_middle = drive.trajectoryBuilder(stack2.end())
-                .lineToLinearHeading(new Pose2d(-6, -10, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-4.5, -10, Math.toRadians(0)))
                 .build();
 
         stack3 = drive.trajectoryBuilder(cycle3_high_middle.end())
-                .lineToLinearHeading(new Pose2d(-61.5, -9, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-61, -9, Math.toRadians(0)))
                 .build();
 
         cycle4_mid_right = drive.trajectoryBuilder(stack3.end())
-                .lineToLinearHeading(new Pose2d(9, -12, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(12, -12, Math.toRadians(0)))
                 .build();
 
         stack4 = drive.trajectoryBuilder(cycle4_mid_right.end())
-                .lineToLinearHeading(new Pose2d(-67.5, -10, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-66, -10, Math.toRadians(0)))
                 .build();
 
         cycle5_high_right = drive.trajectoryBuilder(stack3.end())
-                .lineToLinearHeading(new Pose2d(7, -11.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(12, -11.5, Math.toRadians(0)))
                 .build();
 
         stack5 = drive.trajectoryBuilder(cycle5_high_right.end())
-                .lineToLinearHeading(new Pose2d(47.25, -12, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(51 , -13, Math.toRadians(0)))
                 .build();
 
         task = serial(
@@ -76,7 +77,8 @@ public class AutoOwnership70 extends AutoBase {
                                 execute(() -> { claw.setSubsystemState(Claw.subsystemStates.EXTENDED_DROP); })
                         )
                 ),
-                sleepms(100),
+//                execute(() -> { targetHeight = 350; }),
+                sleepms(200),
                 execute(() -> { claw.setClawState(Claw.clawStates.OPEN); }),
 //                serial(
 //                        execute(() -> { claw.setPivotPosition(Claw.pivotPositions.ANGLE_DROP); }),
@@ -91,26 +93,26 @@ public class AutoOwnership70 extends AutoBase {
                 parallel(
                         trajectory(stack1),
                         execute(() -> { turret.setTargetAngle(180); }),
-                        execute(() -> { targetHeight = 55; })
+                        execute(() -> { targetHeight = 30; })
                 ),
 //                sleepms(200),
                 execute(() -> { claw.setClawState(Claw.clawStates.CLOSED); }),
                 sleepms(150),
-                execute(() -> { targetHeight = 130; }),
-                sleepms(200),
+                execute(() -> { targetHeight = 140; }),
+                sleepms(400),
                 parallel(
                         execute(() -> { turret.setTargetAngle(297.5); }),
                         execute(() -> { claw.setSubsystemState(Claw.subsystemStates.EXTENDED_DROP); })
                 ),
                 sleepms(1000),
                 execute(() -> { claw.setClawState(Claw.clawStates.OPEN); }),
-                sleepms(1900),
+                sleepms(200),
                 parallel(
                         execute(() -> { turret.setTargetAngle(180); }),
                         execute(() -> { claw.setSubsystemState(Claw.subsystemStates.READY); })
                 ),
                 sleepms(400),
-                execute(() -> { targetHeight = 35; }),
+                execute(() -> { targetHeight = 10; }),
                 sleepms(400),
                 execute(() -> { claw.setClawState(Claw.clawStates.CLOSED); }),
                 sleepms(200),
@@ -132,7 +134,7 @@ public class AutoOwnership70 extends AutoBase {
                 parallel(
                         trajectory(stack2),
                         execute(() -> { turret.setTargetAngle(180); }),
-                        execute(() -> { targetHeight = 15; })
+                        execute(() -> { targetHeight = 0; })
                 ),
                 execute(() -> { claw.setClawState(Claw.clawStates.CLOSED); }),
                 sleepms(200),
@@ -156,7 +158,7 @@ public class AutoOwnership70 extends AutoBase {
                 parallel(
                         trajectory(stack3),
                         execute(() -> { turret.setTargetAngle(180); }),
-                        execute(() -> { targetHeight = -10; })
+                        execute(() -> { targetHeight = -20; })
                 ),
                 execute(() -> { claw.setClawState(Claw.clawStates.CLOSED); }),
                 sleepms(200),
@@ -207,9 +209,9 @@ public class AutoOwnership70 extends AutoBase {
                 execute(() -> { claw.setClawState(Claw.clawStates.CLOSED); }),
                 sleepms(150),
                 execute(() -> { targetHeight = 130; }),
-                sleepms(200),
+                sleepms(400),
                 parallel(
-                        execute(() -> { turret.setTargetAngle(-62.5); }),
+                        execute(() -> { turret.setTargetAngle(-130); }),
                         execute(() -> { claw.setSubsystemState(Claw.subsystemStates.EXTENDED_DROP); })
                 ),
                 sleepms(900),
