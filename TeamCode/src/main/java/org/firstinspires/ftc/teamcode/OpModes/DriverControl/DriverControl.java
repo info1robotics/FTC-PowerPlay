@@ -15,7 +15,7 @@ public class DriverControl extends LinearOpMode {
     public double targetAngle, turretVelocity, linkageVelocity, angleThreshold, autoTurretVelocity, autoLinkageVelocity;
     public int targetHeight, heightThreshold;
     public double upperAngleLimit = 360, lowerAngleLimit = -360;
-    public int upperLinkageLimit = 550, lowerLinkageLimit = -100;
+    public int upperLinkageLimit = 550, lowerLinkageLimit = -40;
     public int confirmIncrement = 0;
     public int driver1confirmIncrement = 0;
     public boolean changed;
@@ -112,6 +112,10 @@ public class DriverControl extends LinearOpMode {
                 confirmIncrement = 1;
             }
 
+            if(gamepad2.share){
+                claw.setPivotPosition(Claw.pivotPositions.DOWNWARDS);
+            }
+
             // 90 / - 90
 
             if (gamepad2.right_stick_x < -0.8) {
@@ -139,6 +143,9 @@ public class DriverControl extends LinearOpMode {
                 confirmIncrement = 1;
             }
 
+            if(gamepad_2.getButtonDown("joystick_right")) targetHeight += 45;
+            if(gamepad_2.getButtonDown("joystick_left")) targetHeight -= 45;
+
             if (gamepad2.left_bumper) targetHeight -= linkage.THRESHOLD;
             if (gamepad2.right_bumper) targetHeight += linkage.THRESHOLD;
             if (gamepad2.left_trigger > 0.1) targetAngle += angleThreshold;
@@ -153,6 +160,10 @@ public class DriverControl extends LinearOpMode {
             linkage.setHeight(targetHeight, linkageVelocity);
             turret.setHeading(targetAngle, turretVelocity);
             gamepad_2.update();
+
+            telemetry.addData("pos1", linkage.linkageLeft.getCurrentPosition());
+            telemetry.addData("pos2", linkage.linkageRight.getCurrentPosition());
+
             telemetry.update();
         }
     }

@@ -29,8 +29,8 @@ public class Turret {
     }
 
     public void setHeading(double targetAngle, double power) {
-        if (targetAngle > HIGHER_ANGLE_LIMIT) targetAngle = HIGHER_ANGLE_LIMIT;
-        if (targetAngle < LOWER_ANGLE_LIMIT) targetAngle = LOWER_ANGLE_LIMIT;
+//        if (targetAngle > HIGHER_ANGLE_LIMIT) targetAngle = HIGHER_ANGLE_LIMIT;
+//        if (targetAngle < LOWER_ANGLE_LIMIT) targetAngle = LOWER_ANGLE_LIMIT;
 
         setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / targetAngle)));
 
