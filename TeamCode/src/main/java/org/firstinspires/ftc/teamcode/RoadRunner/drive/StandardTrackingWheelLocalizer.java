@@ -36,6 +36,8 @@ public class StandardTrackingWheelLocalizer extends TwoTrackingWheelLocalizer {
     public final Encoder perpendicularEncoder;
     private final IMU imu;
 
+    public static StandardTrackingWheelLocalizer instance = null;
+
     public StandardTrackingWheelLocalizer(HardwareMap hardwareMap) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
@@ -47,6 +49,7 @@ public class StandardTrackingWheelLocalizer extends TwoTrackingWheelLocalizer {
         parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "BL_Parallel"));
         perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "FR_Perpendicular"));
         perpendicularEncoder.setDirection(Encoder.Direction.REVERSE);
+        instance = this;
     }
 
     public static double encoderTicksToInches(int ticks) {
