@@ -11,25 +11,29 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.StandardTrackingWheelLocalizer;
 
 public class Turret {
-    // TODO: Make sure all coordinates are correct
-    public enum Junction {
-        LOW_BOTTOM_LEFT(24, 12),
-        LOW_BOTTOM_RIGHT(48, 12),
-        LOW_STACK_LEFT(12, 24),
-        LOW_STACK_RIGHT(60, 24),
-        MID_LEFT(24, 24),
-        MID_RIGHT(48, 24),
-        HIGH_CENTER(36, 24),
-        HIGH_LEFT(24, 36),
-        HIGH_RIGHT(48, 36);
+    public static final int fieldSize = 192;
+    public static final int poleSpacing = 24;
 
-        private final int x;
-        private final int y;
+    private static int[] parseCoordinates(String coordinates) {
+        int[] parsed = new int[2];
 
-        Junction(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
+        char letter = coordinates.charAt(0);
+        int number = Integer.parseInt(coordinates.substring(1));
+
+        parsed[0] = parseLetterToX(letter);
+        parsed[1] = parseNumberToY(number);
+
+        return parsed;
+    }
+
+    private static int parseLetterToX(char letter) {
+        int poleOffset = poleSpacing * (letter - 'A');
+        return -fieldSize / 2 + poleOffset + 24;
+    }
+
+    private static int parseNumberToY(int number) {
+        int poleOffset = poleSpacing * (number - 1);
+        return -fieldSize / 2 + poleOffset + 24;
     }
 
     public static final double THRESHOLD = 1f;
@@ -82,13 +86,17 @@ public class Turret {
         return (turretMotor.getCurrentPosition() * 360 * GEAR_RATIO) / TICKS_PER_REVOLUTION;
     }
 
-    public void lockOnJunction(Junction junction) {
+    public void lockOnJunction(String junction) {
+        int[] parsedCoordinates = parseCoordinates(junction);
         double robotX = StandardTrackingWheelLocalizer.instance.getWheelPositions().get(0);
         double robotY = StandardTrackingWheelLocalizer.instance.getWheelPositions().get(1);
         double turretAngle = getCurrentAngleHeading();
-        double targetX = junction.x;
-        double targetY = junction.y;
-        double angle = Math.atan2(targetY - robotY, targetX - robotX) - Math.toRadians(turretAngle);
+        double targetX = parsedCoordinates[0];
+        double targetY = parsedCoordinates[1];
+//        System.out.println("Target X: " + targetX);
+//        System.out.println("Target Y: " + targetY);
+        double angle = Math.atan2(targetX - robotX, targetY - robotY) - Math.toRadians(turretAngle);
+//        System.out.println("Target Angle: " + Math.toDegrees(angle));
         targetAngle = Math.toDegrees(angle);
         turretVelocity = 1;
     }
