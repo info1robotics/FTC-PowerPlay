@@ -4,8 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
-import org.firstinspires.ftc.teamcode.SubSystems.V2.Linkage;
-import org.firstinspires.ftc.teamcode.SubSystems.V2.Turret;
+import org.firstinspires.ftc.teamcode.SubSystems.V3.Turret;
 
 //@Disabled
 @TeleOp(name="showoff")

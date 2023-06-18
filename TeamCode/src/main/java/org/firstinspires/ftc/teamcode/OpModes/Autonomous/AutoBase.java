@@ -4,13 +4,11 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.EOCV.f41h12.AprilTagDetection_41h12;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Linkage;
-import org.firstinspires.ftc.teamcode.SubSystems.V2.Turret;
+import org.firstinspires.ftc.teamcode.SubSystems.V3.Turret;
 import org.firstinspires.ftc.teamcode.Tasks.Task;
-import org.openftc.easyopencv.OpenCvCamera;
 
 public abstract class AutoBase extends LinearOpMode {
     public Task task;

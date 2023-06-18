@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode.OpModes.DriverControl;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.CommonPackage.GamepadEx;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Drivetrain;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Linkage;
-import org.firstinspires.ftc.teamcode.SubSystems.V2.Turret;
+import org.firstinspires.ftc.teamcode.SubSystems.V3.Turret;
 
-@TeleOp(name = "TeleOp")
+//@TeleOp(name = "TeleOp")
 public class DriverControl extends LinearOpMode {
     GamepadEx gamepad_2, gamepad_1;
     public double targetAngle, turretVelocity, linkageVelocity, angleThreshold, autoTurretVelocity, autoLinkageVelocity;
