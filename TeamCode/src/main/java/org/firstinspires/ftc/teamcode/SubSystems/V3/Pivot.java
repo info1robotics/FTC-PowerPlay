@@ -8,7 +8,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 public class Pivot {
     final Servo pivotLeft, pivotRight;
 
-    public static final double PIVOT_FLIPPED = 0.0; // TODO: Find values
+    public static final double PIVOT_SCORE = 0.0; // TODO: Find values
 
     public Pivot(LinearOpMode opMode) {
         pivotLeft = opMode.hardwareMap.get(Servo.class, "PivotLeft");
@@ -16,15 +16,15 @@ public class Pivot {
         pivotRight.setDirection(Servo.Direction.REVERSE);
     }
 
-    public void setDefault() {
+    public void setCollect() {
         pivotLeft.setPosition(0.0);
         pivotRight.setPosition(0.0);
         Claw.getInstance().rotateDefault();
     }
 
-    public void setFlipped() {
-        pivotLeft.setPosition(PIVOT_FLIPPED);
-        pivotRight.setPosition(PIVOT_FLIPPED);
+    public void setScore() {
+        pivotLeft.setPosition(PIVOT_SCORE);
+        pivotRight.setPosition(PIVOT_SCORE);
         Claw.getInstance().rotateFlipped();
     }
 
@@ -35,9 +35,9 @@ public class Pivot {
 
     public void toggle() {
         if (pivotLeft.getPosition() == 0.0) {
-            setFlipped();
+            setScore();
         } else {
-            setDefault();
+            setCollect();
         }
     }
 
