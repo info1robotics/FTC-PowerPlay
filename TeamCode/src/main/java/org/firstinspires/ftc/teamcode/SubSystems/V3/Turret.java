@@ -36,7 +36,7 @@ public class Turret {
         return -fieldSize / 2 + poleOffset + 24;
     }
 
-    private static final double GEAR_RATIO = 1;
+    private static final double GEAR_RATIO = 36.0 / 231.0;
     private static final double TICKS_PER_REVOLUTION = 384.5; // 435 RPM
     public DcMotorEx turretMotor;
     public double DISTANCE_THRESHOLD = 0.0;
