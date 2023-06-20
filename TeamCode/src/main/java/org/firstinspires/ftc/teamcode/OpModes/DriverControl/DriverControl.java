@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.CommonPackage.GamepadEx;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Claw;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Drivetrain;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Linkage;
+import org.firstinspires.ftc.teamcode.SubSystems.V3.Pivot;
 import org.firstinspires.ftc.teamcode.SubSystems.V3.Turret;
 
 //@TeleOp(name = "TeleOp")
@@ -24,7 +25,9 @@ public class DriverControl extends LinearOpMode {
         Linkage linkage = new Linkage(this);
         Turret turret = new Turret(this);
         Drivetrain drive = new Drivetrain(this.hardwareMap);
+        Pivot pivot = new Pivot(this);
         Claw claw = new Claw(this);
+
         gamepad_2 = new GamepadEx(gamepad2);
         gamepad_1 = new GamepadEx(gamepad1);
 
@@ -42,6 +45,7 @@ public class DriverControl extends LinearOpMode {
         angleThreshold = 1.0;
 
         waitForStart();
+
         new Thread(() -> {
             while (opModeIsActive()) {
                 drive.vectorMove(gamepad1.left_stick_x, -gamepad1.left_stick_y,
@@ -51,8 +55,8 @@ public class DriverControl extends LinearOpMode {
                 gamepad_1.update();
             }
         }).start();
-        while (opModeIsActive()) {
 
+        while (opModeIsActive()) {
             if (gamepad2.cross) {
                 claw.setSubsystemState(Claw.subsystemStates.READY);
                 confirmIncrement = 0;

@@ -21,15 +21,11 @@ public class Pivot {
     public void setCollect() {
         pivotLeft.setPosition(0.0);
         pivotRight.setPosition(0.0);
-        Claw.getInstance().rotateDefault();
-        Claw.getInstance().open();
     }
 
     public void setScore() {
         pivotLeft.setPosition(PIVOT_SCORE);
         pivotRight.setPosition(PIVOT_SCORE);
-        Claw.getInstance().rotateFlipped();
-//        Claw.getInstance().close();
     }
 
     public void setManual(double position) {

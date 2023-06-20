@@ -1,28 +1,48 @@
 package org.firstinspires.ftc.teamcode.OpModes.V3;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+import android.util.Pair;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.CommonPackage.GamepadEx;
-import org.firstinspires.ftc.teamcode.SubSystems.V3.Turret;
+import org.firstinspires.ftc.teamcode.SubSystems.V2.Drivetrain;
+import org.firstinspires.ftc.teamcode.SubSystems.V3.Controller;
+
+import java.util.Queue;
 
 @TeleOp
 public class TurretDebug extends LinearOpMode {
+    Queue<Pair<Runnable, Long>> actionQueue;
 
-    GamepadEx gamepad_2, gamepad_1;
+    public void updateQueue() {
+        if (actionQueue.isEmpty()) return;
+        Pair<Runnable, Long> action = actionQueue.peek();
+        if (action.second < System.currentTimeMillis()) {
+            actionQueue.remove();
+            action.first.run();
+        }
+    }
+
+    GamepadEx gamepadEx1, gamepadEx2;
     public double targetAngle, turretVelocity, linkageVelocity, angleThreshold, autoTurretVelocity, autoLinkageVelocity;
     public int targetHeight, heightThreshold;
     public double upperAngleLimit = 360, lowerAngleLimit = -360;
-    public int upperLinkageLimit = 550, lowerLinkageLimit = -40;
-    public int confirmIncrement = 0;
     @Override
     public void runOpMode() throws InterruptedException {
-        Turret turret = new Turret(this);
-        gamepad_2 = new GamepadEx(gamepad2);
-        gamepad_1 = new GamepadEx(gamepad1);
+        Drivetrain drive = new Drivetrain(this.hardwareMap);
+        Controller controller = new Controller(this);
+        gamepadEx1 = new GamepadEx(gamepad1);
+        gamepadEx2 = new GamepadEx(gamepad2);
 
+        new Thread(() -> {
+            while (opModeIsActive()) {
+                drive.vectorMove(gamepad1.left_stick_x, -gamepad1.left_stick_y,
+                        gamepad1.right_stick_x + (gamepad1.left_trigger - gamepad1.right_trigger),
+                        gamepad1.right_bumper ? 0.6 : 1.0);
+                gamepadEx1.update();
+            }
+        }).start();
 
         targetAngle = 0.0;
         targetHeight = 0;
@@ -38,6 +58,14 @@ public class TurretDebug extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
+            if (gamepadEx2.getButtonDown("a")) {
+                controller.claw.open();
+            }
+
+            if (gamepadEx2.getButtonDown("y")) {
+                controller.claw.close();
+            }
+
             if (gamepad2.dpad_right) {
                 targetAngle = 180;
             }
@@ -48,7 +76,7 @@ public class TurretDebug extends LinearOpMode {
                 targetAngle = 0;
             }
             if (gamepad1.cross) {
-                turret.hardReset();
+                controller.turret.hardReset();
                 targetAngle = 0;
             }
 
@@ -67,11 +95,12 @@ public class TurretDebug extends LinearOpMode {
             if (targetAngle > upperAngleLimit) targetAngle = upperAngleLimit;
             if (targetAngle < lowerAngleLimit) targetAngle = lowerAngleLimit;
 
-            turret.setHeading(targetAngle, turretVelocity);
-//            turret.debug();
-            telemetry.addData("Turret's Current Angle Heading ", turret.getCurrentAngleHeading());
-            telemetry.addData("Turret's Current Tick Count ", turret.turretMotor.getCurrentPosition());
-            gamepad_2.update();
+            controller.turret.setHeading(targetAngle, turretVelocity);
+            telemetry.addData("Turret's Current Angle Heading ", controller.turret.getCurrentAngleHeading());
+            telemetry.addData("Turret's Current Tick Count ", controller.turret.turretMotor.getCurrentPosition());
+
+            updateQueue();
+            gamepadEx2.update();
             telemetry.update();
         }
     }

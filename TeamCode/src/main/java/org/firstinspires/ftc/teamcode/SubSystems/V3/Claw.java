@@ -12,9 +12,6 @@ public class Claw {
     public static final double CLAW_CLOSED = 0.0;
     public static final double CLAW_OPEN = 0.3;
 
-    public static final double ROTATE_NORMAL = 0.0;
-    public static final double ROTATE_FLIPPED = 0.72;
-
     private static Claw instance;
 
     public static Claw getInstance() {
@@ -36,14 +33,6 @@ public class Claw {
     public void close() {
         claw.setPosition(CLAW_CLOSED);
         closed = true;
-    }
-
-    public void rotateDefault() {
-        clawFlip.setPosition(ROTATE_NORMAL);
-    }
-
-    public void rotateFlipped() {
-        clawFlip.setPosition(ROTATE_FLIPPED);
     }
 
     public void toggle() {
