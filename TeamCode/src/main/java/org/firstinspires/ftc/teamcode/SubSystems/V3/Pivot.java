@@ -1,14 +1,16 @@
 package org.firstinspires.ftc.teamcode.SubSystems.V3;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
+@Config
 public class Pivot {
-    final Servo pivotLeft, pivotRight;
+    final Servo pivotLeft;
+    final Servo pivotRight;
 
-    public static final double PIVOT_SCORE = 0.0; // TODO: Find values
+    public static double PIVOT_SCORE = 0.7; // TODO: Find values
 
     public Pivot(LinearOpMode opMode) {
         pivotLeft = opMode.hardwareMap.get(Servo.class, "PivotLeft");
@@ -20,12 +22,14 @@ public class Pivot {
         pivotLeft.setPosition(0.0);
         pivotRight.setPosition(0.0);
         Claw.getInstance().rotateDefault();
+        Claw.getInstance().open();
     }
 
     public void setScore() {
         pivotLeft.setPosition(PIVOT_SCORE);
         pivotRight.setPosition(PIVOT_SCORE);
         Claw.getInstance().rotateFlipped();
+//        Claw.getInstance().close();
     }
 
     public void setManual(double position) {
@@ -45,6 +49,5 @@ public class Pivot {
         telemetry.addData("Pivot Left", pivotLeft.getPosition());
         telemetry.addData("Pivot Right", pivotRight.getPosition());
     }
-
 
 }
