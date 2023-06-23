@@ -19,13 +19,13 @@ public class LiftDebug extends LinearOpMode {
         int targetHeight = 0;
 
         waitForStart();
-//        while(opModeIsActive() && !isStopRequested()) {
-//            if (gamepad2.dpad_up) {
-//                targetHeight += 10;
-//            }
-//            if (gamepad2.dpad_down) {
-//                targetHeight -= 10;
-//            }
+        while(opModeIsActive() && !isStopRequested()) {
+            if (gamepad2.dpad_up) {
+                targetHeight += 10;
+            }
+            if (gamepad2.dpad_down) {
+                targetHeight -= 10;
+            }
 //
 //            if (gamepad_2.getButtonDown("a")) {
 //                extendo.setState(Extendo.ExtendoState.FULL);
@@ -47,19 +47,20 @@ public class LiftDebug extends LinearOpMode {
 //                targetHeight = 1700;
 //            }
 //
-//            if (gamepad_2.getButtonDown("dpad_right")) {
-//                targetHeight = 800;
-//            }
+            if (gamepad_2.getButtonDown("dpad_right")) {
+                targetHeight = 1000;
+            }
 
-        if (targetHeight < 0) targetHeight = 0;
-        if (targetHeight > 2000) targetHeight = 2000;
+            if (targetHeight < 0) targetHeight = 0;
+            if (targetHeight > 100) targetHeight = 1100;
 
 
-//            lift.setHeight(targetHeight, 1);
+            lift.setHeight(targetHeight, 1);
 
-        telemetry.addData("Lift left", lift.liftLeft.getCurrentPosition());
-        telemetry.addData("Lift right", lift.liftRight.getCurrentPosition());
-        gamepad_2.update();
-        telemetry.update();
+            telemetry.addData("Lift left", lift.liftLeft.getCurrentPosition());
+            telemetry.addData("Lift right", lift.liftRight.getCurrentPosition());
+            gamepad_2.update();
+            telemetry.update();
+        }
     }
 }

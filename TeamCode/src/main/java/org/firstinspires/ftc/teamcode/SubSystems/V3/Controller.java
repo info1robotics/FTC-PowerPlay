@@ -24,4 +24,25 @@ public class Controller {
     }
 
 
+    public void setCollectPivotAndClawFlip() {
+        pivot.setCollect();
+        clawFlip.setCollect();
+    }
+
+    public void setScorePivotAndClawFlip() {
+        pivot.setScore();
+        clawFlip.setScore();
+    }
+
+    public void setCollectPivotAndClawFlipAndExtendo() {
+        pivot.setCollect();
+        clawFlip.setCollect();
+        extendo.setState(Extendo.ExtendoState.FULL);
+    }
+
+    public void setScorePivotAndClawFlipAndExtendo() {
+        pivot.setScore();
+        clawFlip.setScore();
+        extendo.setState(Extendo.ExtendoState.RETRACTED);
+    }
 }
