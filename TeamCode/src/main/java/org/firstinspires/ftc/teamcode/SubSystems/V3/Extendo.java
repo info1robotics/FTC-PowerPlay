@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.SubSystems.V3;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 @Config
 public class Extendo {
@@ -13,6 +14,7 @@ public class Extendo {
         extendoLeft = opMode.hardwareMap.get(Servo.class, "ExtendoLeft");
         extendoRight = opMode.hardwareMap.get(Servo.class, "ExtendoRight");
         extendoRight.setDirection(Servo.Direction.REVERSE);
+        extendoLeft.setDirection(Servo.Direction.REVERSE);
     }
 
     public void setState(ExtendoState state) {
@@ -23,7 +25,7 @@ public class Extendo {
                 break;
             case FULL: // 65
                 extendoLeft.setPosition(0.62);
-                extendoRight.setPosition(0.62);
+                extendoRight.setPosition(0.55);
         }
     }
 

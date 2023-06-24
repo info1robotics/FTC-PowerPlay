@@ -28,12 +28,16 @@ public class Pivot {
         pivotRight.setPosition(PIVOT_SCORE);
     }
 
-    public void setManual(double position) {
-        pivotLeft.setPosition(position);
-        pivotRight.setPosition(position);
+    public boolean isCollect() {
+        return pivotLeft.getPosition() == 0.0;
+    }
+
+    public boolean isScore() {
+        return pivotLeft.getPosition() == PIVOT_SCORE;
     }
 
     public void toggle() {
+
         if (pivotLeft.getPosition() == 0.0) {
             setScore();
         } else {

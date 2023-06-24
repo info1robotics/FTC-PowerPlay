@@ -8,6 +8,7 @@ public class Controller {
     public Extendo extendo;
     public Pivot pivot;
     public Turret turret;
+    public Lift lift;
     public static Controller instance;
 
     public static Controller getInstance() {
@@ -20,6 +21,7 @@ public class Controller {
         this.extendo = new Extendo(opMode);
         this.pivot = new Pivot(opMode);
         this.turret = new Turret(opMode);
+        this.lift = new Lift(opMode);
         instance = this;
     }
 
@@ -32,6 +34,19 @@ public class Controller {
     public void setScorePivotAndClawFlip() {
         pivot.setScore();
         clawFlip.setScore();
+    }
+
+    public void togglePivotAndClawFlip() {
+        pivot.toggle();
+        clawFlip.toggle();
+    }
+
+    public void togglePivotAndClawFlipAndClawForCollect() {
+        pivot.toggle();
+        clawFlip.toggle();
+        if (pivot.isCollect()) {
+            claw.open();
+        }
     }
 
     public void setCollectPivotAndClawFlipAndExtendo() {

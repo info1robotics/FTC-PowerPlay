@@ -20,4 +20,12 @@ public class ClawFlip {
     public void setScore() {
         clawFlip.setPosition(ROTATE_SCORE);
     }
+
+    public void toggle() {
+        if (clawFlip.getPosition() == ROTATE_COLLECT) {
+            clawFlip.setPosition(ROTATE_SCORE);
+        } else {
+            clawFlip.setPosition(ROTATE_COLLECT);
+        }
+    }
 }

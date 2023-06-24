@@ -8,12 +8,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.CommonPackage.GamepadEx;
 import org.firstinspires.ftc.teamcode.SubSystems.V2.Drivetrain;
 import org.firstinspires.ftc.teamcode.SubSystems.V3.Controller;
+import org.firstinspires.ftc.teamcode.SubSystems.V3.Extendo;
+import org.firstinspires.ftc.teamcode.SubSystems.V3.Lift;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 @TeleOp
 public class TurretDebug extends LinearOpMode {
-    Queue<Pair<Runnable, Long>> actionQueue;
+    Queue<Pair<Runnable, Long>> actionQueue = new LinkedList<>();
 
     public void updateQueue() {
         if (actionQueue.isEmpty()) return;
@@ -32,17 +35,11 @@ public class TurretDebug extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Drivetrain drive = new Drivetrain(this.hardwareMap);
         Controller controller = new Controller(this);
+        controller.lift.resetEncoders();
+        controller.claw.open();
+        
         gamepadEx1 = new GamepadEx(gamepad1);
         gamepadEx2 = new GamepadEx(gamepad2);
-
-        new Thread(() -> {
-            while (opModeIsActive()) {
-                drive.vectorMove(gamepad1.left_stick_x, -gamepad1.left_stick_y,
-                        gamepad1.right_stick_x + (gamepad1.left_trigger - gamepad1.right_trigger),
-                        gamepad1.right_bumper ? 0.6 : 1.0);
-                gamepadEx1.update();
-            }
-        }).start();
 
         targetAngle = 0.0;
         targetHeight = 0;
@@ -57,15 +54,17 @@ public class TurretDebug extends LinearOpMode {
         angleThreshold = 1.0;
 
         waitForStart();
-        while (opModeIsActive()) {
-            if (gamepadEx2.getButtonDown("a")) {
-                controller.claw.open();
-            }
 
-            if (gamepadEx2.getButtonDown("y")) {
-                controller.claw.close();
+        new Thread(() -> {
+            while (opModeIsActive() && !isStopRequested()) {
+                drive.vectorMove(gamepad1.left_stick_x, gamepad1.left_stick_y,
+                        gamepad1.right_stick_x + (gamepad1.left_trigger - gamepad1.right_trigger),
+                        gamepad1.right_bumper ? 0.6 : 1.0);
+                gamepadEx1.update();
             }
+        }).start();
 
+        while (opModeIsActive() && !isStopRequested()) {
             if (gamepad2.dpad_right) {
                 targetAngle = 180;
             }
@@ -75,9 +74,17 @@ public class TurretDebug extends LinearOpMode {
             if (gamepad2.circle) {
                 targetAngle = 0;
             }
-            if (gamepad1.cross) {
-                controller.turret.hardReset();
-                targetAngle = 0;
+//            if (gamepad1.cross) {
+//                controller.turret.hardReset();
+//                targetAngle = 0;
+//            }
+
+            if (gamepadEx2.getButtonDown("b")) {
+                controller.togglePivotAndClawFlipAndClawForCollect();
+            }
+
+            if (gamepadEx2.getButtonDown("a")) {
+                controller.claw.toggle();
             }
 
             if (gamepad2.right_stick_x < -0.8) {
@@ -88,6 +95,18 @@ public class TurretDebug extends LinearOpMode {
                 targetAngle = 90;
             }
 
+            if (gamepad2.left_stick_y > 0.8) {
+                targetHeight = Lift.LOW_POS;
+            }
+
+            if (gamepad2.left_stick_x < -0.8) {
+                targetHeight = Lift.MID_POS;
+            }
+
+            if (gamepad2.left_stick_y < -0.8) {
+                targetHeight = Lift.HIGH_POS;
+            }
+
 
             if (gamepad2.left_trigger > 0.1) targetAngle += angleThreshold;
             if (gamepad2.right_trigger > 0.1) targetAngle -= angleThreshold;
@@ -96,6 +115,7 @@ public class TurretDebug extends LinearOpMode {
             if (targetAngle < lowerAngleLimit) targetAngle = lowerAngleLimit;
 
             controller.turret.setHeading(targetAngle, turretVelocity);
+            controller.lift.setHeight(targetHeight, 1);
             telemetry.addData("Turret's Current Angle Heading ", controller.turret.getCurrentAngleHeading());
             telemetry.addData("Turret's Current Tick Count ", controller.turret.turretMotor.getCurrentPosition());
 
