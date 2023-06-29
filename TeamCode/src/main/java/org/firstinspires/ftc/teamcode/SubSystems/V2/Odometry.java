@@ -21,8 +21,8 @@ public class Odometry {
     static final double PERPENDICULAR_ANGULAR_OFFSET = ((5 * 90) / ( 112.23 + 123.37 + 124.90 + 111.19 + 115.67 ));
 
     public Odometry(LinearOpMode opMode) {
-        odoParallel = opMode.hardwareMap.get(DcMotorEx.class, "BL_Parallel");
-        odoPerpendicular = opMode.hardwareMap.get(DcMotorEx.class, "FR_Perpendicular");
+        odoParallel = opMode.hardwareMap.get(DcMotorEx.class, "BL");
+        odoPerpendicular = opMode.hardwareMap.get(DcMotorEx.class, "FR");
 
         resetEncoders();
 

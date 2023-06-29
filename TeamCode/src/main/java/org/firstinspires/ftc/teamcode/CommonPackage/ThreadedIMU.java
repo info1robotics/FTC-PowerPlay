@@ -13,6 +13,11 @@ public class ThreadedIMU {
     private final IMU imu;
     public static double imuAngle = 0;
     public static double imuVelocity = 0;
+    private static ThreadedIMU instance;
+
+    public static ThreadedIMU getInstance() {
+        return instance;
+    }
 
     public ThreadedIMU(HardwareMap hardwareMap) {
         imu = hardwareMap.get(IMU.class, "imu");
@@ -21,23 +26,27 @@ public class ThreadedIMU {
                 RevHubOrientationOnRobot.LogoFacingDirection.DOWN, RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
         ));
         imu.initialize(parameters);
-
         imu.resetYaw();
+        instance = this;
     }
 
     public void startIMUThread(LinearOpMode opMode) {
         new Thread(() -> {
+            System.out.println("start imu thread");
+            System.out.println(opMode.isStopRequested());
+            System.out.println(opMode.opModeIsActive());
             imu.resetYaw();
-            while (!opMode.isStopRequested() && opMode.opModeIsActive()) {
+            System.out.println("fdsjfsdkj");
+            while (!opMode.isStopRequested()) {
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                };
                 synchronized (imuLock1) {
                     imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
                 }
-                synchronized (imuLock2){
+                synchronized (imuLock2) {
                     imuVelocity = imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
                 }
             }

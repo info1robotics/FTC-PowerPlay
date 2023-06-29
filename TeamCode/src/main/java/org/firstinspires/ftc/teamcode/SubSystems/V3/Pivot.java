@@ -37,7 +37,6 @@ public class Pivot {
     }
 
     public void toggle() {
-
         if (pivotLeft.getPosition() == 0.0) {
             setScore();
         } else {

@@ -1,20 +1,23 @@
 package org.firstinspires.ftc.teamcode.SubSystems.V3;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.CommonPackage.ThreadedIMU;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.StandardTrackingWheelLocalizer;
 
 public class Turret {
     public static final int fieldSize = 192;
     public static final int poleSpacing = 24;
+    private final LinearOpMode opMode;
 
-    private static int[] parseCoordinates(String coordinates) {
+    public static int[] parseCoordinates(String coordinates) {
         int[] parsed = new int[2];
 
         char letter = coordinates.charAt(0);
@@ -43,6 +46,7 @@ public class Turret {
     public static double targetAngle = 0.0, turretVelocity = 1.0;
 
     public Turret(LinearOpMode opMode) {
+        this.opMode = opMode;
         turretMotor = opMode.hardwareMap.get(DcMotorEx.class, "TurretMotor");
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -77,18 +81,26 @@ public class Turret {
         return (turretMotor.getCurrentPosition() * 360 * GEAR_RATIO) / TICKS_PER_REVOLUTION;
     }
 
-    public void lockOnJunction(String junction) {
+    public void lockOnJunction(String junction, Pose2d robot) {
         int[] parsedCoordinates = parseCoordinates(junction);
-        double robotX = StandardTrackingWheelLocalizer.instance.getWheelPositions().get(0);
-        double robotY = StandardTrackingWheelLocalizer.instance.getWheelPositions().get(1);
-        double turretAngle = getCurrentAngleHeading();
+        double robotX = robot.getX();
+        double robotY = robot.getY();
+        double turretAngle = -getCurrentAngleHeading(); // Negative because fsr clockwise rotation is negative and counter clockwise is positive
         double targetX = parsedCoordinates[0];
         double targetY = parsedCoordinates[1];
-//        System.out.println("Target X: " + targetX);
-//        System.out.println("Target Y: " + targetY);
-        double angle = Math.atan2(targetX - robotX, targetY - robotY) - Math.toRadians(turretAngle);
-//        System.out.println("Target Angle: " + Math.toDegrees(angle));
-        targetAngle = Math.toDegrees(angle);
+        double robotHeading = -ThreadedIMU.getInstance().getHeading();
+        double angle = Math.atan2(targetX - robotX, targetY - robotY) - Math.toRadians(turretAngle) - robotHeading;
+        double angleDeg = Math.toDegrees(angle);
+        double shortestRelative = angleDeg;
+        while (shortestRelative > 180) {
+            shortestRelative -= 360;
+        }
+        while (shortestRelative < -180) {
+            shortestRelative += 360;
+        }
+        opMode.telemetry.addData("Shortest Relative", shortestRelative);
+        opMode.telemetry.addData("Relative", angleDeg);
+        targetAngle = getCurrentAngleHeading() - shortestRelative;
         turretVelocity = 1;
     }
 
@@ -97,8 +109,8 @@ public class Turret {
     }
 
     public void debug() {
-        telemetry.addData("Turret's Current Angle Heading ", getCurrentAngleHeading());
-        telemetry.addData("Turret's Current Tick Count ", turretMotor.getCurrentPosition());
+        opMode.telemetry.addData("Turret's Current Angle Heading ", getCurrentAngleHeading());
+        opMode.telemetry.addData("Turret's Current Tick Count ", turretMotor.getCurrentPosition());
     }
 
     public boolean hasReachedTarget() {

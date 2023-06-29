@@ -14,23 +14,16 @@ public class PivotDebug extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Pivot pivot = new Pivot(this);
-        Claw claw = new Claw(this);
-        ClawFlip clawFlip = new ClawFlip(this);
-        Extendo extendo = new Extendo(this);
+        pivot.setScore();
         waitForStart();
         GamepadEx gamepad_2 = new GamepadEx(gamepad2);
+        pivot.setCollect();
         while (!isStopRequested() && opModeIsActive()) {
             if (gamepad_2.getButtonDown("a")) {
                 pivot.setCollect();
-                clawFlip.setCollect();
-                extendo.setState(Extendo.ExtendoState.FULL);
             }
             if (gamepad_2.getButtonDown("x")) {
-                Claw.getInstance().close();
-                sleep(200);
-                clawFlip.setScore();
                 pivot.setScore();
-                extendo.setState(Extendo.ExtendoState.RETRACTED);
             }
             gamepad_2.update();
             telemetry.update();

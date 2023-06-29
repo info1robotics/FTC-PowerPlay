@@ -54,8 +54,8 @@ import java.util.List;
 public class SampleMecanumDrive extends MecanumDrive {
     private static final RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR = RevHubOrientationOnRobot.LogoFacingDirection.DOWN;
     private static final RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(15.5, 0, 1.2);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(15.5, 0, 1.1);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
     public static double LATERAL_MULTIPLIER = 1;
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -71,7 +71,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
 
-    public ThreadedIMU imu;
+    public static ThreadedIMU imu;
     private VoltageSensor batteryVoltageSensor;
 
 
@@ -94,9 +94,9 @@ public class SampleMecanumDrive extends MecanumDrive {
 
 
         leftFront = hardwareMap.get(DcMotorEx.class, "FL");
-        leftRear = hardwareMap.get(DcMotorEx.class, "BL_Parallel");
+        leftRear = hardwareMap.get(DcMotorEx.class, "BL");
         rightRear = hardwareMap.get(DcMotorEx.class, "BR");
-        rightFront = hardwareMap.get(DcMotorEx.class, "FR_Perpendicular");
+        rightFront = hardwareMap.get(DcMotorEx.class, "FR");
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);

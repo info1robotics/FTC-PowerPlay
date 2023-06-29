@@ -57,9 +57,9 @@ public class TurretDebug extends LinearOpMode {
 
         new Thread(() -> {
             while (opModeIsActive() && !isStopRequested()) {
-                drive.vectorMove(gamepad1.left_stick_x, gamepad1.left_stick_y,
-                        gamepad1.right_stick_x + (gamepad1.left_trigger - gamepad1.right_trigger),
-                        gamepad1.right_bumper ? 0.6 : 1.0);
+                drive.vectorMove(gamepad2.left_stick_x, gamepad2.left_stick_y,
+                        (gamepad2.left_trigger - gamepad2.right_trigger),
+                        gamepad2.right_bumper ? 0.6 : 1.0);
                 gamepadEx1.update();
             }
         }).start();
@@ -80,36 +80,36 @@ public class TurretDebug extends LinearOpMode {
 //            }
 
             if (gamepadEx2.getButtonDown("b")) {
-                controller.togglePivotAndClawFlipAndClawForCollect();
+                controller.togglePivotAndClawFlip();
             }
 
             if (gamepadEx2.getButtonDown("a")) {
                 controller.claw.toggle();
             }
 
-            if (gamepad2.right_stick_x < -0.8) {
-                targetAngle = -90;
-            }
+//            if (gamepad2.right_stick_x < -0.8) {
+//                targetAngle = -90;
+//            }
+//
+//            if (gamepad2.right_stick_x > 0.8) {
+//                targetAngle = 90;
+//            }
 
-            if (gamepad2.right_stick_x > 0.8) {
-                targetAngle = 90;
-            }
-
-            if (gamepad2.left_stick_y > 0.8) {
+            if (gamepad2.right_stick_y > 0.8) {
                 targetHeight = Lift.LOW_POS;
             }
 
-            if (gamepad2.left_stick_x < -0.8) {
+            if (gamepad2.right_stick_x < -0.8) {
                 targetHeight = Lift.MID_POS;
             }
 
-            if (gamepad2.left_stick_y < -0.8) {
+            if (gamepad2.right_stick_y < -0.8) {
                 targetHeight = Lift.HIGH_POS;
             }
 
 
-            if (gamepad2.left_trigger > 0.1) targetAngle += angleThreshold;
-            if (gamepad2.right_trigger > 0.1) targetAngle -= angleThreshold;
+//            if (gamepad2.left_trigger > 0.1) targetAngle += angleThreshold;
+//            if (gamepad2.right_trigger > 0.1) targetAngle -= angleThreshold;
 
             if (targetAngle > upperAngleLimit) targetAngle = upperAngleLimit;
             if (targetAngle < lowerAngleLimit) targetAngle = lowerAngleLimit;
