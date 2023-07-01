@@ -83,16 +83,16 @@ public class TeleOp extends LinearOpMode {
             }
 
             if (gamepad2.circle) {
-                new Thread(() -> {
-                    controller.pivot.setCollect();
-                    sleep(500);
-                    controller.clawFlip.setCollect();
-                }).start();
+                controller.pivot.setCollect();
+                controller.clawFlip.setCollect();
             }
 
             if (gamepad2.square) {
-                controller.pivot.setScore();
-                controller.clawFlip.setScore();
+                new Thread(() -> {
+                    controller.pivot.setScore();
+                    sleep(550);
+                    controller.clawFlip.setScore();
+                }).start();
             }
 
 
