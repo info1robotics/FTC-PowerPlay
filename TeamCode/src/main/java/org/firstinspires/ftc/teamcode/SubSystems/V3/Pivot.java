@@ -10,7 +10,11 @@ public class Pivot {
     final Servo pivotLeft;
     final Servo pivotRight;
 
-    public static double PIVOT_SCORE = 0.7; // TODO: Find values
+    public static boolean collect = false;
+
+    public static double PIVOT_COLLECT = 0.05;
+
+    public static double PIVOT_SCORE = 0.75; // TODO: Find values
 
     public Pivot(LinearOpMode opMode) {
         pivotLeft = opMode.hardwareMap.get(Servo.class, "PivotLeft");
@@ -19,25 +23,27 @@ public class Pivot {
     }
 
     public void setCollect() {
-        pivotLeft.setPosition(0.0);
-        pivotRight.setPosition(0.0);
+        pivotLeft.setPosition(PIVOT_COLLECT);
+        pivotRight.setPosition(PIVOT_COLLECT);
+        collect = true;
     }
 
     public void setScore() {
         pivotLeft.setPosition(PIVOT_SCORE);
         pivotRight.setPosition(PIVOT_SCORE);
+        collect = false;
     }
 
     public boolean isCollect() {
-        return pivotLeft.getPosition() == 0.0;
+        return collect;
     }
 
     public boolean isScore() {
-        return pivotLeft.getPosition() == PIVOT_SCORE;
+        return !collect;
     }
 
     public void toggle() {
-        if (pivotLeft.getPosition() == 0.0) {
+        if (collect) {
             setScore();
         } else {
             setCollect();

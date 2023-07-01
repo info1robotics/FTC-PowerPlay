@@ -8,9 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Config
 public class Lift {
-    public static int LOW_POS = 0;
-    public static int MID_POS = 980;
-    public static int HIGH_POS = 2250;
+    public static int LOW_POS = 350;
+    public static int MID_POS = 1050;
+    public static int HIGH_POS = 1750;
+    public static int COLLECT_POS = 150;
     public DcMotorEx liftLeft, liftRight;
 
     public Lift(LinearOpMode opMode) {
