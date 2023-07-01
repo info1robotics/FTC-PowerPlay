@@ -53,7 +53,7 @@ public class StandardTrackingWheelLocalizer extends TwoTrackingWheelLocalizer {
 
         imu = ThreadedIMU.getInstance();
 
-        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "BR"));
+        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "BL"));
         perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "FR"));
         perpendicularEncoder.setDirection(Encoder.Direction.REVERSE);
         instance = this;

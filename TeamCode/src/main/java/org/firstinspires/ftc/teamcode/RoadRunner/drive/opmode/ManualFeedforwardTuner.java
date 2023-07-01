@@ -70,6 +70,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
 
         drive = new SampleMecanumDrive(hardwareMap);
+        SampleMecanumDrive.imu.startIMUThread(this);
         mode = Mode.TUNING_MODE;
 
         NanoClock clock = NanoClock.system();
@@ -77,6 +78,8 @@ public class ManualFeedforwardTuner extends LinearOpMode {
         telemetry.addData("targetVelocity", 0);
         telemetry.addData("measuredVelocity", 0);
         telemetry.addData("error", 0);
+        telemetry.addData("odo parallel", 0);
+        telemetry.addData("odo perpendicular", 0);
         telemetry.update();
 
         waitForStart();
@@ -121,6 +124,8 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                         telemetry.addData("targetVelocity", motionState.getV());
                         telemetry.addData("measuredVelocity", currentVelo);
                         telemetry.addData("error", motionState.getV() - currentVelo);
+                    telemetry.addData("odo parallel", ((StandardTrackingWheelLocalizer) drive.getLocalizer()).parallelEncoder.getCurrentPosition());
+                    telemetry.addData("odo perpendicular", ((StandardTrackingWheelLocalizer) drive.getLocalizer()).perpendicularEncoder.getCurrentPosition());
                     break;
                 case DRIVER_MODE:
                     if (gamepad1.b) {

@@ -18,6 +18,7 @@ public class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        SampleMecanumDrive.imu.startIMUThread(this);
 
 //        turret.goToAngle(0,1.0);
         waitForStart();
