@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class Controller {
     public Claw claw;
     public ClawFlip clawFlip;
-    public Extendo extendo;
+//    public Extendo extendo;
     public Pivot pivot;
     public Turret turret;
     public Lift lift;
@@ -18,7 +18,7 @@ public class Controller {
     public Controller(LinearOpMode opMode) {
         this.claw = new Claw(opMode);
         this.clawFlip = new ClawFlip(opMode);
-        this.extendo = new Extendo(opMode);
+//        this.extendo = new Extendo(opMode);
         this.pivot = new Pivot(opMode);
         this.turret = new Turret(opMode);
         this.lift = new Lift(opMode);
@@ -47,17 +47,5 @@ public class Controller {
         if (pivot.isCollect()) {
             claw.open();
         }
-    }
-
-    public void setCollectPivotAndClawFlipAndExtendo() {
-        pivot.setCollect();
-        clawFlip.setCollect();
-        extendo.setState(Extendo.ExtendoState.FULL);
-    }
-
-    public void setScorePivotAndClawFlipAndExtendo() {
-        pivot.setScore();
-        clawFlip.setScore();
-        extendo.setState(Extendo.ExtendoState.RETRACTED);
     }
 }

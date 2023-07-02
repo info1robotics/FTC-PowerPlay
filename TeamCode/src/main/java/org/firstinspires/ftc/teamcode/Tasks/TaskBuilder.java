@@ -4,6 +4,8 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequence;
 
+import java.util.function.Supplier;
+
 public class TaskBuilder {
     public static SerialTask serial(Task... task) {
         return new SerialTask(task);
