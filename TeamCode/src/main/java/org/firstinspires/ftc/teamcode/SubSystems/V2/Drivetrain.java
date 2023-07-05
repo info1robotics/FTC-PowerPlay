@@ -3,10 +3,12 @@ package org.firstinspires.ftc.teamcode.SubSystems.V2;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 
 public class Drivetrain {
 	private DcMotor fl, fr, bl, br;
+	private MotorConfigurationType mct1, mct2, mct3, mct4;
 
 	public Drivetrain(HardwareMap hardwareMap)
 	{
@@ -19,6 +21,27 @@ public class Drivetrain {
 		bl.setDirection(DcMotorSimple.Direction.FORWARD);
 		fl.setDirection(DcMotorSimple.Direction.FORWARD);
 		fr.setDirection(DcMotorSimple.Direction.REVERSE);
+
+		br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		mct1 = br.getMotorType().clone();
+		mct1.setAchieveableMaxRPMFraction(1.0);
+		br.setMotorType(mct1);
+
+		bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		mct2 = bl.getMotorType().clone();
+		mct2.setAchieveableMaxRPMFraction(1.0);
+		bl.setMotorType(mct2);
+
+		fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		mct3 = fr.getMotorType().clone();
+		mct3.setAchieveableMaxRPMFraction(1.0);
+		fr.setMotorType(mct3);
+
+		fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		mct4 = fl.getMotorType().clone();
+		mct4.setAchieveableMaxRPMFraction(1.0);
+		fl.setMotorType(mct4);
+
 	}
 
 	public void vectorMove(double x, double y, double t, double power)
