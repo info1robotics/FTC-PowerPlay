@@ -60,7 +60,7 @@ public class TeleOp extends LinearOpMode {
 
         new Thread(() -> {
             while (opModeIsActive() && !isStopRequested()) {
-                drive.vectorMove(gamepad1.left_stick_x, gamepad1.left_stick_y,
+                drive.vectorMove(-gamepad1.left_stick_x, gamepad1.left_stick_y,
                         (gamepad1.left_trigger - gamepad1.right_trigger),
                         gamepad1.right_bumper ? 0.6 : 1.0);
                 gamepadEx1.update();
@@ -75,10 +75,10 @@ public class TeleOp extends LinearOpMode {
             if (gamepad2.dpad_left) {
                 targetHeight = Lift.MID_POS;
             }
-            if (gamepad2.dpad_down) {
+            if (gamepad2.dpad_right) {
                 targetHeight = Lift.LOW_POS;
             }
-            if (gamepad2.dpad_right) {
+            if (gamepad2.dpad_down) {
                 targetHeight = Lift.COLLECT_POS;
             }
 

@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.CommonPackage.AutoUtils;
 import org.firstinspires.ftc.teamcode.EOCV.f41h12.AprilTagDetection_41h12;
@@ -22,6 +23,17 @@ public abstract class AutoBase extends LinearOpMode {
 
     public String junction = "";
     public boolean lockOnJunction = false;
+
+    double getBatteryVoltage() {
+        double result = Double.POSITIVE_INFINITY;
+        for (VoltageSensor sensor : hardwareMap.voltageSensor) {
+            double voltage = sensor.getVoltage();
+            if (voltage > 0) {
+                result = Math.min(result, voltage);
+            }
+        }
+        return result;
+    }
 
     @Override
     public final void runOpMode() throws InterruptedException {
@@ -44,6 +56,7 @@ public abstract class AutoBase extends LinearOpMode {
             ct.lift.setHeight(0, linkageVelocity);
 //            atag.detectZone();
 //            preferredZone = atag.getZone();
+            telemetry.addData("Voltage", getBatteryVoltage());
             telemetry.addData("IMU Heading", Math.toDegrees(drive.getExternalHeading()));
             telemetry.addData("IMU Heading Raw", Math.toDegrees(drive.getRawExternalHeading()));
             telemetry.update();
@@ -57,6 +70,7 @@ public abstract class AutoBase extends LinearOpMode {
 
         while(opModeIsActive()) {
             if (isStopRequested()) break;
+            telemetry.addData("Voltage", getBatteryVoltage());
             task.tick();
             ct.lift.setHeight(targetHeight, linkageVelocity);
             ct.turret.update();
