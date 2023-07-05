@@ -30,6 +30,8 @@ public abstract class AutoBase extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
 //        atag = new AprilTagDetection_41h12(this);
 
+        ct.lift.resetEncoders();
+
         ct.turret.resetEncoder();
         ct.turret.setTurretVelocity(1.0);
         ct.turret.setTargetAngle(0.0);

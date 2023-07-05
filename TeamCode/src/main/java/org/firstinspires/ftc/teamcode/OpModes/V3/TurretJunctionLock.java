@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.V3;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,8 +13,11 @@ import org.firstinspires.ftc.teamcode.SubSystems.V2.Drivetrain;
 import org.firstinspires.ftc.teamcode.SubSystems.V3.Turret;
 
 @TeleOp
+@Config
 public class TurretJunctionLock extends LinearOpMode {
-    public static String junction = "B2";
+    public static String junction = "B3";
+    public static double X = -90.27;
+    public static double Y = 60;
 
     public Pose2d convertToNormalAxis(Pose2d old) {
         return new Pose2d(-old.getY(), old.getX());
@@ -26,7 +30,7 @@ public class TurretJunctionLock extends LinearOpMode {
         Turret turret = new Turret(this);
 
         SampleMecanumDrive.imu.startIMUThread(this);
-        drive.setPoseEstimate(new Pose2d(-88, 60));
+        drive.setPoseEstimate(new Pose2d(X, Y));
 
         waitForStart();
         while (!isStopRequested() && isStarted()) {

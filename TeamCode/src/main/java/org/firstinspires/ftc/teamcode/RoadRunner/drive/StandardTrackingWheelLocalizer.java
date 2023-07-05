@@ -33,7 +33,7 @@ public class StandardTrackingWheelLocalizer extends TwoTrackingWheelLocalizer {
     // -68.15 mm x up down
     // - 28.6 mm y strafe
 
-    public static double X_MULTIPLIER = 0.9847477886 * 1.01116778644 * 0.9950930854 * 1.001094530019 * 1.001112347052 * 0.9965563442; // Multiplier in the X direction
+    public static double X_MULTIPLIER = 0.9847477886 * 1.01116778644 * 0.9950930854 * 1.001094530019 * 1.001112347052 * 0.9965563442 * 90/86.729; // Multiplier in the X direction
     public static double Y_MULTIPLIER = 0.9883093979 * 0.996307022 * 0.9976984206 * 0.9968466418 * 1.006781230913 * 0.9932782872 * 1.00355369514; // Multiplier in the Y direction
 
     // Parallel/Perpendicular to the forward axis

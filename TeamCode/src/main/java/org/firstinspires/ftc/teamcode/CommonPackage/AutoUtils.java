@@ -25,4 +25,16 @@ public class AutoUtils {
     public static int getDistance(Vector2d targetPosition, Vector2d currentPosition) {
         return getDistance(new Pose2d(targetPosition.getX(), targetPosition.getY(), 0), new Pose2d(currentPosition.getX(), currentPosition.getY(), 0));
     }
+
+    public static Pose2d pose(double x, double y, double heading) {
+        return new Pose2d(x, y, heading);
+    }
+
+    public static Pose2d pose(double x, double y) {
+        return new Pose2d(x, y, 0);
+    }
+
+    public static Vector2d vector(double x, double y) {
+        return new Vector2d(x, y);
+    }
 }

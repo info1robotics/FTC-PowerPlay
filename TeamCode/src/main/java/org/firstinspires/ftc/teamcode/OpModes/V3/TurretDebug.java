@@ -107,6 +107,10 @@ public class TurretDebug extends LinearOpMode {
                 targetHeight = Lift.HIGH_POS;
             }
 
+            if (gamepad2.right_stick_x > 0.8) {
+                targetHeight = -2;
+            }
+
 
 //            if (gamepad2.left_trigger > 0.1) targetAngle += angleThreshold;
 //            if (gamepad2.right_trigger > 0.1) targetAngle -= angleThreshold;
@@ -118,6 +122,8 @@ public class TurretDebug extends LinearOpMode {
             controller.lift.setHeight(targetHeight, 1);
             telemetry.addData("Turret's Current Angle Heading ", controller.turret.getCurrentAngleHeading());
             telemetry.addData("Turret's Current Tick Count ", controller.turret.turretMotor.getCurrentPosition());
+            telemetry.addData("Lift's Left Current Tick Count", controller.lift.liftLeft.getCurrentPosition());
+            telemetry.addData("Lift's Right Current Tick Count", controller.lift.liftRight.getCurrentPosition());
 
             updateQueue();
             gamepadEx2.update();
