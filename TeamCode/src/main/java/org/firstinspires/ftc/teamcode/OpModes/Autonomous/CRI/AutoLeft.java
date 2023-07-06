@@ -20,13 +20,13 @@ import org.firstinspires.ftc.teamcode.SubSystems.V3.Lift;
 @Autonomous
 public class AutoLeft extends AutoBase {
     public static double
-            START_TO_HIGH_X_1 = -29.5,
-            START_TO_HIGH_Y_1 = 54,
+            START_TO_HIGH_X_1 = -30,
+            START_TO_HIGH_Y_1 = 53.8,
             START_TO_HIGH_HEADING = -90,
-            HIGH_TO_STACK_X_1 = -38.6,
+            HIGH_TO_STACK_X_1 = -35.6,
             HIGH_TO_STACK_Y_1 = 60.6;
     public Pose2d startPoseLeft = new Pose2d(-90.27, 60);
-    public Trajectory highToStack1, startToHigh, highToStack12, stackToHigh1, highToStack2;
+    public Trajectory highToStack1, startToHigh, highToStack12, stackToHigh1, stackToHigh2, stackToHigh3, stackToHigh4, highToStack2, highToStack3, highToStack4;
 
     @Override
     public void onInit() {
@@ -55,14 +55,44 @@ public class AutoLeft extends AutoBase {
                 ))
                 .build();
 
-        stackToHigh1 = drive.trajectoryBuilder(highToStack12.end(), true)
+        stackToHigh1 = drive.trajectoryBuilder(highToStack12.end())
                 .lineToConstantHeading(vector(
-                        -33.85,
+                        -35.85,
                         46.57
                 ))
                 .build();
+
         highToStack2 = drive.trajectoryBuilder(stackToHigh1.end(), true)
                 .lineToConstantHeading(vector(-39, 79))
+                .build();
+
+        stackToHigh2 = drive.trajectoryBuilder(highToStack2.end())
+                .lineToConstantHeading(vector(
+                        -35.0,
+                        46
+                ))
+                .build();
+
+        highToStack3 = drive.trajectoryBuilder(stackToHigh2.end(), true)
+                .lineToConstantHeading(vector(-39, 79))
+                .build();
+
+        stackToHigh3 = drive.trajectoryBuilder(highToStack3.end())
+                .lineToConstantHeading(vector(
+                        -35.5,
+                        46.5
+                ))
+                .build();
+
+        highToStack4 = drive.trajectoryBuilder(stackToHigh3.end(), true)
+                .lineToConstantHeading(vector(-39, 79))
+                .build();
+
+        stackToHigh4 = drive.trajectoryBuilder(highToStack4.end())
+                .lineToConstantHeading(vector(
+                        -35.5,
+                        46.5
+                ))
                 .build();
 
 
@@ -74,8 +104,8 @@ public class AutoLeft extends AutoBase {
                         serial(
                                 execute(() -> {
                                     junction = "B3";
-                                    lockOnJunction = true;
-                                    ct.turret.setPower(.7);
+                                    lockOnJunction = false;
+                                    ct.turret.setTargetAngle(30);
                                 }),
                                 sleepms(200),
                                 execute(() -> {
@@ -114,7 +144,7 @@ public class AutoLeft extends AutoBase {
                 sleepms(100),
                 execute(() -> {
                     ct.pivot.setScore();
-                    ct.turret.setPower(1);
+                    ct.turret.setTurretVelocity(.84);;
                     junction = "B3";
                     lockOnJunction = true;
                 }),
@@ -125,7 +155,7 @@ public class AutoLeft extends AutoBase {
                                 execute(() -> {
                                     ct.clawFlip.setScore();
                                 }),
-                                sleepms(400),
+                                sleepms(650),
                                 execute(() -> {
                                     targetHeight = Lift.HIGH_POS;
                                 })
@@ -162,18 +192,18 @@ public class AutoLeft extends AutoBase {
                 sleepms(100),
                 execute(() -> {
                     ct.pivot.setScore();
-                    ct.turret.setPower(1);
+                    ct.turret.setTurretVelocity(.84);;
                     junction = "B3";
                     lockOnJunction = true;
                 }),
                 parallel(
-                        trajectory(stackToHigh1),
+                        trajectory(stackToHigh2),
                         serial(
                                 sleepms(500),
                                 execute(() -> {
                                     ct.clawFlip.setScore();
                                 }),
-                                sleepms(400),
+                                sleepms(650),
                                 execute(() -> {
                                     targetHeight = Lift.HIGH_POS;
                                 })
@@ -198,7 +228,7 @@ public class AutoLeft extends AutoBase {
                         })
                 ),
                 sleepms(200),
-                trajectory(highToStack2),
+                trajectory(highToStack3),
                 execute(() -> {
                     ct.claw.close();
                 }),
@@ -209,18 +239,18 @@ public class AutoLeft extends AutoBase {
                 sleepms(100),
                 execute(() -> {
                     ct.pivot.setScore();
-                    ct.turret.setPower(1);
+                    ct.turret.setTurretVelocity(.84);;
                     junction = "B3";
                     lockOnJunction = true;
                 }),
                 parallel(
-                        trajectory(stackToHigh1),
+                        trajectory(stackToHigh3),
                         serial(
                                 sleepms(500),
                                 execute(() -> {
                                     ct.clawFlip.setScore();
                                 }),
-                                sleepms(400),
+                                sleepms(650),
                                 execute(() -> {
                                     targetHeight = Lift.HIGH_POS;
                                 })
@@ -234,6 +264,8 @@ public class AutoLeft extends AutoBase {
                 execute(() -> {
                     ct.claw.open();
                 }),
+
+
                 // cycle 4
                 parallel(
                         execute(() -> {
@@ -245,7 +277,7 @@ public class AutoLeft extends AutoBase {
                         })
                 ),
                 sleepms(200),
-                trajectory(highToStack2),
+                trajectory(highToStack4),
                 execute(() -> {
                     ct.claw.close();
                 }),
@@ -256,18 +288,18 @@ public class AutoLeft extends AutoBase {
                 sleepms(100),
                 execute(() -> {
                     ct.pivot.setScore();
-                    ct.turret.setPower(1);
+                    ct.turret.setTurretVelocity(.85);
                     junction = "B3";
                     lockOnJunction = true;
                 }),
                 parallel(
-                        trajectory(stackToHigh1),
+                        trajectory(stackToHigh4),
                         serial(
                                 sleepms(500),
                                 execute(() -> {
                                     ct.clawFlip.setScore();
                                 }),
-                                sleepms(400),
+                                sleepms(650),
                                 execute(() -> {
                                     targetHeight = Lift.HIGH_POS;
                                 })

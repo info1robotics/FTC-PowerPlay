@@ -5,12 +5,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.CommonPackage.ThreadedIMU;
-import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.RoadRunner.drive.StandardTrackingWheelLocalizer;
 
 public class Turret {
     public static final int fieldSize = 192;
@@ -56,7 +52,7 @@ public class Turret {
         setTargetPosition((int) ((TICKS_PER_REVOLUTION / GEAR_RATIO) / (360 / targetAngle)));
 
         setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(power);
+        setVelocity(power);
     }
 
     public void setTargetDistance(double distance){ DISTANCE_THRESHOLD = distance; }
@@ -65,7 +61,7 @@ public class Turret {
     public void hardReset(){
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    public void setPower(double power) {
+    public void setVelocity(double power) {
         turretMotor.setPower(power);
     }
 
@@ -101,7 +97,6 @@ public class Turret {
         opMode.telemetry.addData("Shortest Relative", shortestRelative);
         opMode.telemetry.addData("Relative", angleDeg);
         targetAngle = getCurrentAngleHeading() - shortestRelative;
-        turretVelocity = 1;
     }
 
     public void setTargetPosition(int ticks) {
@@ -117,7 +112,7 @@ public class Turret {
         return Math.abs(turretMotor.getCurrentPosition() - turretMotor.getTargetPosition()) < 10;
     }
 
-    public void update(){
+    public void update() {
         setHeading(targetAngle, turretVelocity);
     }
 }

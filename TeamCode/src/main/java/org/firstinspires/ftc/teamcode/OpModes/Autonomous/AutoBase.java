@@ -7,10 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.CommonPackage.AutoUtils;
-import org.firstinspires.ftc.teamcode.EOCV.f41h12.AprilTagDetection_41h12;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.V3.Controller;
-import org.firstinspires.ftc.teamcode.SubSystems.V3.Turret;
 import org.firstinspires.ftc.teamcode.Tasks.Task;
 
 public abstract class AutoBase extends LinearOpMode {
@@ -45,7 +43,7 @@ public abstract class AutoBase extends LinearOpMode {
         ct.lift.resetEncoders();
 
         ct.turret.resetEncoder();
-        ct.turret.setTurretVelocity(1.0);
+        ct.turret.setVelocity(1.0);
         ct.turret.setTargetAngle(0.0);
 
         onInit();
@@ -73,14 +71,14 @@ public abstract class AutoBase extends LinearOpMode {
             telemetry.addData("Voltage", getBatteryVoltage());
             task.tick();
             ct.lift.setHeight(targetHeight, linkageVelocity);
-            ct.turret.update();
 
             if (lockOnJunction && !junction.equals("")) {
                 Pose2d normalisedPosition = AutoUtils.convertToNormalAxis(drive.getPoseEstimate());
                 ct.turret.lockOnJunction(junction, normalisedPosition);
-                ct.turret.setHeading((Turret.targetAngle), 1);
+//                ct.turret.setHeading((Turret.targetAngle), .6);
             }
-
+            telemetry.addData("Turret Velo", ct.turret.turretMotor.getPower());
+            ct.turret.update();
             drive.update();
             telemetry.update();
         }
