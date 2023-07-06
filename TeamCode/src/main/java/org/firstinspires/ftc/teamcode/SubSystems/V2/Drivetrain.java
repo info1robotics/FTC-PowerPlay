@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 
 
 public class Drivetrain {
-	private DcMotor fl, fr, bl, br;
+	public DcMotor fl, fr, bl, br;
 	private MotorConfigurationType mct1, mct2, mct3, mct4;
 
 	public Drivetrain(HardwareMap hardwareMap)
