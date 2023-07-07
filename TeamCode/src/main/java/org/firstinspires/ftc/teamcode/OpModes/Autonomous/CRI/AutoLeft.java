@@ -11,14 +11,21 @@ import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.trajectorySequenc
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.profile.AccelerationConstraint;
+import com.acmerobotics.roadrunner.profile.VelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.OpModes.Autonomous.AutoBase;
 import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.SubSystems.V3.Lift;
+
+import java.util.Arrays;
 
 @Config
 @Autonomous
@@ -31,8 +38,11 @@ public class AutoLeft extends AutoBase {
             HIGH_TO_STACK_Y_1 = 60.6;
     public Pose2d startPoseLeft = new Pose2d(-90.27, 60);
     public Trajectory highToStack1, highToStack12, stackToHigh1, stackToHigh2, stackToHigh3, stackToHigh4, stackToHigh5, highToStack2, highToStack3, highToStack4, highToStack5;
-    public TrajectorySequence startToHigh;
-
+    public TrajectorySequence startToHigh, parkTest;
+    TrajectoryVelocityConstraint fastConstraint = new MinVelocityConstraint(Arrays.asList(
+            new TranslationalVelocityConstraint(120)
+    ));
+    ProfileAccelerationConstraint accelConstraint = new ProfileAccelerationConstraint(120);
     @Override
     public void onInit() {
         drive.setPoseEstimate(startPoseLeft);
@@ -48,14 +58,7 @@ public class AutoLeft extends AutoBase {
 
         highToStack1 = drive.trajectoryBuilder(startToHigh.end(), true)
                 .lineToConstantHeading(vector(
-                        HIGH_TO_STACK_X_1,
-                        HIGH_TO_STACK_Y_1
-                ))
-                .build();
-
-        highToStack12 = drive.trajectoryBuilder(highToStack1.end(), true)
-                .lineToConstantHeading(vector(
-                        -39.3,
+                        -42.3,
                         79
                 ))
                 .addSpatialMarker(vector(-39.3, 78), () -> {
@@ -63,7 +66,7 @@ public class AutoLeft extends AutoBase {
                 })
                 .build();
 
-        stackToHigh1 = drive.trajectoryBuilder(highToStack12.end())
+        stackToHigh1 = drive.trajectoryBuilder(highToStack1.end())
                 .lineToConstantHeading(vector(
                         -35.85,
                         46.57
@@ -126,6 +129,12 @@ public class AutoLeft extends AutoBase {
                 ))
                 .build();
 
+        parkTest = drive.trajectorySequenceBuilder(stackToHigh5.end())
+                .lineToConstantHeading(vector(-39.4, 79.4))
+                .setVelConstraint(fastConstraint)
+                .setAccelConstraint(accelConstraint)
+                .build();
+
 
         ct.claw.close();
 
@@ -152,7 +161,7 @@ public class AutoLeft extends AutoBase {
                 execute(() -> {
                     ct.claw.open();
                 }),
-                sleepms(30),
+                sleepms(20),
                 parallel(
                         execute(() -> {
                             lockOnJunction = false;
@@ -161,19 +170,14 @@ public class AutoLeft extends AutoBase {
                             ct.turret.setTurretVelocity(.44);
                             targetHeight = 500;
                             ct.turret.setTargetAngle(0);
-                        }),
-                        trajectory(highToStack1)
+                        })
                 ),
-//                sleepms(30),
-                trajectory(highToStack12),
-//                execute(() -> {
-//                    ct.claw.close();
-//                }),
-//                sleepms(130),
+                sleepms(20),
+                trajectory(highToStack1),
                 execute(() -> {
                     targetHeight = 1000;
                 }),
-                sleepms(30),
+                sleepms(20),
                 execute(() -> {
                     ct.pivot.setScore();
                     ct.turret.setTurretVelocity(.24);
@@ -193,11 +197,11 @@ public class AutoLeft extends AutoBase {
                                 })
                         )
                 ),
-                sleepms(20),
+                sleepms(10),
                 execute(() -> {
                     targetHeight = Lift.HIGH_POS - 600;
                 }),
-                sleepms(30),
+                sleepms(20),
                 execute(() -> {
                     ct.claw.open();
                 }),
@@ -213,12 +217,12 @@ public class AutoLeft extends AutoBase {
                             ct.turret.setTargetAngle(0);
                         })
                 ),
-                sleepms(30),
+                sleepms(20),
                 trajectory(highToStack2),
                 execute(() -> {
                     targetHeight = 1000;
                 }),
-                sleepms(30),
+                sleepms(20),
                 execute(() -> {
                     ct.pivot.setScore();
                     ct.turret.setTurretVelocity(.24);
@@ -238,11 +242,11 @@ public class AutoLeft extends AutoBase {
                                 })
                         )
                 ),
-                sleepms(20),
+                sleepms(10),
                 execute(() -> {
                     targetHeight = Lift.HIGH_POS - 600;
                 }),
-                sleepms(30),
+                sleepms(20),
                 execute(() -> {
                     ct.claw.open();
                 }),
@@ -257,12 +261,12 @@ public class AutoLeft extends AutoBase {
                             ct.turret.setTargetAngle(0);
                         })
                 ),
-                sleepms(30),
+                sleepms(20),
                 trajectory(highToStack3),
                 execute(() -> {
                     targetHeight = 1000;
                 }),
-                sleepms(30),
+                sleepms(20),
                 execute(() -> {
                     ct.pivot.setScore();
                     ct.turret.setTurretVelocity(.24);
@@ -282,11 +286,11 @@ public class AutoLeft extends AutoBase {
                                 })
                         )
                 ),
-                sleepms(20),
+                sleepms(10),
                 execute(() -> {
                     targetHeight = Lift.HIGH_POS - 600;
                 }),
-                sleepms(30),
+                sleepms(20),
                 execute(() -> {
                     ct.claw.open();
                 }),
@@ -303,12 +307,12 @@ public class AutoLeft extends AutoBase {
                             ct.turret.setTargetAngle(0);
                         })
                 ),
-                sleepms(30),
+                sleepms(20),
                 trajectory(highToStack4),
                 execute(() -> {
                     targetHeight = 1000;
                 }),
-                sleepms(30),
+                sleepms(20),
                 execute(() -> {
                     ct.pivot.setScore();
                     ct.turret.setTurretVelocity(.24);
@@ -328,11 +332,11 @@ public class AutoLeft extends AutoBase {
                                 })
                         )
                 ),
-                sleepms(20),
+                sleepms(10),
                 execute(() -> {
                     targetHeight = Lift.HIGH_POS - 600;
                 }),
-                sleepms(30),
+                sleepms(20),
                 execute(() -> {
                     ct.claw.open();
                 }),
@@ -348,12 +352,12 @@ public class AutoLeft extends AutoBase {
                             ct.turret.setTargetAngle(0);
                         })
                 ),
-                sleepms(30),
+                sleepms(20),
                 trajectory(highToStack5),
                 execute(() -> {
                     targetHeight = 1000;
                 }),
-                sleepms(30),
+                sleepms(20),
                 execute(() -> {
                     ct.pivot.setScore();
                     ct.turret.setTurretVelocity(.24);
@@ -373,14 +377,27 @@ public class AutoLeft extends AutoBase {
                                 })
                         )
                 ),
-                sleepms(20),
+                sleepms(10),
                 execute(() -> {
                     targetHeight = Lift.HIGH_POS - 600;
                 }),
-                sleepms(30),
+                sleepms(20),
                 execute(() -> {
                     ct.claw.open();
-                })
+                }),
+                parallel(
+                        trajectorySequence(parkTest),
+                        serial(
+                                execute(() -> {
+                                    ct.turret.setTurretVelocity(0);
+                                    ct.turret.setTargetAngle(0);
+                                    ct.clawFlip.setScore();
+                                }),
+                                execute(() -> {
+                                    targetHeight = 0;
+                                })
+                        )
+                )
         );
     }
 }
