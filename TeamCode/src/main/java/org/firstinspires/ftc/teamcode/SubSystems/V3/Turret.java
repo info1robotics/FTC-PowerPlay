@@ -77,7 +77,7 @@ public class Turret {
         return (turretMotor.getCurrentPosition() * 360 * GEAR_RATIO) / TICKS_PER_REVOLUTION;
     }
 
-    public void lockOnJunction(String junction, Pose2d robot) {
+    public void lockOnJunction(String junction, Pose2d robot, double offset) {
         int[] parsedCoordinates = parseCoordinates(junction);
         double robotX = robot.getX();
         double robotY = robot.getY();
@@ -96,7 +96,7 @@ public class Turret {
         }
         opMode.telemetry.addData("Shortest Relative", shortestRelative);
         opMode.telemetry.addData("Relative", angleDeg);
-        targetAngle = getCurrentAngleHeading() - shortestRelative;
+        targetAngle = getCurrentAngleHeading() - shortestRelative + offset;
     }
 
     public void setTargetPosition(int ticks) {

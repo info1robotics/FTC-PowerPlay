@@ -21,6 +21,7 @@ public abstract class AutoBase extends LinearOpMode {
 
     public String junction = "";
     public boolean lockOnJunction = false;
+    public double autoAimOffset = 0.0;
 
     double getBatteryVoltage() {
         double result = Double.POSITIVE_INFINITY;
@@ -54,6 +55,8 @@ public abstract class AutoBase extends LinearOpMode {
             ct.lift.setHeight(0, linkageVelocity);
 //            atag.detectZone();
 //            preferredZone = atag.getZone();
+            telemetry.addData("X", drive.getPoseEstimate().getX());
+            telemetry.addData("Y", drive.getPoseEstimate().getY());
             telemetry.addData("Voltage", getBatteryVoltage());
             telemetry.addData("IMU Heading", Math.toDegrees(drive.getExternalHeading()));
             telemetry.addData("IMU Heading Raw", Math.toDegrees(drive.getRawExternalHeading()));
@@ -74,7 +77,7 @@ public abstract class AutoBase extends LinearOpMode {
 
             if (lockOnJunction && !junction.equals("")) {
                 Pose2d normalisedPosition = AutoUtils.convertToNormalAxis(drive.getPoseEstimate());
-                ct.turret.lockOnJunction(junction, normalisedPosition);
+                ct.turret.lockOnJunction(junction, normalisedPosition, autoAimOffset);
 //                ct.turret.setHeading((Turret.targetAngle), .6);
             }
             telemetry.addData("Turret Velo", ct.turret.turretMotor.getPower());

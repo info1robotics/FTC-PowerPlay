@@ -27,14 +27,14 @@ import java.util.Collections;
 
 @Config
 @Autonomous
-public class AutoLeft extends AutoBase {
+public class AutoRight extends AutoBase {
     public static double
             START_TO_HIGH_X_1 = -26,
-            START_TO_HIGH_Y_1 = 55,
-            START_TO_HIGH_HEADING = -90,
+            START_TO_HIGH_Y_1 = -55,
+            START_TO_HIGH_HEADING = 90,
             HIGH_TO_STACK_X_1 = -35.6,
-            HIGH_TO_STACK_Y_1 = 60.6;
-    public Pose2d startPoseLeft = new Pose2d(-88.27, 59.5);
+            HIGH_TO_STACK_Y_1 = -60.6;
+    public Pose2d startPoseLeft = new Pose2d(-85.27, -59.5);
     public Trajectory highToStack1, highToStack12, stackToHigh1, stackToHigh2, stackToHigh3, stackToHigh4, stackToHigh5, highToStack2, highToStack3, highToStack4, highToStack5;
     public TrajectorySequence startToHigh, parkTest;
     TrajectoryVelocityConstraint fastConstraint = new MinVelocityConstraint(Collections.singletonList(
@@ -45,6 +45,7 @@ public class AutoLeft extends AutoBase {
     @Override
     public void onInit() {
         drive.setPoseEstimate(startPoseLeft);
+        autoAimOffset = -5;
 
 
         startToHigh = drive.trajectorySequenceBuilder(startPoseLeft)
@@ -58,9 +59,9 @@ public class AutoLeft extends AutoBase {
         highToStack1 = drive.trajectoryBuilder(startToHigh.end(), true)
                 .lineToConstantHeading(vector(
                         -38.3,
-                        80
+                        -80
                 ))
-                .addSpatialMarker(vector(-38.3, 79.5), () -> {
+                .addSpatialMarker(vector(-38.3, -79.5), () -> {
                     ct.claw.close();
                 })
                 .build();
@@ -68,11 +69,11 @@ public class AutoLeft extends AutoBase {
         stackToHigh1 = drive.trajectoryBuilder(highToStack1.end())
                 .lineToConstantHeading(vector(
                         -31,
-                        51.5
+                        -51.5
                 ))
                 .addSpatialMarker(vector(
                         -31,
-                        51.5
+                        -51.5
                 ), () -> {
                     // turret not working targetHeight = Lift.HIGH_POS - 600;
                 })
@@ -81,9 +82,9 @@ public class AutoLeft extends AutoBase {
         highToStack2 = drive.trajectoryBuilder(stackToHigh1.end(), true)
                 .lineToConstantHeading(vector(
                         -37,
-                        79
+                        -79
                 ))
-                .addSpatialMarker(vector(-38.3, 79.5), () -> {
+                .addSpatialMarker(vector(-38.3, -79.5), () -> {
                     ct.claw.close();
                 })
                 .build();
@@ -91,11 +92,11 @@ public class AutoLeft extends AutoBase {
         stackToHigh2 = drive.trajectoryBuilder(highToStack2.end())
                 .lineToConstantHeading(vector(
                         -31,
-                        51.5
+                        -51.5
                 ))
                 .addSpatialMarker(vector(
                         -31,
-                        51.5
+                        -51.5
                 ), () -> {
                     // turret not working targetHeight = Lift.HIGH_POS - 600;
                 })
@@ -104,9 +105,9 @@ public class AutoLeft extends AutoBase {
         highToStack3 = drive.trajectoryBuilder(stackToHigh2.end(), true)
                 .lineToConstantHeading(vector(
                         -37,
-                        79
+                        -79
                 ))
-                .addSpatialMarker(vector(-38.3, 79.5), () -> {
+                .addSpatialMarker(vector(-38.3, -79.5), () -> {
                     ct.claw.close();
                 })
                 .build();
@@ -114,11 +115,11 @@ public class AutoLeft extends AutoBase {
         stackToHigh3 = drive.trajectoryBuilder(highToStack3.end())
                 .lineToConstantHeading(vector(
                         -31,
-                        51.5
+                        -51.5
                 ))
                 .addSpatialMarker(vector(
                         -31,
-                        51.5
+                        -51.5
                 ), () -> {
                     // turret not working targetHeight = Lift.HIGH_POS - 600;
                 })
@@ -127,7 +128,7 @@ public class AutoLeft extends AutoBase {
         highToStack4 = drive.trajectoryBuilder(stackToHigh3.end(), true)
                 .lineToConstantHeading(vector(
                         -37,
-                        79
+                        -79
                 ))
                 .addSpatialMarker(vector(-38.3, 79.5), () -> {
                     ct.claw.close();
@@ -137,11 +138,11 @@ public class AutoLeft extends AutoBase {
         stackToHigh4 = drive.trajectoryBuilder(highToStack4.end())
                 .lineToConstantHeading(vector(
                         -31,
-                        51.5
+                        -51.5
                 ))
                 .addSpatialMarker(vector(
                         -31,
-                        51.5
+                        -51.5
                 ), () -> {
                     // turret not working targetHeight = Lift.HIGH_POS - 600;
                 })
@@ -150,9 +151,9 @@ public class AutoLeft extends AutoBase {
         highToStack5 = drive.trajectoryBuilder(stackToHigh4.end(), true)
                 .lineToConstantHeading(vector(
                         -37,
-                        79
+                        -79
                 ))
-                .addSpatialMarker(vector(-38.3, 79.5), () -> {
+                .addSpatialMarker(vector(-38.3, -79.5), () -> {
                     ct.claw.close();
                 })
                 .build();
@@ -160,18 +161,18 @@ public class AutoLeft extends AutoBase {
         stackToHigh5 = drive.trajectoryBuilder(highToStack5.end())
                 .lineToConstantHeading(vector(
                         -31,
-                        51.5
+                        -51.5
                 ))
                 .addSpatialMarker(vector(
                         -31,
-                        51.5
+                        -51.5
                 ), () -> {
                     // turret not working targetHeight = Lift.HIGH_POS - 600;
                 })
                 .build();
 
         parkTest = drive.trajectorySequenceBuilder(stackToHigh5.end())
-                .lineToConstantHeading(vector(-39.4, 88.4))
+                .lineToConstantHeading(vector(-39.4, -88.4))
                 .setVelConstraint(fastConstraint)
                 .setAccelConstraint(accelConstraint)
                 .build();
@@ -184,9 +185,9 @@ public class AutoLeft extends AutoBase {
                         trajectorySequence(startToHigh),
                         serial(
                                 execute(() -> {
-                                    junction = "B3";
+                                    junction = "F3";
                                     lockOnJunction = false;
-                                    ct.turret.setTargetAngle(30);
+                                    ct.turret.setTargetAngle(-30);
                                 }),
                                 sleepms(201),
                                 execute(() -> {
@@ -210,7 +211,7 @@ public class AutoLeft extends AutoBase {
                             ct.pivot.setCollect();
                             ct.turret.setTurretVelocity(.44);
                             // turret not working targetHeight = 500;
-                            ct.turret.setTargetAngle(-6.5);
+                            ct.turret.setTargetAngle(6.5);
                         })
                 ),
                 sleepms(20),
@@ -222,7 +223,7 @@ public class AutoLeft extends AutoBase {
                 execute(() -> {
                     ct.pivot.setScore();
                     ct.turret.setTurretVelocity(.24);
-                    junction = "B3";
+                    junction = "F3";
                     lockOnJunction = true;
                 }),
                 parallel(
@@ -263,7 +264,7 @@ public class AutoLeft extends AutoBase {
                 execute(() -> {
                     ct.pivot.setScore();
                     ct.turret.setTurretVelocity(.24);
-                    junction = "B3";
+                    junction = "F3";
                     lockOnJunction = true;
                 }),
                 parallel(
@@ -303,7 +304,7 @@ public class AutoLeft extends AutoBase {
                 execute(() -> {
                     ct.pivot.setScore();
                     ct.turret.setTurretVelocity(.24);
-                    junction = "B3";
+                    junction = "F3";
                     lockOnJunction = true;
                 }),
                 parallel(
@@ -345,7 +346,7 @@ public class AutoLeft extends AutoBase {
                 execute(() -> {
                     ct.pivot.setScore();
                     ct.turret.setTurretVelocity(.24);
-                    junction = "B3";
+                    junction = "F3";
                     lockOnJunction = true;
                 }),
                 parallel(
@@ -385,7 +386,7 @@ public class AutoLeft extends AutoBase {
                 execute(() -> {
                     ct.pivot.setScore();
                     ct.turret.setTurretVelocity(.24);
-                    junction = "B3";
+                    junction = "F3";
                     lockOnJunction = true;
                 }),
                 parallel(

@@ -16,8 +16,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.V3.Turret;
 @Config
 public class TurretJunctionLock extends LinearOpMode {
     public static String junction = "B3";
-    public static double X = -90.27;
-    public static double Y = 60;
+    public static double X = -88.27;
+    public static double Y = 59.5;
 
     public Pose2d convertToNormalAxis(Pose2d old) {
         return new Pose2d(-old.getY(), old.getX());
@@ -44,7 +44,7 @@ public class TurretJunctionLock extends LinearOpMode {
             telemetry.addData("Target X", Turret.parseCoordinates(junction)[0]);
             telemetry.addData("Target Y", Turret.parseCoordinates(junction)[1]);
 
-            turret.lockOnJunction(junction, normalPos);
+            turret.lockOnJunction(junction, normalPos, 0);
 
             telemetry.addData("Target Angle", Turret.targetAngle);
             telemetry.addData("Current Angle", turret.getCurrentAngleHeading());
