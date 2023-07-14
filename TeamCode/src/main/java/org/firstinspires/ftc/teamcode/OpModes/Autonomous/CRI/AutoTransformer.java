@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.CommonPackage.AutoUtils.vector;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.execute;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.parallel;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.serial;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.sleepms;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.trajectorySequence;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -18,6 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.OpModes.Autonomous.AutoBase;
 import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.SubSystems.V3.Lift;
 
 import java.util.Collections;
 
@@ -25,7 +27,7 @@ import java.util.Collections;
 @Autonomous
 public class AutoTransformer extends AutoBase {
     public Pose2d startPoseCenter = new Pose2d(-88.27, 11.5);
-    public TrajectorySequence forward, align, transformer;
+    public TrajectorySequence forward, align, transformerAlign, transformer;
 
 
     TrajectoryVelocityConstraint fastConstraint = new MinVelocityConstraint(Collections.singletonList(
@@ -43,6 +45,12 @@ public class AutoTransformer extends AutoBase {
                 .setAccelConstraint(accelConstraint)
                 .lineToConstantHeading(vector(-9, 18))
                 .addSpatialMarker(
+                        vector(-43, 15),
+                        () -> {
+                            targetHeight = Lift.HIGH_POS;
+                        }
+                )
+                .addSpatialMarker(
                         vector(-26, 15),
                         () -> {
                             ct.turret.setTargetAngle(30);
@@ -55,10 +63,10 @@ public class AutoTransformer extends AutoBase {
                 .lineToLinearHeading(pose(-12, 12, Math.toRadians(90)))
                 .build();
 
-        transformer = drive.trajectorySequenceBuilder(align.end())
+        transformerAlign = drive.trajectorySequenceBuilder(align.end())
                 .setVelConstraint(fastConstraint)
                 .setAccelConstraint(accelConstraint)
-                .lineToLinearHeading(pose(-8.8, 75.5, Math.toRadians(90)))
+                .lineToLinearHeading(pose(-12, 70.5, Math.toRadians(90)))
                 .addSpatialMarker(
                         vector(-12, 30),
                         () -> {
@@ -70,12 +78,13 @@ public class AutoTransformer extends AutoBase {
                         vector(-12, 55),
                         () -> {
                             ct.setCollectPivotAndClawFlip();
-                            new Thread(() -> {
-                                sleep(750);
-                                ct.claw.close();
-                            }).start();
                         }
                 )
+                .build();
+
+        transformer = drive.trajectorySequenceBuilder(transformerAlign.end())
+                .resetConstraints()
+                .lineToConstantHeading(vector(-8.8, 75.5))
                 .build();
 
 
@@ -83,15 +92,22 @@ public class AutoTransformer extends AutoBase {
 
         task = serial(
                 trajectorySequence(forward),
+                sleepms(1200),
+                execute(() -> targetHeight = Lift.HIGH_POS - 600),
+                sleepms(100),
+                execute(() -> ct.claw.open()),
                 parallel(
                         trajectorySequence(align),
                         execute(() -> {
                             ct.turret.setTargetAngle(180);
+                            targetHeight = 100;
                         })
                 ),
                 execute(() -> {
                     ct.claw.open();
                 }),
+                trajectorySequence(transformerAlign),
+                sleepms(1000),
                 trajectorySequence(transformer),
                 execute(() -> {
                     ct.setScorePivotAndClawFlip();
