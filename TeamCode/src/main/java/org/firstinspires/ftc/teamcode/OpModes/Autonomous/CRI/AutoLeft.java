@@ -37,11 +37,12 @@ public class AutoLeft extends AutoBase {
             HIGH_TO_STACK_Y_1 = 60.6;
     public Pose2d startPoseLeft = new Pose2d(-88.27, 59.5);
     public Trajectory highToStack1, highToStack12, stackToHigh1, stackToHigh2, stackToHigh3, stackToHigh4, stackToHigh5, highToStack2, highToStack3, highToStack4, highToStack5;
-    public TrajectorySequence startToHigh, parkTest;
+    public TrajectorySequence startToHigh, parkLeft, parkRight, parkMid;
     TrajectoryVelocityConstraint fastConstraint = new MinVelocityConstraint(Collections.singletonList(
             new TranslationalVelocityConstraint(120)
     ));
     ProfileAccelerationConstraint accelConstraint = new ProfileAccelerationConstraint(120);
+    ProfileAccelerationConstraint accelConstraintPreload = new ProfileAccelerationConstraint(45);
 
     @Override
     public void onInit() {
@@ -57,10 +58,10 @@ public class AutoLeft extends AutoBase {
 
         highToStack1 = drive.trajectoryBuilder(startToHigh.end(), true)
                 .lineToConstantHeading(vector(
-                        -40,
-                        80.6
+                        -41.5,
+                        81.5
                 ))
-                .addSpatialMarker(vector(-40, 81), () -> {
+                .addSpatialMarker(vector(-41.5, 81.5), () -> {
                     ct.claw.close();
                 })
                 .build();
@@ -68,22 +69,22 @@ public class AutoLeft extends AutoBase {
         stackToHigh1 = drive.trajectoryBuilder(highToStack1.end())
                 .lineToConstantHeading(vector(
                         -30,
-                        51.8
+                        50.8
                 ))
                 .addSpatialMarker(vector(
                         -30,
-                        51.8
+                        50.8
                 ), () -> {
-                    targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 100 - 600;
                 })
                 .build();
 
         highToStack2 = drive.trajectoryBuilder(stackToHigh1.end(), true)
                 .lineToConstantHeading(vector(
                         -36.5,
-                        80.6
+                        81.5
                 ))
-                .addSpatialMarker(vector(-36.5, 81), () -> {
+                .addSpatialMarker(vector(-36.5, 81.5), () -> {
                     ct.claw.close();
                 })
                 .build();
@@ -91,22 +92,22 @@ public class AutoLeft extends AutoBase {
         stackToHigh2 = drive.trajectoryBuilder(highToStack2.end())
                 .lineToConstantHeading(vector(
                         -30,
-                        51.8
+                        50.8
                 ))
                 .addSpatialMarker(vector(
                         -30,
-                        51.8
+                        50.8
                 ), () -> {
-                    targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 100 - 600;
                 })
                 .build();
 
         highToStack3 = drive.trajectoryBuilder(stackToHigh2.end(), true)
                 .lineToConstantHeading(vector(
                         -36.3,
-                        80.6
+                        81.6
                 ))
-                .addSpatialMarker(vector(-36.3, 81), () -> {
+                .addSpatialMarker(vector(-36.3, 81.6), () -> {
                     ct.claw.close();
                 })
                 .build();
@@ -114,22 +115,22 @@ public class AutoLeft extends AutoBase {
         stackToHigh3 = drive.trajectoryBuilder(highToStack3.end())
                 .lineToConstantHeading(vector(
                         -30,
-                        51.8
+                        50.8
                 ))
                 .addSpatialMarker(vector(
                         -30,
-                        51.8
+                        50.8
                 ), () -> {
-                    targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 100 - 600;
                 })
                 .build();
 
         highToStack4 = drive.trajectoryBuilder(stackToHigh3.end(), true)
                 .lineToConstantHeading(vector(
                         -36.3,
-                        80.6
+                        81.6
                 ))
-                .addSpatialMarker(vector(-36.3, 81), () -> {
+                .addSpatialMarker(vector(-36.3, 81.6), () -> {
                     ct.claw.close();
                 })
                 .build();
@@ -137,22 +138,22 @@ public class AutoLeft extends AutoBase {
         stackToHigh4 = drive.trajectoryBuilder(highToStack4.end())
                 .lineToConstantHeading(vector(
                         -30,
-                        51.8
+                        50.8
                 ))
                 .addSpatialMarker(vector(
                         -30,
-                        51.8
+                        50.8
                 ), () -> {
-                    targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 100 - 600;
                 })
                 .build();
 
         highToStack5 = drive.trajectoryBuilder(stackToHigh4.end(), true)
                 .lineToConstantHeading(vector(
                         -36.3,
-                        80.6
+                        81.6
                 ))
-                .addSpatialMarker(vector(-36.3, 79.5), () -> {
+                .addSpatialMarker(vector(-36.3, 81.5), () -> {
                     ct.claw.close();
                 })
                 .build();
@@ -160,18 +161,30 @@ public class AutoLeft extends AutoBase {
         stackToHigh5 = drive.trajectoryBuilder(highToStack5.end())
                 .lineToConstantHeading(vector(
                         -30,
-                        51.8
+                        50.8
                 ))
                 .addSpatialMarker(vector(
                         -30,
-                        51.8
+                        50.8
                 ), () -> {
-                    targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 100 - 600;
                 })
                 .build();
 
-        parkTest = drive.trajectorySequenceBuilder(stackToHigh5.end())
-                .lineToConstantHeading(vector(-39.4, 88.4))
+        parkLeft = drive.trajectorySequenceBuilder(stackToHigh5.end())
+                .lineToConstantHeading(vector(-41.4, 65 + 25))
+                .setVelConstraint(fastConstraint)
+                .setAccelConstraint(accelConstraint)
+                .build();
+
+        parkRight = drive.trajectorySequenceBuilder(stackToHigh5.end())
+                .lineToConstantHeading(vector(-41.4, 65 - 25))
+                .setVelConstraint(fastConstraint)
+                .setAccelConstraint(accelConstraint)
+                .build();
+
+        parkMid = drive.trajectorySequenceBuilder(stackToHigh5.end())
+                .lineToConstantHeading(vector(-41.4, 65))
                 .setVelConstraint(fastConstraint)
                 .setAccelConstraint(accelConstraint)
                 .build();
@@ -180,245 +193,254 @@ public class AutoLeft extends AutoBase {
         ct.claw.close();
 
         task = serial(
-                parallel(
-                        trajectorySequence(startToHigh),
-                        serial(
-                                execute(() -> {
-                                    junction = "B3";
-                                    lockOnJunction = false;
-                                    ct.turret.setTurretVelocity(1.0);
-                                    ct.turret.setTargetAngle(30);
-                                }),
-                                sleepms(201),
-                                execute(() -> {
-                                    targetHeight = Lift.HIGH_POS;
-                                    ct.pivot.setScore();
-                                })
-                        )
-                ),
-                sleepms(70),
-                execute(() -> {
-                    targetHeight = Lift.HIGH_POS - 600;
-                }),
-                sleepms(50),
-                execute(() -> {
-                    ct.claw.open();
-                }),
-                sleepms(43),
-                parallel(
-                        execute(() -> {
-                            lockOnJunction = false;
-                            ct.clawFlip.setCollect();
-                            ct.pivot.setCollect();
-                            ct.turret.setTurretVelocity(.44);
-                            targetHeight = 450;
-                            ct.turret.setTargetAngle(-13.5);
-                        })
-                ),
-                sleepms(20),
-                trajectory(highToStack1),
-                execute(() -> {
-                    targetHeight = 900;
-                }),
-                sleepms(43),
-                execute(() -> {
-                    ct.turret.setTurretVelocity(.64);
-                    junction = "B3";
-                    lockOnJunction = true;
-                    autoAimOffset = 9;
-                }),
-                parallel(
-                        trajectory(stackToHigh1),
-                        serial(
-                                sleepms(500),
-                                execute(() -> {
-                                    ct.clawFlip.setScore();
-                                }),
-                                sleepms(350),
-                                execute(() -> {
-                                    targetHeight = Lift.HIGH_POS;
-                                    ct.pivot.setScore();
-                                })
-                        )
-                ),
+                    parallel(
+                            trajectorySequence(startToHigh),
+                            serial(
+                                    execute(() -> {
+                                        junction = "B3";
+                                        lockOnJunction = false;
+                                        ct.turret.setTurretVelocity(1.0);
+                                        ct.turret.setTargetAngle(30);
+                                    }),
+                                    sleepms(201),
+                                    execute(() -> {
+                                        targetHeight = Lift.HIGH_POS;
+                                        ct.pivot.setScore();
+                                    })
+                            )
+                    ),
+                    sleepms(70),
+                    execute(() -> {
+                        targetHeight = Lift.HIGH_POS - 100 - 600;
+                    }),
+                    sleepms(50),
+                    execute(() -> {
+                        ct.claw.open();
+                    }),
+                    sleepms(42),
+                    parallel(
+                            execute(() -> {
+                                lockOnJunction = false;
+                                ct.clawFlip.setCollect();
+                                ct.pivot.setCollect();
+                                ct.turret.setTurretVelocity(.44);
+                                targetHeight = 450 + 40;
+                                ct.turret.setTargetAngle(-14.5);
+                            })
+                    ),
+                    sleepms(20),
+                    trajectory(highToStack1),
+                    execute(() -> {
+                        targetHeight = 1100;
+                    }),
+                    sleepms(163),
+                    execute(() -> {
+                        ct.turret.setTurretVelocity(.64);
+                        junction = "B3";
+                        lockOnJunction = true;
+                        autoAimOffset = 9;
+                    }),
+                    parallel(
+                            trajectory(stackToHigh1),
+                            serial(
+                                    sleepms(500),
+                                    execute(() -> {
+                                        ct.clawFlip.setScore();
+                                    }),
+                                    sleepms(350),
+                                    execute(() -> {
+                                        targetHeight = Lift.HIGH_POS - 190;
+                                        ct.pivot.setScore();
+                                    })
+                            )
+                    ),
 
-                execute(() -> {
-                    ct.claw.open();
-                }),
+                    execute(() -> {
+                        ct.claw.open();
+                    }),
 
-                // cycle 2
-                parallel(
-                        execute(() -> {
-                            lockOnJunction = false;
-                            ct.clawFlip.setCollect();
-                            ct.pivot.setCollect();
-                            ct.turret.setTurretVelocity(.44);
-                            targetHeight = 330;
-                            ct.turret.setTargetAngle(0);
-                        })
-                ),
-                sleepms(20),
-                trajectory(highToStack2),
-                execute(() -> {
-                    targetHeight = 900;
-                }),
-                sleepms(43),
-                execute(() -> {
-                    ct.turret.setTurretVelocity(.64);
-                    junction = "B3";
-                    lockOnJunction = true;
-                }),
-                parallel(
-                        trajectory(stackToHigh2),
-                        serial(
-                                sleepms(500),
-                                execute(() -> {
-                                    ct.clawFlip.setScore();
-                                }),
-                                sleepms(350),
-                                execute(() -> {
-                                    targetHeight = Lift.HIGH_POS;
-                                    ct.pivot.setScore();
-                                })
-                        )
-                ),
+                    // cycle 2
+                    parallel(
+                            execute(() -> {
+                                lockOnJunction = false;
+                                ct.clawFlip.setCollect();
+                                ct.pivot.setCollect();
+                                ct.turret.setTurretVelocity(.44);
+                                targetHeight = 330 + 40;
+                                ct.turret.setTargetAngle(0);
+                            })
+                    ),
+                    sleepms(20),
+                    trajectory(highToStack2),
+                    execute(() -> {
+                        targetHeight = 1100;
+                    }),
+                    sleepms(163),
+                    execute(() -> {
+                        ct.turret.setTurretVelocity(.64);
+                        junction = "B3";
+                        lockOnJunction = true;
+                    }),
+                    parallel(
+                            trajectory(stackToHigh2),
+                            serial(
+                                    sleepms(500),
+                                    execute(() -> {
+                                        ct.clawFlip.setScore();
+                                    }),
+                                    sleepms(350),
+                                    execute(() -> {
+                                        targetHeight = Lift.HIGH_POS - 190;
+                                        ct.pivot.setScore();
+                                    })
+                            )
+                    ),
 
-                execute(() -> {
-                    ct.claw.open();
-                }),
-                // cycle 3
-                parallel(
-                        execute(() -> {
-                            lockOnJunction = false;
-                            ct.clawFlip.setCollect();
-                            ct.pivot.setCollect();
-                            targetHeight = 235;
-                            ct.turret.setTurretVelocity(.44);
-                            ct.turret.setTargetAngle(0);
-                        })
-                ),
-                sleepms(20),
-                trajectory(highToStack3),
-                execute(() -> {
-                    targetHeight = 900;
-                }),
-                sleepms(43),
-                execute(() -> {
-                    ct.turret.setTurretVelocity(.64);
-                    junction = "B3";
-                    lockOnJunction = true;
-                }),
-                parallel(
-                        trajectory(stackToHigh3),
-                        serial(
-                                sleepms(500),
-                                execute(() -> {
-                                    ct.clawFlip.setScore();
-                                }),
-                                sleepms(350),
-                                execute(() -> {
-                                    targetHeight = Lift.HIGH_POS;
-                                    ct.pivot.setScore();
-                                })
-                        )
-                ),
+                    execute(() -> {
+                        ct.claw.open();
+                    }),
+                    // cycle 3
+                    parallel(
+                            execute(() -> {
+                                lockOnJunction = false;
+                                ct.clawFlip.setCollect();
+                                ct.pivot.setCollect();
+                                targetHeight = 235 + 40;
+                                ct.turret.setTurretVelocity(.44);
+                                ct.turret.setTargetAngle(0);
+                            })
+                    ),
+                    sleepms(20),
+                    trajectory(highToStack3),
+                    execute(() -> {
+                        targetHeight = 1100;
+                    }),
+                    sleepms(163),
+                    execute(() -> {
+                        ct.turret.setTurretVelocity(.64);
+                        junction = "B3";
+                        lockOnJunction = true;
+                    }),
+                    parallel(
+                            trajectory(stackToHigh3),
+                            serial(
+                                    sleepms(500),
+                                    execute(() -> {
+                                        ct.clawFlip.setScore();
+                                    }),
+                                    sleepms(350),
+                                    execute(() -> {
+                                        targetHeight = Lift.HIGH_POS - 190;
+                                        ct.pivot.setScore();
+                                    })
+                            )
+                    ),
 
-                execute(() -> {
-                    ct.claw.open();
-                }),
+                    execute(() -> {
+                        ct.claw.open();
+                    }),
 
 
-                // cycle 4
-                parallel(
-                        execute(() -> {
-                            lockOnJunction = false;
-                            ct.clawFlip.setCollect();
-                            ct.pivot.setCollect();
-                            ct.turret.setTurretVelocity(.44);
-                            targetHeight = 100;
-                            ct.turret.setTargetAngle(0);
-                        })
-                ),
-                sleepms(20),
-                trajectory(highToStack4),
-                execute(() -> {
-                    targetHeight = 900;
-                }),
-                sleepms(43),
-                execute(() -> {
-                    ct.turret.setTurretVelocity(.64);
-                    junction = "B3";
-                    lockOnJunction = true;
-                }),
-                parallel(
-                        trajectory(stackToHigh4),
-                        serial(
-                                sleepms(500),
-                                execute(() -> {
-                                    ct.clawFlip.setScore();
-                                }),
-                                sleepms(350),
-                                execute(() -> {
-                                    targetHeight = Lift.HIGH_POS;
-                                    ct.pivot.setScore();
-                                })
-                        )
-                ),
-                execute(() -> {
-                    ct.claw.open();
-                }),
+                    // cycle 4
+                    parallel(
+                            execute(() -> {
+                                lockOnJunction = false;
+                                ct.clawFlip.setCollect();
+                                ct.pivot.setCollect();
+                                ct.turret.setTurretVelocity(.44);
+                                targetHeight = 100 + 40;
+                                ct.turret.setTargetAngle(0);
+                            })
+                    ),
+                    sleepms(20),
+                    trajectory(highToStack4),
+                    execute(() -> {
+                        targetHeight = 1100;
+                    }),
+                    sleepms(163),
+                    execute(() -> {
+                        ct.turret.setTurretVelocity(.64);
+                        junction = "B3";
+                        lockOnJunction = true;
+                    }),
+                    parallel(
+                            trajectory(stackToHigh4),
+                            serial(
+                                    sleepms(500),
+                                    execute(() -> {
+                                        ct.clawFlip.setScore();
+                                    }),
+                                    sleepms(350),
+                                    execute(() -> {
+                                        targetHeight = Lift.HIGH_POS - 190;
+                                        ct.pivot.setScore();
+                                    })
+                            )
+                    ),
+                    execute(() -> {
+                        ct.claw.open();
+                    }),
 
-                // cycle 5
-                parallel(
-                        execute(() -> {
-                            lockOnJunction = false;
-                            ct.clawFlip.setCollect();
-                            ct.pivot.setCollect();
-                            ct.turret.setTurretVelocity(.44);
-                            targetHeight = 0;
-                            ct.turret.setTargetAngle(0);
-                        })
-                ),
-                sleepms(20),
-                trajectory(highToStack5),
-                execute(() -> {
-                    targetHeight = 900;
-                }),
-                sleepms(43),
-                execute(() -> {
-                    ct.turret.setTurretVelocity(.64);
-                    junction = "B3";
-                    lockOnJunction = true;
-                }),
-                parallel(
-                        trajectory(stackToHigh5),
-                        serial(
-                                sleepms(500),
-                                execute(() -> {
-                                    ct.clawFlip.setScore();
-                                }),
-                                sleepms(350),
-                                execute(() -> {
-                                    targetHeight = Lift.HIGH_POS;
-                                    ct.pivot.setScore();
-                                })
-                        )
-                ),
+                    // cycle 5
+                    parallel(
+                            execute(() -> {
+                                lockOnJunction = false;
+                                ct.clawFlip.setCollect();
+                                ct.pivot.setCollect();
+                                ct.turret.setTurretVelocity(.44);
+                                targetHeight = 10;
+                                ct.turret.setTargetAngle(0);
+                            })
+                    ),
+                    sleepms(20),
+                    trajectory(highToStack5),
+                    execute(() -> {
+                        targetHeight = 1100;
+                    }),
+                    sleepms(163),
+                    execute(() -> {
+                        ct.turret.setTurretVelocity(.64);
+                        junction = "B3";
+                        lockOnJunction = true;
+                    }),
+                    parallel(
+                            trajectory(stackToHigh5),
+                            serial(
+                                    sleepms(500),
+                                    execute(() -> {
+                                        ct.clawFlip.setScore();
+                                    }),
+                                    sleepms(350),
+                                    execute(() -> {
+                                        targetHeight = Lift.HIGH_POS - 190;
+                                        ct.pivot.setScore();
+                                    })
+                            )
+                    ),
 
+                    execute(() -> {
+                        ct.claw.open();
+                    }),
+                    parallel(
+                            execute(() -> {
+                                lockOnJunction = false;
+                                ct.turret.setTurretVelocity(1.0);
+                                ct.turret.setTargetAngle(0);
+                                ct.clawFlip.setScore();
+                                targetHeight = 0;
+                            })
+                    ),
                 execute(() -> {
-                    ct.claw.open();
-                }),
-                parallel(
-                        execute(() -> {
-                            lockOnJunction = false;
-                            ct.turret.setTurretVelocity(1.0);
-                            ct.turret.setTargetAngle(0);
-                            ct.clawFlip.setScore();
-                            targetHeight = 0;
-                        }),
-                        trajectorySequence(parkTest)
-
-                )
+                    if (preferredZone == 1) {
+                        drive.followTrajectorySequence(parkLeft);
+                    } else if (preferredZone == 2) {
+                        drive.followTrajectorySequence(parkMid);
+                    } else if (preferredZone == 3) {
+                        drive.followTrajectorySequence(parkRight);
+                    } else {
+                        drive.followTrajectorySequence(parkRight);
+                    }
+                })
         );
     }
 }

@@ -56,6 +56,7 @@ public class GamepadEx {
 		put("bumper_right", 12);
 		put("joystick_left", 13);
 		put("joystick_right", 14);
+		put("touchpad", 15);
 	}};
 
 	public static final HashMap<String, Integer> analogName = new HashMap<String, Integer>() {{

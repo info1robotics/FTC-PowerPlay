@@ -10,7 +10,7 @@ public class Claw {
     final Servo claw, clawFlip;
 
     public static final double CLAW_CLOSED = 0.0;
-    public static final double CLAW_OPEN = 0.4;
+    public static final double CLAW_OPEN = 0.42;
 
     private static Claw instance;
 

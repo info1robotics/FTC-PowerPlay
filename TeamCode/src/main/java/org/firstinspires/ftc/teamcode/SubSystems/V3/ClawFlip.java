@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClawFlip {
     final Servo clawFlip;
 
-    public static final double ROTATE_COLLECT = 0.0;
-    public static final double ROTATE_SCORE = 0.72;
+    public static final double ROTATE_COLLECT = 0.04;
+    public static final double ROTATE_SCORE = 0.77;
 
     public ClawFlip(LinearOpMode opMode) {
         clawFlip = opMode.hardwareMap.get(Servo.class, "ClawFlip");

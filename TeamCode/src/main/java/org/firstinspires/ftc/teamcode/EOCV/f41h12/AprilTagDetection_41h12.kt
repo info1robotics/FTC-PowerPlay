@@ -64,6 +64,6 @@ open class AprilTagDetection_41h12(var opMode: LinearOpMode) {
         if (zone != 0) opMode.telemetry.addLine("SIGNAL DETECTED, READY TO ROLL")
 
 
-        opMode.telemetry.update()
+//        opMode.telemetry.update()
     }
 }

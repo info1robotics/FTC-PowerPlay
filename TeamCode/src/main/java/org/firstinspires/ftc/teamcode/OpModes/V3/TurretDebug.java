@@ -35,8 +35,6 @@ public class TurretDebug extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Drivetrain drive = new Drivetrain(this.hardwareMap);
         Controller controller = new Controller(this);
-        controller.lift.resetEncoders();
-        controller.claw.open();
         
         gamepadEx1 = new GamepadEx(gamepad1);
         gamepadEx2 = new GamepadEx(gamepad2);
@@ -59,7 +57,7 @@ public class TurretDebug extends LinearOpMode {
             while (opModeIsActive() && !isStopRequested()) {
                 drive.vectorMove(-gamepad2.left_stick_x, gamepad2.left_stick_y,
                         (gamepad2.left_trigger - gamepad2.right_trigger),
-                        gamepad2.right_bumper ? 0.6 : 1.0);
+                        gamepad2.right_bumper ? 0.6 : 0.7);
                 gamepadEx1.update();
             }
         }).start();
@@ -74,18 +72,9 @@ public class TurretDebug extends LinearOpMode {
             if (gamepad2.circle) {
                 targetAngle = 0;
             }
-//            if (gamepad1.cross) {
-//                controller.turret.hardReset();
-//                targetAngle = 0;
-//            }
 
-            if (gamepadEx2.getButtonDown("b")) {
-                controller.togglePivotAndClawFlip();
-            }
-
-            if (gamepadEx2.getButtonDown("a")) {
-                controller.claw.toggle();
-            }
+            if(gamepad2.dpad_right) targetAngle -= 1;
+            if(gamepad2.dpad_left) targetAngle += 1;
 
 //            if (gamepad2.right_stick_x < -0.8) {
 //                targetAngle = -90;
@@ -95,21 +84,6 @@ public class TurretDebug extends LinearOpMode {
 //                targetAngle = 90;
 //            }
 
-            if (gamepad2.right_stick_y > 0.8) {
-                targetHeight = Lift.LOW_POS;
-            }
-
-            if (gamepad2.right_stick_x < -0.8) {
-                targetHeight = Lift.MID_POS;
-            }
-
-            if (gamepad2.right_stick_y < -0.8) {
-                targetHeight = Lift.HIGH_POS;
-            }
-
-            if (gamepad2.right_stick_x > 0.8) {
-                targetHeight = -2;
-            }
 
 
 //            if (gamepad2.left_trigger > 0.1) targetAngle += angleThreshold;
@@ -119,7 +93,6 @@ public class TurretDebug extends LinearOpMode {
             if (targetAngle < lowerAngleLimit) targetAngle = lowerAngleLimit;
 
             controller.turret.setHeading(targetAngle, turretVelocity);
-            controller.lift.setHeight(targetHeight, 1);
             telemetry.addData("Turret's Current Angle Heading ", controller.turret.getCurrentAngleHeading());
             telemetry.addData("Turret's Current Tick Count ", controller.turret.turretMotor.getCurrentPosition());
             telemetry.addData("Lift's Left Current Tick Count", controller.lift.liftLeft.getCurrentPosition());

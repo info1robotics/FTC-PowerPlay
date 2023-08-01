@@ -24,12 +24,12 @@ import java.util.Collections;
 
 @Config
 @Autonomous
-public class AutoTransformer extends AutoBase {
+public class AutoDualTransformer extends AutoBase {
     public static double
             START_TO_HIGH_X_1 = -26,
             START_TO_HIGH_Y_1 = 55;
     public Pose2d startPoseCenter = new Pose2d(-88.27, 59.5);
-    public TrajectorySequence preload, alignStraight, straight, alignCollect, collect, alignStraightBack, alignBack, placeTransformer, alignPark, park1, park2;
+    public TrajectorySequence preload, alignStraight, straight, alignCollect, collect, alignStraightBack, alignBack, placeTransformer, alignPark, park1, park2, alignRightTransformerStart, straightRight, alignCollectRight, alignStraightBackRight, alignBackRight, collectRight;
     TrajectoryVelocityConstraint fastConstraint = new MinVelocityConstraint(Collections.singletonList(
             new TranslationalVelocityConstraint(70)
     ));
@@ -50,15 +50,13 @@ public class AutoTransformer extends AutoBase {
 
         alignStraight = drive.trajectorySequenceBuilder(preload.end())
                 .setReversed(true)
-                .lineToConstantHeading(vector(
+                .lineToLinearHeading(pose(
                         -12,
                         59.5
                 ))
                 .build();
 
         straight = drive.trajectorySequenceBuilder(alignStraight.end())
-                .setVelConstraint(fastConstraint)
-                .setAccelConstraint(accelConstraint)
                 .setReversed(true)
                 .lineToConstantHeading(vector(
                         -12,
@@ -67,7 +65,6 @@ public class AutoTransformer extends AutoBase {
                 .build();
 
         alignCollect = drive.trajectorySequenceBuilder(straight.end())
-                .resetConstraints()
                 .setReversed(true)
                 .lineToConstantHeading(vector(
                         0,
@@ -78,7 +75,7 @@ public class AutoTransformer extends AutoBase {
         collect = drive.trajectorySequenceBuilder(alignCollect.end())
                 .setReversed(true)
                 .lineToConstantHeading(vector(
-                        -0.5,
+                        0,
                         81.5 + 24 + 24
                 ))
                 .build();
@@ -89,29 +86,67 @@ public class AutoTransformer extends AutoBase {
                 .build();
 
         alignBack = drive.trajectorySequenceBuilder(alignStraightBack.end())
-                .setVelConstraint(fastConstraint)
-                .setAccelConstraint(accelConstraint)
                 .lineToConstantHeading(alignStraight.end().vec())
                 .build();
 
         placeTransformer = drive.trajectorySequenceBuilder(alignBack.end())
-                .resetConstraints()
-                .lineToLinearHeading(new Pose2d(-88.27 + 24 + 12, 63.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-88.27 + 24 + 12, 59.5, Math.toRadians(0)))
+                .build();
+
+        alignRightTransformerStart = drive.trajectorySequenceBuilder(placeTransformer.end())
+                .lineToLinearHeading(pose(
+                        -12,
+                        59.5,
+                        Math.toRadians(90)
+                ))
+                .build();
+
+        straightRight = drive.trajectorySequenceBuilder(alignRightTransformerStart.end())
+                .setReversed(true)
+                .lineToConstantHeading(vector(
+                        -12,
+                        59.5 - 24 - 24
+                ))
+                .build();
+
+        alignCollectRight = drive.trajectorySequenceBuilder(straightRight.end())
+                .setReversed(true)
+                .lineToConstantHeading(vector(
+                        0,
+                        59.5 - 24 - 24
+                ))
+                .build();
+
+        collectRight = drive.trajectorySequenceBuilder(alignCollectRight.end())
+                .setReversed(true)
+                .lineToConstantHeading(vector(
+                        0,
+                        81.5 - 24 - 24
+                ))
+                .build();
+
+        alignStraightBackRight = drive.trajectorySequenceBuilder(collectRight.end())
+                .setReversed(true)
+                .lineToConstantHeading(straightRight.end().vec())
+                .build();
+
+        alignBackRight = drive.trajectorySequenceBuilder(alignStraightBackRight.end())
+                .lineToConstantHeading(alignStraight.end().vec())
                 .build();
 
         alignPark = drive.trajectorySequenceBuilder(placeTransformer.end())
-                .lineToConstantHeading(vector(-14, 63.5))
+                .lineToConstantHeading(alignStraight.end().vec())
                 .build();
 
 
         park1 = drive.trajectorySequenceBuilder(alignPark.end())
                 .resetConstraints()
-                .lineToConstantHeading(vector(-14, 63.5 - 24))
+                .lineToConstantHeading(vector(-12, 59.5 - 24))
                 .build();
 
         park2 = drive.trajectorySequenceBuilder(alignPark.end())
                 .resetConstraints()
-                .lineToConstantHeading(vector(-14, 63.5 + 24))
+                .lineToConstantHeading(vector(-12, 59.5 - 24 - 24))
                 .build();
 
 
@@ -159,30 +194,43 @@ public class AutoTransformer extends AutoBase {
                 parallel(
                         trajectorySequence(collect),
                         serial(
-                                sleepms(1500),
+                                sleepms(700),
                                 execute(() -> ct.claw.close())
                         )
                 ),
-                sleepms(450),
-                execute(() -> ct.pivot.setScore()),
+                execute(() -> ct.setScorePivotAndClawFlip()),
                 trajectorySequence(alignStraightBack),
                 trajectorySequence(alignBack),
                 parallel(
                         trajectorySequence(placeTransformer),
+                        execute(() -> ct.setCollectPivotAndClawFlip())
+                ),
+                sleepms(300),
+                execute(() -> ct.claw.open()),
+                sleepms(100),
+                execute(() -> ct.setScorePivotAndClawFlip()),
+                trajectorySequence(alignRightTransformerStart),
+                trajectorySequence(straightRight),
+                execute(() -> {
+                    ct.setCollectPivotAndClawFlip();
+                }),
+                trajectorySequence(alignCollectRight),
+                parallel(
+                        trajectorySequence(collectRight),
                         serial(
-                                sleepms(2000),
-                                execute(() -> ct.setCollectPivotAndClawFlip())
+                                sleepms(700),
+                                execute(() -> ct.claw.close())
                         )
                 ),
-                sleepms(1000),
+                execute(() -> ct.setScorePivotAndClawFlip()),
+                trajectorySequence(alignStraightBackRight),
+                trajectorySequence(alignBackRight),
+                trajectorySequence(placeTransformer),
+                sleepms(300),
                 execute(() -> ct.claw.open()),
-                parallel(
-                        serial(
-                                sleepms(500),
-                                execute(() -> ct.setScorePivotAndClawFlip())
-                        ),
-                        trajectorySequence(alignPark)
-                ),
+                sleepms(100),
+                execute(() -> ct.setScorePivotAndClawFlip()),
+                trajectorySequence(alignPark),
                 execute(() -> {
                     if (preferredZone == 1) {
                         drive.followTrajectorySequence(park1);

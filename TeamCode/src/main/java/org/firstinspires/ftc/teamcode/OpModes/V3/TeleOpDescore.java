@@ -14,8 +14,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
-public class TeleOp extends LinearOpMode {
+public class TeleOpDescore extends LinearOpMode {
+    public double targetAngle, turretVelocity, linkageVelocity, angleThreshold, autoTurretVelocity, autoLinkageVelocity;
+    public int targetHeight, heightThreshold, maxLift, minLift;
+    public double upperAngleLimit = 360, lowerAngleLimit = -360;
     Queue<Pair<Runnable, Long>> actionQueue = new LinkedList<>();
+    GamepadEx gamepadEx1, gamepadEx2;
 
     public void updateQueue() {
         if (actionQueue.isEmpty()) return;
@@ -26,17 +30,13 @@ public class TeleOp extends LinearOpMode {
         }
     }
 
-    GamepadEx gamepadEx1, gamepadEx2;
-    public double targetAngle, turretVelocity, linkageVelocity, angleThreshold, autoTurretVelocity, autoLinkageVelocity;
-    public int targetHeight, heightThreshold, maxLift, minLift;
-    public double upperAngleLimit = 360, lowerAngleLimit = -360;
     @Override
     public void runOpMode() throws InterruptedException {
         Drivetrain drive = new Drivetrain(this.hardwareMap);
         Controller controller = new Controller(this);
 //        controller.lift.resetEncoders();
         controller.claw.open();
-        
+
         gamepadEx1 = new GamepadEx(gamepad1);
         gamepadEx2 = new GamepadEx(gamepad2);
 
@@ -95,18 +95,46 @@ public class TeleOp extends LinearOpMode {
                 }).start();
             }
 
+            if (gamepad2.triangle) {
+                new Thread(() -> {
+                    controller.claw.close();
+                    sleep(50);
+                    targetHeight = Lift.HIGH_POS - 100;
+                    sleep(1200);
+                    controller.setScorePivotAndClawFlip();
+                    sleep(100);
+                    controller.claw.open();
+                    controller.setCollectPivotAndClawFlip();
+                }).start();
+            }
+
 
             if (gamepadEx2.getButtonDown("a")) {
                 controller.claw.toggle();
             }
 
-            if(gamepadEx2.getButtonDown("bumper_right")) targetHeight -= 500;
+//            if(gamepadEx2.getButtonDown("bumper_right")) targetHeight -= 500;
+//
+//            if(gamepadEx2.getButtonDown("bumper_left")) targetHeight += 100;
 
-            if(gamepadEx2.getButtonDown("bumper_left")) targetHeight += 100;
+            boolean setLift = false;
+            if (gamepad2.right_bumper) {
+                setLift = true;
+                controller.lift.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                controller.lift.setPower(.7);
+            } else if (gamepad2.left_bumper) {
+                setLift = true;
+                controller.lift.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                controller.lift.setPower(-.7);
+            }
+
+            if (setLift) {
+                targetHeight = controller.lift.liftLeft.getCurrentPosition();
+            }
 
 
-            if(targetHeight < minLift) targetHeight = minLift;
-            if(targetHeight > maxLift) targetHeight = maxLift;
+            if (targetHeight < minLift) targetHeight = minLift;
+            if (targetHeight > maxLift) targetHeight = maxLift;
 
             if (targetAngle > upperAngleLimit) targetAngle = upperAngleLimit;
             if (targetAngle < lowerAngleLimit) targetAngle = lowerAngleLimit;
@@ -121,7 +149,9 @@ public class TeleOp extends LinearOpMode {
 //                controller.lift.liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //                controller.lift.liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //            }
-            controller.lift.setHeight(targetHeight, speed);
+            if (!setLift) {
+                controller.lift.setHeight(targetHeight, speed);
+            }
             telemetry.addData("Turret's Current Angle Heading ", controller.turret.getCurrentAngleHeading());
             telemetry.addData("Turret's Current Tick Count ", controller.turret.turretMotor.getCurrentPosition());
 

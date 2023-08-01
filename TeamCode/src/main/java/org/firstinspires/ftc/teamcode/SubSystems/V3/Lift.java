@@ -12,7 +12,7 @@ public class Lift {
     public static int LOW_POS = 350;
     public static int MID_POS = 1050;
     public static int HIGH_POS = 1850;
-    public static int COLLECT_POS = 100;
+    public static int COLLECT_POS = 0;
     public DcMotorEx liftLeft, liftRight;
     public MotorConfigurationType mct1, mct2;
 

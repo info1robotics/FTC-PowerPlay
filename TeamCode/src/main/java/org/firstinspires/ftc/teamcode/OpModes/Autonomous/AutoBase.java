@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.CommonPackage.AutoUtils;
+import org.firstinspires.ftc.teamcode.EOCV.f41h12.AprilTagDetection_41h12;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.V3.Controller;
 import org.firstinspires.ftc.teamcode.Tasks.Task;
@@ -17,7 +18,7 @@ public abstract class AutoBase extends LinearOpMode {
     public Controller ct;
     public double linkageVelocity = 1.0;
     public int targetHeight = 0, preferredZone = 0;
-//    public AprilTagDetection_41h12 atag;
+    public AprilTagDetection_41h12 atag;
 
     public String junction = "";
     public boolean lockOnJunction = false;
@@ -39,7 +40,7 @@ public abstract class AutoBase extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         ct = new Controller(this);
         drive = new SampleMecanumDrive(hardwareMap);
-//        atag = new AprilTagDetection_41h12(this);
+        atag = new AprilTagDetection_41h12(this);
 
         ct.lift.resetEncoders();
 
@@ -47,14 +48,14 @@ public abstract class AutoBase extends LinearOpMode {
         ct.turret.setVelocity(1.0);
         ct.turret.setTargetAngle(0.0);
 
+        ct.setScorePivotAndClawFlip();
         onInit();
         SampleMecanumDrive.imu.startIMUThread(this);
         while (!isStarted() && !isStopRequested()) {
-            ct.setScorePivotAndClawFlip();
             ct.turret.update();
             ct.lift.setHeight(0, linkageVelocity);
-//            atag.detectZone();
-//            preferredZone = atag.getZone();
+            atag.detectZone();
+            preferredZone = atag.getZone();
             telemetry.addData("X", drive.getPoseEstimate().getX());
             telemetry.addData("Y", drive.getPoseEstimate().getY());
             telemetry.addData("Voltage", getBatteryVoltage());
@@ -80,12 +81,17 @@ public abstract class AutoBase extends LinearOpMode {
                 ct.turret.lockOnJunction(junction, normalisedPosition, autoAimOffset);
 //                ct.turret.setHeading((Turret.targetAngle), .6);
             }
+
+            if (drive.isBusy()) {
+                drive.update();
+            }
+
             telemetry.addData("Turret Velo", ct.turret.turretMotor.getPower());
             ct.turret.update();
             drive.update();
             telemetry.update();
         }
-//        atag.getCamera().closeCameraDevice();
+        atag.getCamera().closeCameraDevice();
     }
 
     public void onInit() {};

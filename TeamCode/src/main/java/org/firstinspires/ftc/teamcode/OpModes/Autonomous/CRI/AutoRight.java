@@ -75,7 +75,7 @@ public class AutoRight extends AutoBase {
                         -31,
                         -51.5
                 ), () -> {
-                    // turret not working targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 600;
                 })
                 .build();
 
@@ -98,7 +98,7 @@ public class AutoRight extends AutoBase {
                         -31,
                         -51.5
                 ), () -> {
-                    // turret not working targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 600;
                 })
                 .build();
 
@@ -121,7 +121,7 @@ public class AutoRight extends AutoBase {
                         -31,
                         -51.5
                 ), () -> {
-                    // turret not working targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 600;
                 })
                 .build();
 
@@ -144,7 +144,7 @@ public class AutoRight extends AutoBase {
                         -31,
                         -51.5
                 ), () -> {
-                    // turret not working targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 600;
                 })
                 .build();
 
@@ -167,7 +167,7 @@ public class AutoRight extends AutoBase {
                         -31,
                         -51.5
                 ), () -> {
-                    // turret not working targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 600;
                 })
                 .build();
 
@@ -191,13 +191,13 @@ public class AutoRight extends AutoBase {
                                 }),
                                 sleepms(201),
                                 execute(() -> {
-                                    // turret not working targetHeight = Lift.HIGH_POS;
+                                    targetHeight = Lift.HIGH_POS;
                                 })
                         )
                 ),
                 sleepms(70),
                 execute(() -> {
-                    // turret not working targetHeight = Lift.HIGH_POS - 600;
+                    targetHeight = Lift.HIGH_POS - 600;
                 }),
                 sleepms(50),
                 execute(() -> {
@@ -210,14 +210,14 @@ public class AutoRight extends AutoBase {
                             ct.clawFlip.setCollect();
                             ct.pivot.setCollect();
                             ct.turret.setTurretVelocity(.44);
-                            // turret not working targetHeight = 500;
+                            targetHeight = 500;
                             ct.turret.setTargetAngle(6.5);
                         })
                 ),
                 sleepms(20),
                 trajectory(highToStack1),
                 execute(() -> {
-                    // turret not working targetHeight = 1000;
+                    targetHeight = 1000;
                 }),
                 sleepms(20),
                 execute(() -> {
@@ -235,7 +235,7 @@ public class AutoRight extends AutoBase {
                                 }),
                                 sleepms(350),
                                 execute(() -> {
-                                    // turret not working targetHeight = Lift.HIGH_POS;
+                                    targetHeight = Lift.HIGH_POS;
                                 })
                         )
                 ),
@@ -251,14 +251,14 @@ public class AutoRight extends AutoBase {
                             ct.clawFlip.setCollect();
                             ct.pivot.setCollect();
                             ct.turret.setTurretVelocity(.44);
-                            // turret not working targetHeight = 400;
+                            targetHeight = 400;
                             ct.turret.setTargetAngle(0);
                         })
                 ),
                 sleepms(20),
                 trajectory(highToStack2),
                 execute(() -> {
-                    // turret not working targetHeight = 1000;
+                    targetHeight = 1000;
                 }),
                 sleepms(20),
                 execute(() -> {
@@ -276,7 +276,7 @@ public class AutoRight extends AutoBase {
                                 }),
                                 sleepms(650),
                                 execute(() -> {
-                                    // turret not working targetHeight = Lift.HIGH_POS;
+                                    targetHeight = Lift.HIGH_POS;
                                 })
                         )
                 ),
@@ -290,7 +290,7 @@ public class AutoRight extends AutoBase {
                             lockOnJunction = false;
                             ct.clawFlip.setCollect();
                             ct.pivot.setCollect();
-                            // turret not working targetHeight = 300;
+                            targetHeight = 300;
                             ct.turret.setTurretVelocity(.44);
                             ct.turret.setTargetAngle(0);
                         })
@@ -298,7 +298,7 @@ public class AutoRight extends AutoBase {
                 sleepms(20),
                 trajectory(highToStack3),
                 execute(() -> {
-                    // turret not working targetHeight = 1000;
+                    targetHeight = 1000;
                 }),
                 sleepms(20),
                 execute(() -> {
@@ -316,7 +316,7 @@ public class AutoRight extends AutoBase {
                                 }),
                                 sleepms(650),
                                 execute(() -> {
-                                    // turret not working targetHeight = Lift.HIGH_POS;
+                                    targetHeight = Lift.HIGH_POS;
                                 })
                         )
                 ),
@@ -333,14 +333,14 @@ public class AutoRight extends AutoBase {
                             ct.clawFlip.setCollect();
                             ct.pivot.setCollect();
                             ct.turret.setTurretVelocity(.44);
-                            // turret not working targetHeight = 200;
+                            targetHeight = 200;
                             ct.turret.setTargetAngle(0);
                         })
                 ),
                 sleepms(20),
                 trajectory(highToStack4),
                 execute(() -> {
-                    // turret not working targetHeight = 1000;
+                    targetHeight = 1000;
                 }),
                 sleepms(20),
                 execute(() -> {
@@ -358,7 +358,7 @@ public class AutoRight extends AutoBase {
                                 }),
                                 sleepms(650),
                                 execute(() -> {
-                                    // turret not working targetHeight = Lift.HIGH_POS;
+                                    targetHeight = Lift.HIGH_POS;
                                 })
                         )
                 ),
@@ -373,14 +373,14 @@ public class AutoRight extends AutoBase {
                             ct.clawFlip.setCollect();
                             ct.pivot.setCollect();
                             ct.turret.setTurretVelocity(.44);
-                            // turret not working targetHeight = 200;
+                            targetHeight = 200;
                             ct.turret.setTargetAngle(0);
                         })
                 ),
                 sleepms(20),
                 trajectory(highToStack5),
                 execute(() -> {
-                    // turret not working targetHeight = 1000;
+                    targetHeight = 1000;
                 }),
                 sleepms(20),
                 execute(() -> {
@@ -398,7 +398,7 @@ public class AutoRight extends AutoBase {
                                 }),
                                 sleepms(650),
                                 execute(() -> {
-                                    // turret not working targetHeight = Lift.HIGH_POS;
+                                    targetHeight = Lift.HIGH_POS;
                                 })
                         )
                 ),
@@ -412,7 +412,7 @@ public class AutoRight extends AutoBase {
                             ct.turret.setTurretVelocity(0);
                             ct.turret.setTargetAngle(0);
                             ct.clawFlip.setScore();
-                            // turret not working targetHeight = 0;
+                            targetHeight = 0;
                         })
 //                        trajectorySequence(parkTest)
 
