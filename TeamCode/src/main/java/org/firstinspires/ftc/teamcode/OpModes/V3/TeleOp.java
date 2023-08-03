@@ -61,7 +61,7 @@ public class TeleOp extends LinearOpMode {
             while (opModeIsActive() && !isStopRequested()) {
                 drive.vectorMove(-gamepad1.left_stick_x, gamepad1.left_stick_y,
                         (gamepad1.left_trigger - gamepad1.right_trigger),
-                        gamepad1.right_bumper ? 0.6 : 0.86);
+                        gamepad1.right_bumper ? 0.5: 0.75);
                 gamepadEx1.update();
             }
         }).start();

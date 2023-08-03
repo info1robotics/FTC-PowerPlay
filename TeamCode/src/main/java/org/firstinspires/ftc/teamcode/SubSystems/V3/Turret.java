@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.CommonPackage.ThreadedIMU;
 
 public class Turret {
-    public static final int fieldSize = 192;
+    public static int fieldSize = 192;
     public static final int poleSpacing = 24;
     private final LinearOpMode opMode;
 

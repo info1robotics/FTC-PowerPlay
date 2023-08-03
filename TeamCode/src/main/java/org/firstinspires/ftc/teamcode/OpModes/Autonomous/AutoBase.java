@@ -45,10 +45,11 @@ public abstract class AutoBase extends LinearOpMode {
         ct.lift.resetEncoders();
 
         ct.turret.resetEncoder();
-        ct.turret.setVelocity(1.0);
+        ct.turret.setVelocity(.5);
         ct.turret.setTargetAngle(0.0);
 
         ct.setScorePivotAndClawFlip();
+        ct.claw.close();
         onInit();
         SampleMecanumDrive.imu.startIMUThread(this);
         while (!isStarted() && !isStopRequested()) {
