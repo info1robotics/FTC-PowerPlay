@@ -15,7 +15,7 @@ public class Pivot {
     public static boolean collect = false;
 
     public static double PIVOT_COLLECT = 0.07;
-    public static double PIVOT_MID = 0.49;
+    public static double PIVOT_MID = 0.55;
 
     public static double PIVOT_SCORE = 0.6; // TODO: Find values
 
@@ -24,9 +24,6 @@ public class Pivot {
     public Pivot(LinearOpMode opMode) {
         pivotLeft = opMode.hardwareMap.get(Servo.class, "PivotLeft");
         pivotRight = opMode.hardwareMap.get(Servo.class, "PivotRight");
-//        ServoImplEx a;
-//        pivotRight.getController().
-//        a.setPwmDisable();
         pivotRight.setDirection(Servo.Direction.REVERSE);
     }
 
