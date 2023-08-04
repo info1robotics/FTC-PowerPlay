@@ -112,8 +112,8 @@ public class AutoLeftMid extends AutoBase {
 
 
         SerialTask drop = serial(
-                execute(() -> targetHeight = targetHeight - 200),
-                sleepms(1),
+                execute(() -> targetHeight = targetHeight - 500),
+                sleepms(150),
                 execute(() -> {
                     ct.claw.open();
                     lockOnJunction = false;
@@ -179,7 +179,7 @@ public class AutoLeftMid extends AutoBase {
                         parallel(
                                 trajectory(toStackAlign2),
                                 execute(() -> {
-                                    targetHeight = 365;
+                                    targetHeight = 395;
                                 }),
                                 serial(
                                         sleepms(300),
@@ -295,7 +295,7 @@ public class AutoLeftMid extends AutoBase {
                 serial(
                         parallel(trajectory(toStackAlign5),
                                 execute(() -> {
-                                    targetHeight = 160;
+                                    targetHeight = 100;
                                 }),
                                 serial(
                                         sleepms(300),
