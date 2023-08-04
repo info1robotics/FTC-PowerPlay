@@ -7,10 +7,19 @@ import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.parallel;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.serial;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.sleepms;
 import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.trajectory;
+import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.trajectorySequence;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.profile.AccelerationConstraint;
+import com.acmerobotics.roadrunner.profile.VelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.MinAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.OpModes.Autonomous.AutoBase;
@@ -18,6 +27,8 @@ import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySe
 import org.firstinspires.ftc.teamcode.SubSystems.V3.Lift;
 import org.firstinspires.ftc.teamcode.SubSystems.V3.Turret;
 import org.firstinspires.ftc.teamcode.Tasks.SerialTask;
+
+import java.util.Collections;
 
 @Config
 @Autonomous
@@ -35,15 +46,18 @@ public class AutoLeftMid extends AutoBase {
             TH1_X = -20.5,
             TH1_Y = 30.8;
 
-
+    TrajectoryVelocityConstraint fastConstraint = new MinVelocityConstraint(Collections.singletonList(
+            new TranslationalVelocityConstraint(95)
+    ));
+    TrajectoryAccelerationConstraint accelConstraint = new ProfileAccelerationConstraint(37);
     public Pose2d startPoseLeft = new Pose2d(-62.0, 36, 0.0);
-    public Trajectory preloadTrajectory, toStackAlign, toStackAlign2, toStack1,
-            toHigh1, toStack4, toStackAlign4, toStackAlign3, toHigh2, toHigh3, toHigh4, toStack2, toStack3, toStack5, toStack6, toStackAlign6, toStackAlign5, toHigh5, toHigh6;
+    public TrajectorySequence preloadTrajectory, toStackAlign, toStackAlign2, toStack1,
+            toHigh1, toStack4, toStackAlign4, toStackAlign3, toHigh2, toHigh3, toHigh4, toStack2, toStack3, toStack5, toStack6, toStackAlign6, toStackAlign5, toHigh5, toHigh6, park1;
 
     @Override
     public void onInit() {
         drive.setPoseEstimate(startPoseLeft);
-        preloadTrajectory = drive.trajectoryBuilder(startPoseLeft)
+        preloadTrajectory = drive.trajectorySequenceBuilder(startPoseLeft)
                 .lineToLinearHeading(pose(
                         PRELOAD_X,
                         PRELOAD_Y,
@@ -55,61 +69,84 @@ public class AutoLeftMid extends AutoBase {
 
         Turret.fieldSize = 6 * 24;
 
-        toStackAlign = drive.trajectoryBuilder(preloadTrajectory.end())
+        toStackAlign = drive.trajectorySequenceBuilder(preloadTrajectory.end())
+                .resetConstraints()
                 .lineToLinearHeading(pose(STACK_ALIGN_X, STACK_ALIGN_Y, STACK_ALIGN_HEADING))
                 .build();
 
-        toStack1 = drive.trajectoryBuilder(toStackAlign.end())
+        toStack1 = drive.trajectorySequenceBuilder(toStackAlign.end())
+                .setAccelConstraint(accelConstraint)
                 .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
 
-        toHigh1 = drive.trajectoryBuilder(toStack1.end())
+        toHigh1 = drive.trajectorySequenceBuilder(toStack1.end())
+                .resetConstraints()
                 .lineTo(vector(TH1_X + 5.5, TH1_Y)).build();
 
-        toStackAlign2 = drive.trajectoryBuilder(toHigh1.end())
+        toStackAlign2 = drive.trajectorySequenceBuilder(toHigh1.end())
+                .resetConstraints()
                 .lineTo(vector(-12.0, 36.0)).build();
 
-        toStack2 = drive.trajectoryBuilder(toStackAlign2.end())
+        toStack2 = drive.trajectorySequenceBuilder(toStackAlign2.end())
+                .setAccelConstraint(accelConstraint)
                 .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
 
-        toHigh2 = drive.trajectoryBuilder(toStack2.end())
+        toHigh2 = drive.trajectorySequenceBuilder(toStack2.end())
+                .resetConstraints()
                 .lineTo(vector(TH1_X + 4.8, TH1_Y)).build();
 
-        toStackAlign3 = drive.trajectoryBuilder(toHigh2.end())
+        toStackAlign3 = drive.trajectorySequenceBuilder(toHigh2.end())
+                .resetConstraints()
                 .lineTo(vector(-12.0, 36.0)).build();
 
-        toStack3 = drive.trajectoryBuilder(toStackAlign3.end())
-                .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
+        toStack3 = drive.trajectorySequenceBuilder(toStackAlign3.end())
+                .setAccelConstraint(accelConstraint)
+                .lineTo(vector(STACK1_X + 1, STACK1_Y - 2.5)).build();
 
-        toHigh3 = drive.trajectoryBuilder(toStack3.end())
+        toHigh3 = drive.trajectorySequenceBuilder(toStack3.end())
+                .resetConstraints()
                 .lineTo(vector(TH1_X + 5.0, TH1_Y)).build();
 
-        toStackAlign4 = drive.trajectoryBuilder(toHigh3.end())
+        toStackAlign4 = drive.trajectorySequenceBuilder(toHigh3.end())
+                .resetConstraints()
                 .lineTo(vector(-12.0, 36.0)).build();
 
-        toStack4 = drive.trajectoryBuilder(toStackAlign4.end())
+        toStack4 = drive.trajectorySequenceBuilder(toStackAlign4.end())
+                .setAccelConstraint(accelConstraint)
                 .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
 
-        toHigh4 = drive.trajectoryBuilder(toStack4.end())
+        toHigh4 = drive.trajectorySequenceBuilder(toStack4.end())
+                .resetConstraints()
                 .lineTo(vector(TH1_X + 5.5, TH1_Y)).build();
 
-        toStackAlign5 = drive.trajectoryBuilder(toHigh3.end())
+        toStackAlign5 = drive.trajectorySequenceBuilder(toHigh3.end())
+                .resetConstraints()
                 .lineTo(vector(-12.0, 36.0)).build();
 
-        toStack5 = drive.trajectoryBuilder(toStackAlign4.end())
+        toStack5 = drive.trajectorySequenceBuilder(toStackAlign4.end())
+                .setAccelConstraint(accelConstraint)
                 .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
 
-        toHigh5 = drive.trajectoryBuilder(toStack4.end())
+        toHigh5 = drive.trajectorySequenceBuilder(toStack4.end())
+                .resetConstraints()
                 .lineTo(vector(TH1_X + 5.5, TH1_Y)).build();
 
-        toStackAlign6 = drive.trajectoryBuilder(toHigh3.end())
+        toStackAlign6 = drive.trajectorySequenceBuilder(toHigh3.end())
+                .resetConstraints()
                 .lineTo(vector(-12.0, 36.0)).build();
 
-        toStack6 = drive.trajectoryBuilder(toStackAlign4.end())
+        toStack6 = drive.trajectorySequenceBuilder(toStackAlign4.end())
                 .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
 
-        toHigh6 = drive.trajectoryBuilder(toStack4.end())
+        toHigh6 = drive.trajectorySequenceBuilder(toStack4.end())
                 .lineTo(vector(TH1_X + 5.5, TH1_Y)).build();
 
+        park1 = drive.trajectorySequenceBuilder(toHigh5.end())
+                .setVelConstraint(fastConstraint)
+                .setAccelConstraint(accelConstraint)
+                .lineToConstantHeading(vector(-8, 70))
+                .build();
+
+        lockOnJunction = true;
 
         SerialTask drop = serial(
                 execute(() -> targetHeight = targetHeight - 500),
@@ -118,14 +155,13 @@ public class AutoLeftMid extends AutoBase {
                     ct.claw.open();
                     lockOnJunction = false;
                 })
-//                execute(() -> ct.turret.setTargetAngle(0))
         );
 
 
         task = serial(
                 //preload
                 parallel(
-                        trajectory(preloadTrajectory),
+                        trajectorySequence(preloadTrajectory),
                         execute(() -> {
                             targetHeight = Lift.MID_POS;
                         })
@@ -138,19 +174,23 @@ public class AutoLeftMid extends AutoBase {
                 }),
                 
                 serial(
-                        parallel(trajectory(toStackAlign),
+                        parallel(trajectorySequence(toStackAlign),
                                 execute(() -> {
                                     targetHeight = 520;
                                 }),
                                 serial(
-                                        sleepms(450),
+                                        sleepms(250),
                                         execute(() -> {
                                             ct.setCollectPivotAndClawFlip();
                                         })
                                 )),
                         //cycle 1
-                        execute(() -> ct.turret.setTargetAngle(0)),
-                        trajectory(toStack1),
+                        execute(() -> {
+                            lockOnJunction = false;
+                            Turret.turretVelocity = 1f;
+                            ct.turret.setTargetAngle(0);
+                        }),
+                        trajectorySequence(toStack1),
                         execute(() -> ct.claw.close()),
                         sleepms(20),
                         execute(() -> {
@@ -162,14 +202,15 @@ public class AutoLeftMid extends AutoBase {
                         })
                 ),
                 parallel(
-                        trajectory(toHigh1),
+                        trajectorySequence(toHigh1),
                         execute(() -> {
                             targetHeight = Lift.MID_POS;
+                            Turret.turretVelocity = .5;
                             lockOnJunction = true;
                             junction = "B2";
                         }),
                         serial(
-                                sleepms(500),
+                                sleepms(300),
                                 execute(() -> {
                                     ct.clawFlip.setScore();
                                 }))
@@ -177,7 +218,7 @@ public class AutoLeftMid extends AutoBase {
                 drop,
                 serial(
                         parallel(
-                                trajectory(toStackAlign2),
+                                trajectorySequence(toStackAlign2),
                                 execute(() -> {
                                     targetHeight = 395;
                                 }),
@@ -188,8 +229,11 @@ public class AutoLeftMid extends AutoBase {
                                         })
                                 )),
                         //cycle 1
-                        execute(() -> ct.turret.setTargetAngle(0)),
-                        trajectory(toStack2),
+                        execute(() -> {
+                            Turret.turretVelocity = 1f;
+                            ct.turret.setTargetAngle(0);
+                        }),
+                        trajectorySequence(toStack2),
                         execute(() -> ct.claw.close()),
                         sleepms(20),
                         execute(() -> {
@@ -201,22 +245,23 @@ public class AutoLeftMid extends AutoBase {
                         })
                 ),
                 parallel(
-                        trajectory(toHigh2),
+                        trajectorySequence(toHigh2),
                         execute(() -> {
                             autoAimOffset = -2;
                             targetHeight = Lift.MID_POS;
                             lockOnJunction = true;
+                            Turret.turretVelocity = .6;
                             junction = "B2";
                         }),
                         serial(
-                                sleepms(500),
+                                sleepms(300),
                                 execute(() -> {
                                     ct.clawFlip.setScore();
                                 }))
                 ),
                 drop,
                 serial(
-                        parallel(trajectory(toStackAlign3),
+                        parallel(trajectorySequence(toStackAlign3),
                                 execute(() -> {
                                     targetHeight = 360;
                                 }),
@@ -227,8 +272,11 @@ public class AutoLeftMid extends AutoBase {
                                         })
                                 )),
                         //cycle 1
-                        execute(() -> ct.turret.setTargetAngle(0)),
-                        trajectory(toStack3),
+                        execute(() -> {
+                            Turret.turretVelocity = 1f;
+                            ct.turret.setTargetAngle(0);
+                        }),
+                        trajectorySequence(toStack3),
                         execute(() -> ct.claw.close()),
                         sleepms(20),
                         execute(() -> {
@@ -240,33 +288,37 @@ public class AutoLeftMid extends AutoBase {
                         })
                 ),
                 parallel(
-                        trajectory(toHigh3),
+                        trajectorySequence(toHigh3),
                         execute(() -> {
                             targetHeight = Lift.MID_POS;
+                            Turret.turretVelocity = .5;
                             lockOnJunction = true;
                             junction = "B2";
                         }),
                         serial(
-                                sleepms(500),
+                                sleepms(300),
                                 execute(() -> {
                                     ct.clawFlip.setScore();
                                 }))
                 ),
                 drop,
                 serial(
-                        parallel(trajectory(toStackAlign4),
+                        parallel(trajectorySequence(toStackAlign4),
                                 execute(() -> {
                                     targetHeight = 230;
                                 }),
                                 serial(
-                                        sleepms(300),
+                                        sleepms(200),
                                         execute(() -> {
                                             ct.setCollectPivotAndClawFlip();
                                         })
                                 )),
                         //cycle 1
-                        execute(() -> ct.turret.setTargetAngle(0)),
-                        trajectory(toStack4),
+                        execute(() -> {
+                            Turret.turretVelocity = 1f;
+                            ct.turret.setTargetAngle(0);
+                        }),
+                        trajectorySequence(toStack4),
                         execute(() -> ct.claw.close()),
                         sleepms(20),
                         execute(() -> {
@@ -278,24 +330,25 @@ public class AutoLeftMid extends AutoBase {
                         })
                 ),
                 parallel(
-                        trajectory(toHigh4),
+                        trajectorySequence(toHigh4),
                         execute(() -> {
 //                            autoAimOffset = -7;
                             targetHeight = Lift.MID_POS;
+                            Turret.turretVelocity = .5;
                             lockOnJunction = true;
                             junction = "B2";
                         }),
                         serial(
-                                sleepms(500),
+                                sleepms(300),
                                 execute(() -> {
                                     ct.clawFlip.setScore();
                                 }))
                 ),
                 drop,
                 serial(
-                        parallel(trajectory(toStackAlign5),
+                        parallel(trajectorySequence(toStackAlign5),
                                 execute(() -> {
-                                    targetHeight = 100;
+                                    targetHeight = 50;
                                 }),
                                 serial(
                                         sleepms(300),
@@ -304,8 +357,11 @@ public class AutoLeftMid extends AutoBase {
                                         })
                                 )),
                         //cycle 1
-                        execute(() -> ct.turret.setTargetAngle(0)),
-                        trajectory(toStack5),
+                        execute(() -> {
+                            Turret.turretVelocity = 1f;
+                            ct.turret.setTargetAngle(0);
+                        }),
+                        trajectorySequence(toStack5),
                         execute(() -> ct.claw.close()),
                         sleepms(20),
                         execute(() -> {
@@ -317,19 +373,26 @@ public class AutoLeftMid extends AutoBase {
                         })
                 ),
                 parallel(
-                        trajectory(toHigh5),
+                        trajectorySequence(toHigh5),
                         execute(() -> {
                             targetHeight = Lift.MID_POS;
+                            Turret.turretVelocity = .5;
                             lockOnJunction = true;
                             junction = "B2";
                         }),
                         serial(
-                                sleepms(500),
+                                sleepms(300),
                                 execute(() -> {
                                     ct.clawFlip.setScore();
                                 }))
                 ),
-                drop
+                drop,
+                trajectorySequence(park1),
+                execute(() -> {
+                    Turret.turretVelocity = 0;
+                    ct.turret.setTargetAngle(0);
+                    targetHeight = 0;
+                })
         );
 
     }
