@@ -11,10 +11,6 @@ import static org.firstinspires.ftc.teamcode.Tasks.TaskBuilder.trajectorySequenc
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.profile.AccelerationConstraint;
-import com.acmerobotics.roadrunner.profile.VelocityConstraint;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.constraints.MinAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
@@ -35,109 +31,83 @@ import java.util.Collections;
 public class AutoLeftMid extends AutoBase {
 
     public static double
-            PRELOAD_X = -22.5,
-            PRELOAD_Y = 31.0,
-            PRELOAD_HEADING = Math.toRadians(-60.5),
-            STACK_ALIGN_X = -8.7,
-            STACK_ALIGN_Y = 46.9,
-            STACK_ALIGN_HEADING = Math.toRadians(-90.0),
-            STACK1_X = -8.0,
-            STACK1_Y = 59.7,
-            TH1_X = -20.5,
-            TH1_Y = 30.8;
-
+            PRELOAD_X = -22.7,
+            PRELOAD_Y = 33.0,
+            STACK1_X = -9.6,
+            STACK1_Y = 60.8 - 2.5,
+            TH1_X = -19.8,
+            TH1_Y = 28.3;
+    public Pose2d startPoseLeft = new Pose2d(-62.0, 36, 0.0);
+    public TrajectorySequence preloadTrajectory, toStack1,
+            toHigh1, toStack4, toHigh2, toHigh3, toHigh4, toStack2, toStack3, toStack5, toHigh5, park1, park2, park3, alignStack;
     TrajectoryVelocityConstraint fastConstraint = new MinVelocityConstraint(Collections.singletonList(
             new TranslationalVelocityConstraint(95)
     ));
-    TrajectoryAccelerationConstraint accelConstraint = new ProfileAccelerationConstraint(37);
-    public Pose2d startPoseLeft = new Pose2d(-62.0, 36, 0.0);
-    public TrajectorySequence preloadTrajectory, toStackAlign, toStackAlign2, toStack1,
-            toHigh1, toStack4, toStackAlign4, toStackAlign3, toHigh2, toHigh3, toHigh4, toStack2, toStack3, toStack5, toStack6, toStackAlign6, toStackAlign5, toHigh5, toHigh6, park1;
+    TrajectoryAccelerationConstraint accelConstraint = new ProfileAccelerationConstraint(30);
 
     @Override
     public void onInit() {
         drive.setPoseEstimate(startPoseLeft);
         preloadTrajectory = drive.trajectorySequenceBuilder(startPoseLeft)
-                .lineToLinearHeading(pose(
+                .lineToConstantHeading(vector(
                         PRELOAD_X,
-                        PRELOAD_Y,
-                        PRELOAD_HEADING
+                        PRELOAD_Y
                 ))
                 .build();
         junction = "B2";
-        autoAimOffset = -3;
+
+        alignStack = drive.trajectorySequenceBuilder(preloadTrajectory.end())
+                .lineToLinearHeading(pose(
+                        -10,
+                        40,
+                        Math.toRadians(-90)
+                ))
+                .build();
 
         Turret.fieldSize = 6 * 24;
 
-        toStackAlign = drive.trajectorySequenceBuilder(preloadTrajectory.end())
-                .resetConstraints()
-                .lineToLinearHeading(pose(STACK_ALIGN_X, STACK_ALIGN_Y, STACK_ALIGN_HEADING))
-                .build();
-
-        toStack1 = drive.trajectorySequenceBuilder(toStackAlign.end())
+        toStack1 = drive.trajectorySequenceBuilder(alignStack.end())
                 .setAccelConstraint(accelConstraint)
-                .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
+                .lineTo(vector(STACK1_X, STACK1_Y)).build();
 
         toHigh1 = drive.trajectorySequenceBuilder(toStack1.end())
                 .resetConstraints()
                 .lineTo(vector(TH1_X + 5.5, TH1_Y)).build();
 
-        toStackAlign2 = drive.trajectorySequenceBuilder(toHigh1.end())
-                .resetConstraints()
-                .lineTo(vector(-12.0, 36.0)).build();
 
-        toStack2 = drive.trajectorySequenceBuilder(toStackAlign2.end())
+        toStack2 = drive.trajectorySequenceBuilder(toHigh1.end())
                 .setAccelConstraint(accelConstraint)
-                .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
+                .lineTo(vector(STACK1_X - .4, STACK1_Y)).build();
 
         toHigh2 = drive.trajectorySequenceBuilder(toStack2.end())
                 .resetConstraints()
                 .lineTo(vector(TH1_X + 4.8, TH1_Y)).build();
 
-        toStackAlign3 = drive.trajectorySequenceBuilder(toHigh2.end())
-                .resetConstraints()
-                .lineTo(vector(-12.0, 36.0)).build();
 
-        toStack3 = drive.trajectorySequenceBuilder(toStackAlign3.end())
+        toStack3 = drive.trajectorySequenceBuilder(toHigh2.end())
                 .setAccelConstraint(accelConstraint)
-                .lineTo(vector(STACK1_X + 1, STACK1_Y - 2.5)).build();
+                .lineTo(vector(STACK1_X - .6, STACK1_Y)).build();
 
         toHigh3 = drive.trajectorySequenceBuilder(toStack3.end())
                 .resetConstraints()
                 .lineTo(vector(TH1_X + 5.0, TH1_Y)).build();
 
-        toStackAlign4 = drive.trajectorySequenceBuilder(toHigh3.end())
-                .resetConstraints()
-                .lineTo(vector(-12.0, 36.0)).build();
 
-        toStack4 = drive.trajectorySequenceBuilder(toStackAlign4.end())
+        toStack4 = drive.trajectorySequenceBuilder(toHigh3.end())
                 .setAccelConstraint(accelConstraint)
-                .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
+                .lineTo(vector(STACK1_X - .6, STACK1_Y)).build();
 
         toHigh4 = drive.trajectorySequenceBuilder(toStack4.end())
                 .resetConstraints()
                 .lineTo(vector(TH1_X + 5.5, TH1_Y)).build();
 
-        toStackAlign5 = drive.trajectorySequenceBuilder(toHigh3.end())
-                .resetConstraints()
-                .lineTo(vector(-12.0, 36.0)).build();
 
-        toStack5 = drive.trajectorySequenceBuilder(toStackAlign4.end())
+        toStack5 = drive.trajectorySequenceBuilder(toHigh4.end())
                 .setAccelConstraint(accelConstraint)
-                .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
+                .lineTo(vector(STACK1_X - .6, STACK1_Y + .2)).build();
 
         toHigh5 = drive.trajectorySequenceBuilder(toStack4.end())
                 .resetConstraints()
-                .lineTo(vector(TH1_X + 5.5, TH1_Y)).build();
-
-        toStackAlign6 = drive.trajectorySequenceBuilder(toHigh3.end())
-                .resetConstraints()
-                .lineTo(vector(-12.0, 36.0)).build();
-
-        toStack6 = drive.trajectorySequenceBuilder(toStackAlign4.end())
-                .lineTo(vector(STACK1_X, STACK1_Y - 2.5)).build();
-
-        toHigh6 = drive.trajectorySequenceBuilder(toStack4.end())
                 .lineTo(vector(TH1_X + 5.5, TH1_Y)).build();
 
         park1 = drive.trajectorySequenceBuilder(toHigh5.end())
@@ -146,10 +116,20 @@ public class AutoLeftMid extends AutoBase {
                 .lineToConstantHeading(vector(-8, 70))
                 .build();
 
-        lockOnJunction = true;
+        park2 = drive.trajectorySequenceBuilder(toHigh5.end())
+                .setVelConstraint(fastConstraint)
+                .setAccelConstraint(accelConstraint)
+                .lineToConstantHeading(vector(-8, 33))
+                .build();
+
+        park3 = drive.trajectorySequenceBuilder(toHigh5.end())
+                .setVelConstraint(fastConstraint)
+                .setAccelConstraint(accelConstraint)
+                .lineToConstantHeading(vector(-8, 9))
+                .build();
 
         SerialTask drop = serial(
-                execute(() -> targetHeight = targetHeight - 500),
+                execute(() -> targetHeight = targetHeight - 330),
                 sleepms(150),
                 execute(() -> {
                     ct.claw.open();
@@ -157,12 +137,15 @@ public class AutoLeftMid extends AutoBase {
                 })
         );
 
+        lockOnJunction = true;
 
         task = serial(
                 //preload
                 parallel(
                         trajectorySequence(preloadTrajectory),
                         execute(() -> {
+                            autoAimOffset = 4;
+                            Turret.turretVelocity = .5f;
                             targetHeight = Lift.MID_POS;
                         })
                 ),
@@ -172,227 +155,216 @@ public class AutoLeftMid extends AutoBase {
                 execute(() -> {
                     ct.claw.open();
                 }),
-                
-                serial(
-                        parallel(trajectorySequence(toStackAlign),
-                                execute(() -> {
-                                    targetHeight = 520;
-                                }),
-                                serial(
-                                        sleepms(250),
-                                        execute(() -> {
-                                            ct.setCollectPivotAndClawFlip();
-                                        })
-                                )),
-                        //cycle 1
-                        execute(() -> {
-                            lockOnJunction = false;
-                            Turret.turretVelocity = 1f;
-                            ct.turret.setTargetAngle(0);
-                        }),
-                        trajectorySequence(toStack1),
-                        execute(() -> ct.claw.close()),
-                        sleepms(20),
-                        execute(() -> {
-                            targetHeight = 960;
-                        }),
-                        sleepms(50),
-                        execute(() -> {
-                            ct.pivot.setHalf();
-                        })
-                ),
                 parallel(
-                        trajectorySequence(toHigh1),
+                        trajectorySequence(alignStack),
                         execute(() -> {
-                            targetHeight = Lift.MID_POS;
-                            Turret.turretVelocity = .5;
-                            lockOnJunction = true;
-                            junction = "B2";
+                            targetHeight = 520;
+                            lockOnJunction = false;
                         }),
+                        serial(
+                                sleepms(250),
+                                execute(() -> {
+                                    autoAimOffset = -3;
+                                    Turret.turretVelocity = 1f;
+                                    ct.turret.setTargetAngle(5);
+                                }),
+                                sleepms(150),
+                                execute(() -> {
+                                    ct.setCollectPivotAndClawFlip();
+                                })
+                        )
+                ),
+                trajectorySequence(toStack1),
+                execute(() -> ct.claw.close()),
+                sleepms(20),
+                execute(() -> {
+                    targetHeight = 960;
+                }),
+                sleepms(50),
+                execute(() -> {
+                    ct.pivot.setHalf();
+                    lockOnJunction = true;
+                    Turret.turretVelocity = .8f;
+                }),
+                parallel(
+                    trajectorySequence(toHigh1),
+                    serial(
+                            sleepms(360),
+                            execute(() -> ct.clawFlip.setScore())
+                    )
+                ),
+                drop,
+                // cycle 2
+                parallel(
+                        trajectorySequence(toStack2),
+                        execute(() -> {
+                            targetHeight = 450;
+                            lockOnJunction = false;
+                        }),
+                        serial(
+                                execute(() -> {
+                                    ct.setCollectPivotAndClawFlip();
+                                })
+                        ),
                         serial(
                                 sleepms(300),
                                 execute(() -> {
-                                    ct.clawFlip.setScore();
-                                }))
+                                    Turret.turretVelocity = 1f;
+                                    ct.turret.setTargetAngle(2);
+                                })
+                        )
                 ),
-                drop,
-                serial(
-                        parallel(
-                                trajectorySequence(toStackAlign2),
-                                execute(() -> {
-                                    targetHeight = 395;
-                                }),
-                                serial(
-                                        sleepms(300),
-                                        execute(() -> {
-                                            ct.setCollectPivotAndClawFlip();
-                                        })
-                                )),
-                        //cycle 1
-                        execute(() -> {
-                            Turret.turretVelocity = 1f;
-                            ct.turret.setTargetAngle(0);
-                        }),
-                        trajectorySequence(toStack2),
-                        execute(() -> ct.claw.close()),
-                        sleepms(20),
-                        execute(() -> {
-                            targetHeight = 960;
-                        }),
-                        sleepms(50),
-                        execute(() -> {
-                            ct.pivot.setHalf();
-                        })
-                ),
+                // take from stack
+                execute(() -> ct.claw.close()),
+                sleepms(20),
+                execute(() -> {
+                    targetHeight = 960;
+                }),
+                sleepms(50),
+                execute(() -> {
+                    ct.pivot.setHalf();
+                    lockOnJunction = true;
+                    Turret.turretVelocity = .8f;
+                }),
                 parallel(
                         trajectorySequence(toHigh2),
+                        serial(
+                                sleepms(360),
+                                execute(() -> ct.clawFlip.setScore())
+                        )
+                ),
+                drop,
+                // cycle 3
+                parallel(
+                        trajectorySequence(toStack3),
                         execute(() -> {
-                            autoAimOffset = -2;
-                            targetHeight = Lift.MID_POS;
-                            lockOnJunction = true;
-                            Turret.turretVelocity = .6;
-                            junction = "B2";
+                            targetHeight = 355;
+                            lockOnJunction = false;
                         }),
+                        serial(
+                                execute(() -> {
+                                    ct.setCollectPivotAndClawFlip();
+                                })
+                        ),
                         serial(
                                 sleepms(300),
                                 execute(() -> {
-                                    ct.clawFlip.setScore();
-                                }))
+                                    Turret.turretVelocity = 1f;
+                                    ct.turret.setTargetAngle(2);
+                                })
+                        )
                 ),
-                drop,
-                serial(
-                        parallel(trajectorySequence(toStackAlign3),
-                                execute(() -> {
-                                    targetHeight = 360;
-                                }),
-                                serial(
-                                        sleepms(300),
-                                        execute(() -> {
-                                            ct.setCollectPivotAndClawFlip();
-                                        })
-                                )),
-                        //cycle 1
-                        execute(() -> {
-                            Turret.turretVelocity = 1f;
-                            ct.turret.setTargetAngle(0);
-                        }),
-                        trajectorySequence(toStack3),
-                        execute(() -> ct.claw.close()),
-                        sleepms(20),
-                        execute(() -> {
-                            targetHeight = 960;
-                        }),
-                        sleepms(50),
-                        execute(() -> {
-                            ct.pivot.setHalf();
-                        })
-                ),
+                // take from stack
+                execute(() -> ct.claw.close()),
+                sleepms(20),
+                execute(() -> {
+                    targetHeight = 960;
+                }),
+                sleepms(50),
+                execute(() -> {
+                    ct.pivot.setHalf();
+                    lockOnJunction = true;
+                    Turret.turretVelocity = .8f;
+                    autoAimOffset = -7;
+                }),
                 parallel(
                         trajectorySequence(toHigh3),
+                        serial(
+                                sleepms(360),
+                                execute(() -> ct.clawFlip.setScore())
+                        )
+                ),
+                drop,
+                // cycle 4
+                parallel(
+                        trajectorySequence(toStack4),
                         execute(() -> {
-                            targetHeight = Lift.MID_POS;
-                            Turret.turretVelocity = .5;
-                            lockOnJunction = true;
-                            junction = "B2";
+                            targetHeight = 265;
+                            lockOnJunction = false;
                         }),
+                        serial(
+                                execute(() -> {
+                                    ct.setCollectPivotAndClawFlip();
+                                })
+                        ),
                         serial(
                                 sleepms(300),
                                 execute(() -> {
-                                    ct.clawFlip.setScore();
-                                }))
+                                    Turret.turretVelocity = 1f;
+                                    ct.turret.setTargetAngle(2);
+                                })
+                        )
                 ),
-                drop,
-                serial(
-                        parallel(trajectorySequence(toStackAlign4),
-                                execute(() -> {
-                                    targetHeight = 230;
-                                }),
-                                serial(
-                                        sleepms(200),
-                                        execute(() -> {
-                                            ct.setCollectPivotAndClawFlip();
-                                        })
-                                )),
-                        //cycle 1
-                        execute(() -> {
-                            Turret.turretVelocity = 1f;
-                            ct.turret.setTargetAngle(0);
-                        }),
-                        trajectorySequence(toStack4),
-                        execute(() -> ct.claw.close()),
-                        sleepms(20),
-                        execute(() -> {
-                            targetHeight = 960;
-                        }),
-                        sleepms(50),
-                        execute(() -> {
-                            ct.pivot.setHalf();
-                        })
-                ),
+                // take from stack
+                execute(() -> ct.claw.close()),
+                sleepms(20),
+                execute(() -> {
+                    targetHeight = 960;
+                }),
+                sleepms(50),
+                execute(() -> {
+                    ct.pivot.setHalf();
+                    lockOnJunction = true;
+                    Turret.turretVelocity = .8f;
+                }),
                 parallel(
                         trajectorySequence(toHigh4),
+                        serial(
+                                sleepms(360),
+                                execute(() -> ct.clawFlip.setScore())
+                        )
+                ),
+                drop,
+                // cycle 4
+                parallel(
+                        trajectorySequence(toStack5),
                         execute(() -> {
-//                            autoAimOffset = -7;
-                            targetHeight = Lift.MID_POS;
-                            Turret.turretVelocity = .5;
-                            lockOnJunction = true;
-                            junction = "B2";
+                            targetHeight = 120;
+                            lockOnJunction = false;
                         }),
+                        serial(
+                                execute(() -> {
+                                    ct.setCollectPivotAndClawFlip();
+                                })
+                        ),
                         serial(
                                 sleepms(300),
                                 execute(() -> {
-                                    ct.clawFlip.setScore();
-                                }))
+                                    Turret.turretVelocity = 1f;
+                                    ct.turret.setTargetAngle(2);
+                                })
+                        )
                 ),
-                drop,
-                serial(
-                        parallel(trajectorySequence(toStackAlign5),
-                                execute(() -> {
-                                    targetHeight = 50;
-                                }),
-                                serial(
-                                        sleepms(300),
-                                        execute(() -> {
-                                            ct.setCollectPivotAndClawFlip();
-                                        })
-                                )),
-                        //cycle 1
-                        execute(() -> {
-                            Turret.turretVelocity = 1f;
-                            ct.turret.setTargetAngle(0);
-                        }),
-                        trajectorySequence(toStack5),
-                        execute(() -> ct.claw.close()),
-                        sleepms(20),
-                        execute(() -> {
-                            targetHeight = 960;
-                        }),
-                        sleepms(50),
-                        execute(() -> {
-                            ct.pivot.setHalf();
-                        })
-                ),
+                // take from stack
+                execute(() -> ct.claw.close()),
+                sleepms(20),
+                execute(() -> {
+                    targetHeight = 960;
+                }),
+                sleepms(50),
+                execute(() -> {
+                    ct.pivot.setHalf();
+                    lockOnJunction = true;
+                    Turret.turretVelocity = .8f;
+                }),
                 parallel(
                         trajectorySequence(toHigh5),
-                        execute(() -> {
-                            targetHeight = Lift.MID_POS;
-                            Turret.turretVelocity = .5;
-                            lockOnJunction = true;
-                            junction = "B2";
-                        }),
                         serial(
-                                sleepms(300),
-                                execute(() -> {
-                                    ct.clawFlip.setScore();
-                                }))
+                                sleepms(360),
+                                execute(() -> ct.clawFlip.setScore())
+                        )
                 ),
                 drop,
-                trajectorySequence(park1),
-                execute(() -> {
-                    Turret.turretVelocity = 0;
-                    ct.turret.setTargetAngle(0);
-                    targetHeight = 0;
-                })
+                parallel(
+                    trajectorySequence(park3),
+                        serial(
+                                sleepms(10),
+                                execute(() -> {
+                                    targetHeight = 0;
+                                    ct.turret.setTargetAngle(0);
+                                })
+                        )
+                )
         );
 
     }

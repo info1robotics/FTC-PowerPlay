@@ -61,7 +61,7 @@ public class TeleOp extends LinearOpMode {
             while (opModeIsActive() && !isStopRequested()) {
                 drive.vectorMove(-gamepad1.left_stick_x, gamepad1.left_stick_y,
                         (gamepad1.left_trigger - gamepad1.right_trigger),
-                        gamepad1.right_bumper ? 0.5: 0.75);
+                        gamepad1.a ? 0.5: 0.8);
                 gamepadEx1.update();
             }
         }).start();
@@ -93,6 +93,7 @@ public class TeleOp extends LinearOpMode {
                     sleep(550);
                     controller.clawFlip.setScore();
                 }).start();
+                telemetry.speak("test");
             }
 
 

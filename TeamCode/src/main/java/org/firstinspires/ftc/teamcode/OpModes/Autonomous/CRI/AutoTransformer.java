@@ -15,6 +15,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationCon
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.OpModes.Autonomous.AutoBase;
 import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequence;
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.V3.Lift;
 import java.util.Collections;
 
 @Config
+@Disabled
 @Autonomous
 public class AutoTransformer extends AutoBase {
     public static double
