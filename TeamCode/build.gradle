@@ -8,21 +8,38 @@
 // please think carefully as to whether such customizations are really necessary
 // before doing so.
 
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url = 'https://www.matthewo.tech/maven/'
+        }
+    }
+    dependencies {
+        classpath 'org.team11260:fast-load-plugin:0.1'
+    }
+}
+
 
 // Custom definitions may go here
 
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
-apply from: '../build.common.gradle'
-apply from: '../build.dependencies.gradle'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.team11260.fast-load-plugin'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
 
     packagingOptions {
         jniLibs.useLegacyPackaging true
+    }
+}
+
+repositories {
+    maven {
+        url = 'https://www.matthewo.tech/maven/'
     }
 }
 
@@ -34,4 +51,5 @@ dependencies {
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
     implementation 'org.openftc:easyopencv:1.5.2'
     implementation 'org.openftc:apriltag:1.1.0'
+    implementation 'org.team11260:fast-load:0.1'
 }
