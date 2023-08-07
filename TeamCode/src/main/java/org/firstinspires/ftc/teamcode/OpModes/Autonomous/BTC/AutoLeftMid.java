@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous.BTC;
+ package org.firstinspires.ftc.teamcode.OpModes.Autonomous.BTC;
 
 import static org.firstinspires.ftc.teamcode.CommonPackage.AutoUtils.pose;
 import static org.firstinspires.ftc.teamcode.CommonPackage.AutoUtils.vector;
@@ -34,9 +34,9 @@ public class AutoLeftMid extends AutoBase {
             PRELOAD_X = -22.7,
             PRELOAD_Y = 33.0,
             STACK1_X = -9.6,
-            STACK1_Y = 60.8 - 2.5,
-            TH1_X = -19.8,
-            TH1_Y = 28.3;
+            STACK1_Y = 57.4,
+            TH1_X = -20.8,
+            TH1_Y = 28.7;
     public Pose2d startPoseLeft = new Pose2d(-62.0, 36, 0.0);
     public TrajectorySequence preloadTrajectory, toStack1,
             toHigh1, toStack4, toHigh2, toHigh3, toHigh4, toStack2, toStack3, toStack5, toHigh5, park1, park2, park3, alignStack;
@@ -139,6 +139,7 @@ public class AutoLeftMid extends AutoBase {
 
         lockOnJunction = true;
 
+
         task = serial(
                 //preload
                 parallel(
@@ -164,8 +165,8 @@ public class AutoLeftMid extends AutoBase {
                         serial(
                                 sleepms(250),
                                 execute(() -> {
-                                    autoAimOffset = -3;
-                                    Turret.turretVelocity = 1f;
+                                    autoAimOffset = -9;
+                                    Turret.turretVelocity = 0.6f;
                                     ct.turret.setTargetAngle(5);
                                 }),
                                 sleepms(150),
@@ -178,7 +179,7 @@ public class AutoLeftMid extends AutoBase {
                 execute(() -> ct.claw.close()),
                 sleepms(20),
                 execute(() -> {
-                    targetHeight = 960;
+                    targetHeight = 1030;
                 }),
                 sleepms(50),
                 execute(() -> {
@@ -209,7 +210,7 @@ public class AutoLeftMid extends AutoBase {
                         serial(
                                 sleepms(300),
                                 execute(() -> {
-                                    Turret.turretVelocity = 1f;
+                                    Turret.turretVelocity = 0.6f;
                                     ct.turret.setTargetAngle(2);
                                 })
                         )
@@ -218,7 +219,7 @@ public class AutoLeftMid extends AutoBase {
                 execute(() -> ct.claw.close()),
                 sleepms(20),
                 execute(() -> {
-                    targetHeight = 960;
+                    targetHeight = 1030;
                 }),
                 sleepms(50),
                 execute(() -> {
@@ -249,7 +250,7 @@ public class AutoLeftMid extends AutoBase {
                         serial(
                                 sleepms(300),
                                 execute(() -> {
-                                    Turret.turretVelocity = 1f;
+                                    Turret.turretVelocity = 0.6f;
                                     ct.turret.setTargetAngle(2);
                                 })
                         )
@@ -258,14 +259,14 @@ public class AutoLeftMid extends AutoBase {
                 execute(() -> ct.claw.close()),
                 sleepms(20),
                 execute(() -> {
-                    targetHeight = 960;
+                    targetHeight = 1030;
                 }),
                 sleepms(50),
                 execute(() -> {
                     ct.pivot.setHalf();
                     lockOnJunction = true;
                     Turret.turretVelocity = .8f;
-                    autoAimOffset = -7;
+                    autoAimOffset = -10;
                 }),
                 parallel(
                         trajectorySequence(toHigh3),
@@ -290,7 +291,7 @@ public class AutoLeftMid extends AutoBase {
                         serial(
                                 sleepms(300),
                                 execute(() -> {
-                                    Turret.turretVelocity = 1f;
+                                    Turret.turretVelocity = 0.6f;
                                     ct.turret.setTargetAngle(2);
                                 })
                         )
@@ -299,7 +300,7 @@ public class AutoLeftMid extends AutoBase {
                 execute(() -> ct.claw.close()),
                 sleepms(20),
                 execute(() -> {
-                    targetHeight = 960;
+                    targetHeight = 1030;
                 }),
                 sleepms(50),
                 execute(() -> {
@@ -330,7 +331,7 @@ public class AutoLeftMid extends AutoBase {
                         serial(
                                 sleepms(300),
                                 execute(() -> {
-                                    Turret.turretVelocity = 1f;
+                                    Turret.turretVelocity = 0.6f;
                                     ct.turret.setTargetAngle(2);
                                 })
                         )
@@ -339,7 +340,7 @@ public class AutoLeftMid extends AutoBase {
                 execute(() -> ct.claw.close()),
                 sleepms(20),
                 execute(() -> {
-                    targetHeight = 960;
+                    targetHeight = 1030;
                 }),
                 sleepms(50),
                 execute(() -> {

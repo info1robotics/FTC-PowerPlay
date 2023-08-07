@@ -57,7 +57,27 @@ public class Drivetrain {
 		fr.setPower(targetPower[1] * power);
 		bl.setPower(targetPower[2] * power);
 		br.setPower(targetPower[3] * power);
+	}
 
+	public void vectorMoveFieldCentric(double x, double y, double t, double power, double headingRad) {
+		double joystickAngle = Math.atan2(y, x);
+		double robotAngle = joystickAngle - headingRad;
+		double len = Math.sqrt(x * x + y * y);
+
+		double fieldCentricX = len * Math.cos(robotAngle);
+		double fieldCentricY = len * Math.sin(robotAngle);
+
+		double[] targetPower = normalize(new double[]{
+				(fieldCentricX + fieldCentricY + t),
+				(fieldCentricY - fieldCentricX - t),
+				(fieldCentricY - fieldCentricX + t),
+				(fieldCentricX + fieldCentricY - t)
+		});
+
+		fl.setPower(targetPower[0] * power);
+		fr.setPower(targetPower[1] * power);
+		bl.setPower(targetPower[2] * power);
+		br.setPower(targetPower[3] * power);
 	}
 
 	private double[] normalize(double[] values)
