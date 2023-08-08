@@ -83,10 +83,6 @@ public abstract class AutoBase extends LinearOpMode {
 //                ct.turret.setHeading((Turret.targetAngle), .6);
             }
 
-            if (drive.isBusy()) {
-                drive.update();
-            }
-
             telemetry.addData("Turret Velo", ct.turret.turretMotor.getPower());
             ct.turret.update();
             drive.update();

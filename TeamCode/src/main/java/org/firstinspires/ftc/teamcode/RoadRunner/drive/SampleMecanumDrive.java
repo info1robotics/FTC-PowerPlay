@@ -56,7 +56,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     private static final RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(9.5, .4, .2);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(10, 0, 0);
-    public static double LATERAL_MULTIPLIER = 1.05309800791;
+    public static double    LATERAL_MULTIPLIER = 1.05309800791;
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
