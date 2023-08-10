@@ -53,12 +53,12 @@ public class AutoLeftMid extends AutoBase {
             })
     );
 
-    SerialTask cycle(TrajectorySequence toStack, TrajectorySequence toHigh) {
+    SerialTask cycle(TrajectorySequence toStack, TrajectorySequence toHigh, int height) {
         return serial(
                 parallel(
                         trajectorySequence(toStack),
                         execute(() -> {
-                            targetHeight = 450;
+                            targetHeight = height;
                             lockOnJunction = false;
                         }),
                         serial(
@@ -69,7 +69,7 @@ public class AutoLeftMid extends AutoBase {
                         serial(
                                 sleepms(300),
                                 execute(() -> {
-                                    Turret.turretVelocity = 0.6f;
+                                    Turret.turretVelocity = 0.7f;
                                     ct.turret.setTargetAngle(2);
                                 })
                         )
@@ -99,7 +99,7 @@ public class AutoLeftMid extends AutoBase {
 
     @Override
     public void onInit() {
-        SampleMecanumDrive.TRANSLATIONAL_PID = new PIDCoefficients(12.5, .4, .2);
+//        SampleMecanumDrive.TRANSLATIONAL_PID = new PIDCoefficients(12.5, .4, .2);
         Turret.fieldSize = 6 * 24;
 
         drive.setPoseEstimate(startPoseLeft);
@@ -152,12 +152,12 @@ public class AutoLeftMid extends AutoBase {
 
         TrajectorySequence toHigh4 = drive.trajectorySequenceBuilder(toStack4.end())
                 .resetConstraints()
-                .lineTo(vector(TH1_X + 5.5, TH1_Y)).build();
+                .lineTo(vector(TH1_X + 4.9, TH1_Y)).build();
 
 
         TrajectorySequence toStack5 = drive.trajectorySequenceBuilder(toHigh4.end())
                 .setAccelConstraint(accelConstraint)
-                .lineTo(vector(STACK1_X, STACK1_Y + .2)).build();
+                .lineTo(vector(STACK1_X + .2, STACK1_Y + .2)).build();
 
         TrajectorySequence toHigh5 = drive.trajectorySequenceBuilder(toStack4.end())
                 .resetConstraints()
@@ -172,7 +172,7 @@ public class AutoLeftMid extends AutoBase {
         TrajectorySequence park2 = drive.trajectorySequenceBuilder(toHigh5.end())
                 .setVelConstraint(fastConstraint)
                 .setAccelConstraint(accelConstraint)
-                .lineToConstantHeading(vector(-8, 33))
+                .lineToConstantHeading(vector(-8, 40.5))
                 .build();
 
         TrajectorySequence park3 = drive.trajectorySequenceBuilder(toHigh5.end())
@@ -212,7 +212,7 @@ public class AutoLeftMid extends AutoBase {
                                 execute(() -> {
                                     autoAimOffset = -9;
                                     Turret.turretVelocity = 0.6f;
-                                    ct.turret.setTargetAngle(5);
+                                    ct.turret.setTargetAngle(2);
                                 }),
                                 sleepms(150),
                                 execute(() -> {
@@ -241,10 +241,10 @@ public class AutoLeftMid extends AutoBase {
                 ),
                 drop,
 
-                cycle(toStack2, toHigh2),
-                cycle(toStack3, toHigh3),
-                cycle(toStack4, toHigh4),
-                cycle(toStack5, toHigh5),
+                cycle(toStack2, toHigh2, 375),
+                cycle(toStack3, toHigh3, 265),
+                cycle(toStack4, toHigh4, 180),
+                cycle(toStack5, toHigh5, 45),
 
                 parallel(
                         serial(
@@ -263,7 +263,7 @@ public class AutoLeftMid extends AutoBase {
                     } else if (preferredZone == 3) {
                         drive.followTrajectorySequence(park3);
                     } else {
-                        drive.followTrajectorySequenceAsync(park3);
+                        drive.followTrajectorySequenceAsync(park2);
                     }
                 })
         );
