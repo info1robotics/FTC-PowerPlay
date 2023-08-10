@@ -45,8 +45,8 @@ public class AutoLeftMid extends AutoBase {
     TrajectoryAccelerationConstraint accelConstraint = new ProfileAccelerationConstraint(30);
 
     SerialTask drop = serial(
-            execute(() -> targetHeight = targetHeight - 330),
-            sleepms(150),
+            execute(() -> targetHeight = targetHeight - 580),
+            sleepms(50),
             execute(() -> {
                 ct.claw.open();
                 lockOnJunction = false;
